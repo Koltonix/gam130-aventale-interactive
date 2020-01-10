@@ -38,7 +38,7 @@ namespace SiegeOfAshes.Movement
             {
                 if (tile.IsPassable)
                 {
-                    float tileDistance = Vector3.Distance(new Vector3(tile.X, 0, tile.Y), unitPosition);
+                    float tileDistance = Vector3.Distance(tile.Position, unitPosition);
                     if (tileDistance < movementPoints)
                     {
                         accessibleTiles.Add(tile);

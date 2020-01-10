@@ -1,12 +1,19 @@
 ﻿using System;
+using UnityEngine;
 
 namespace SiegeOfAshes.Tiles
 {
     [Serializable]
-    public struct Tile
+    public class Tile
     {
-        public int X;
-        public int Y;
+        public Vector3 Position;
+        public GameObject GameObject;
         public bool IsPassable;
+
+        public Tile(Vector3 Position, GameObject GameObject)
+        {
+            this.Position = Position;
+            this.GameObject = GameObject;
+        }
     }
 }
