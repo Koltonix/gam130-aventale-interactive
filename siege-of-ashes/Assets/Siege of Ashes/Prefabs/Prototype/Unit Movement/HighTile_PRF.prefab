@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5476029951174738482}
   - component: {fileID: 5476029951174738483}
   - component: {fileID: 5476029951174738480}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Extra
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,8 +103,8 @@ GameObject:
   - component: {fileID: 5476029951858658856}
   - component: {fileID: 5476029951858658857}
   - component: {fileID: 5476029951858658854}
-  m_Layer: 0
-  m_Name: HighTile
+  m_Layer: 10
+  m_Name: HighTile_PRF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -14,6 +14,12 @@ namespace SiegeOfAshes.Movement
         [Header("Movement Settings")]
         [SerializeField]
         private int movementPoints;
+        public Tile[] currentTilesAvailable;
+
+        private void Start()
+        {
+            BoardManager.Instance.onBoardUpdate += DetermineAvailableTiles;
+        }
 
         #region Tile Prediction
         /// <summary>
@@ -29,7 +35,7 @@ namespace SiegeOfAshes.Movement
         /// the prototype.
         /// </remarks>
         /// <returns></returns>
-        private Tile[] DetermineAvailableTiles(Tile[] allTiles)
+        public void DetermineAvailableTiles(Tile[] allTiles)
         {
             Vector3 unitPosition = this.transform.position;
             List<Tile> accessibleTiles = new List<Tile>();
@@ -39,14 +45,16 @@ namespace SiegeOfAshes.Movement
                 if (tile.IsPassable)
                 {
                     float tileDistance = Vector3.Distance(tile.Position, unitPosition);
-                    if (tileDistance < movementPoints)
+                    tileDistance = Mathf.RoundToInt(tileDistance);
+                    if (tileDistance <= movementPoints)
                     {
                         accessibleTiles.Add(tile);
+                        tile.GameObject.GetComponent<Renderer>().material.color = Color.red;
                     }
                 }
             }
 
-            return accessibleTiles.ToArray();
+            currentTilesAvailable = accessibleTiles.ToArray();
         }
         #endregion
     }

@@ -16,14 +16,17 @@ namespace SiegeOfAshes.Tiles
         [Header("Board Settings")]
         [SerializeField]
         private GameObject board;
-        private Tile[] tiles;
+        public Tile[] tiles;
+
+        public delegate void OnBoardUpdate(Tile[] boardTiles);
+        public event OnBoardUpdate onBoardUpdate;
 
         private void Start()
         {
-            tiles = GetBoardTiles(board);
+            tiles = GetBoardTiles();
         }
 
-        private Tile[] GetBoardTiles(GameObject board)
+        public Tile[] GetBoardTiles()
         {
             int amountOfTiles = board.transform.childCount;
             Tile[] boardTiles = new Tile[amountOfTiles];
@@ -34,6 +37,7 @@ namespace SiegeOfAshes.Tiles
                 boardTiles[i] = new Tile(tileChild.transform.position, tileChild);
             }
 
+            if (onBoardUpdate != null) onBoardUpdate.Invoke(boardTiles);
             return boardTiles;
         }
     }

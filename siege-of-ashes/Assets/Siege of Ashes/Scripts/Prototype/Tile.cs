@@ -14,6 +14,7 @@ namespace SiegeOfAshes.Tiles
         {
             this.Position = Position;
             this.GameObject = GameObject;
+            IsPassable = GameObject.layer == 9 ? true : false;
         }
     }
 }
