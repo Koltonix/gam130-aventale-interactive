@@ -5,12 +5,11 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    private GameObject pauseMenu;
+    [SerializeField] private GameObject pauseMenu;
     // Start is called before the first frame update
     void Start()
     {
-        pauseMenu = GameObject.FindGameObjectWithTag("ui_pause_menu");
-        pauseMenu.SetActive(false);
+
     }
 
     public void togglePauseMenu()
