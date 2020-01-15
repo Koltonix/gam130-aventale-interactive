@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIPauseMenu : MonoBehaviour
+public class UIIngame : MonoBehaviour
 {
     private UIController uIController;
 
@@ -13,23 +13,18 @@ public class UIPauseMenu : MonoBehaviour
         uIController = GameObject.FindObjectOfType<UIController>();
     }
 
-    public void Resume()
+    public void Menu()
     {
         uIController.togglePauseMenu();
     }
 
-    public void Options()
+    public void Scores()
     {
 
     }
 
-    public void MainMenu()
+    public void Flag()
     {
 
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
     }
 }

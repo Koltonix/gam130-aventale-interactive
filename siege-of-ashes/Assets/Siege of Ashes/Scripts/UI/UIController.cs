@@ -13,7 +13,7 @@ public class UIController : MonoBehaviour
         pauseMenu.SetActive(false);
     }
 
-    private void togglePauseMenu()
+    public void togglePauseMenu()
     {
         if (pauseMenu.activeSelf)
         {
