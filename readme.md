@@ -10,4 +10,4 @@ The Repository for Team 2 in the GAM130 assignment.
 |----------------------------------------------------|-------------|---------------|-------------|-----------|
 |[Christopher Robertson](https://github.com/Koltonix)|Liam Parker  |Naomi Fielder  |Summer Bosley|Liam Weldon|
 |James Vanstone                					     |Alfie Hamblin|Deanna Marshall|             |           |
-|Lachezar Penchev                				     |             |Iestyn Young   |             |           |
+|                               				     |             |Iestyn Young   |             |           |
