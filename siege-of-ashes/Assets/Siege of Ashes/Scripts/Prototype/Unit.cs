@@ -16,6 +16,10 @@ namespace SiegeOfAshes.Movement
         private int movementPoints;
         public Tile[] currentTilesAvailable;
 
+        [Header("Tile Colours")]
+        [SerializeField]
+        private Color32 selectedColour;
+
         private void Start()
         {
             BoardManager.Instance.onBoardUpdate += DetermineAvailableTiles;
@@ -49,12 +53,36 @@ namespace SiegeOfAshes.Movement
                     if (tileDistance <= movementPoints)
                     {
                         accessibleTiles.Add(tile);
-                        tile.GameObject.GetComponent<Renderer>().material.color = Color.red;
                     }
                 }
             }
 
             currentTilesAvailable = accessibleTiles.ToArray();
+        }
+
+        public void ChangeAvailableTilesColour(Color32 color)
+        {
+            foreach (Tile tile in currentTilesAvailable)
+            {
+                tile.GameObject.GetComponent<Renderer>().material.color = color;
+            }
+        }
+
+        private void ResetTileColours()
+        {
+            foreach (Tile tile in currentTilesAvailable)
+            {
+                tile.GameObject.GetComponent<Renderer>().material.color = tile.Colour;
+            }
+        }
+
+        #endregion
+
+        #region Event Listener
+        public void SelectionListener(bool isSelected)
+        {
+            DetermineAvailableTiles(BoardManager.Instance.tiles);
+            if (!isSelected) ResetTileColours();
         }
         #endregion
     }
