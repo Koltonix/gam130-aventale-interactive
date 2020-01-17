@@ -35,6 +35,9 @@ namespace SiegeOfAshes.Movement
             }
         }
 
+        /// <summary>
+        /// Selects the unit from the data input from IGetInput
+        /// </summary>
         private void SelectUnit()
         {
             RaycastHit gameObjectHit = currentInput.GetRaycastHit();

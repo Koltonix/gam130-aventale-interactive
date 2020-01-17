@@ -79,6 +79,12 @@ namespace SiegeOfAshes.Movement
         #endregion
 
         #region Event Listener
+        /// <summary>
+        /// Used as a listener to invoke other functions
+        /// </summary>
+        /// <param name="isSelected">
+        /// Determines whether the unit has been selected or deselected
+        /// </param>
         public void SelectionListener(bool isSelected)
         {
             DetermineAvailableTiles(BoardManager.Instance.tiles);
