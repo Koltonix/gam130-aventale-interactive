@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
-using SiegeOfAshes.Input;
+using SiegeOfAshes.Controls;
 
 namespace SiegeOfAshes.Movement
 {
-    [RequireComponent(typeof(IGetInput))]
+    [RequireComponent(typeof(UserInput))]
     public class UnitController : MonoBehaviour
     {
         [Header("Input")]
-        private IGetInput currentInput;
+        private UserInput currentInput;
         [Header("Selection Information")]
         private Unit selectedUnit;
 
@@ -24,7 +24,7 @@ namespace SiegeOfAshes.Movement
 
         private void Start()
         {
-            currentInput = this.GetComponent<IGetInput>();
+            currentInput = this.GetComponent<UserInput>();
         }
 
         private void Update()
