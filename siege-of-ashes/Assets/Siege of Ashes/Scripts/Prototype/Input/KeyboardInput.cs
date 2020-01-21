@@ -4,33 +4,13 @@ namespace SiegeOfAshes.Controls
 {
     public class KeyboardInput : UserInput
     {
-        [Header("Camera")]
-        [SerializeField]
-        private Camera mainCamera;
-
         [Header("Mouse")]
         private Vector3 mousePosition;
-
-        private void Start()
-        {
-            if (mainCamera == null) mainCamera = Camera.main;
-        }
 
         public override void Update()
         {
             base.Update();
             RaycastFromCamera();
-        }
-
-        /// <summary>
-        /// Uses the mouse position to raycast to to get the data of what
-        /// the player is currently selecting with their mouse
-        /// </summary>
-        private void RaycastFromCamera()
-        {
-            cameraRay = mainCamera.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(cameraRay, out cameraRaycastHit);
-            mousePosition = cameraRay.direction;
         }
 
         /// <summary>
@@ -68,6 +48,17 @@ namespace SiegeOfAshes.Controls
         public override RaycastHit GetRaycastHit()
         {
             return cameraRaycastHit;
+        }
+
+        /// <summary>
+        /// Uses the mouse position to raycast to to get the data of what
+        /// the player is currently selecting with their mouse
+        /// </summary>
+        public override void RaycastFromCamera()
+        {
+            cameraRay = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Physics.Raycast(cameraRay, out cameraRaycastHit);
+            mousePosition = cameraRay.direction;
         }
     }
 

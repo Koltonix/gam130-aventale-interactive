@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace SiegeOfAshes.Controls
 {
@@ -16,13 +17,15 @@ namespace SiegeOfAshes.Controls
         [SerializeField]
         private InputName enterButton;
 
-        [Header("Ray Settings")]
-        private Vector3 cursorScreenPosition = new Vector3(0, 2.5f, 0);
+        [Header("Debug Settings")]
+        [SerializeField]
+        private Image controllerIcon;
 
         public override void Update()
         {
+            base.Update();
             AccessInputData();
-            MoveCursor();
+            RaycastFromCamera();
         }
 
         public override bool HasClicked()
@@ -31,20 +34,25 @@ namespace SiegeOfAshes.Controls
             return false;
         }
 
-        public void MoveCursor()
-        {
-            cursorScreenPosition.x += horizontalAxis.value * axisSensitivity;
-            cursorScreenPosition.z += verticalAxis.value * axisSensitivity;
-        }
-
         public override Ray GetRay()
         {
-            return base.GetRay();
+            base.GetRay();
+            return cameraRay;
         }
 
         public override RaycastHit GetRaycastHit()
         {
-            return base.GetRaycastHit();
+            return cameraRaycastHit;
+        }
+
+        public override void RaycastFromCamera()
+        {
+            controllerIcon.transform.position = new Vector3(controllerIcon.transform.position.x + (horizontalAxis.value * axisSensitivity),
+                                                            controllerIcon.transform.position.y + (verticalAxis.value * axisSensitivity),
+                                                            0);
+
+            cameraRay = mainCamera.ScreenPointToRay(controllerIcon.transform.position);
+            Physics.Raycast(cameraRay, out cameraRaycastHit);
         }
 
         private void AccessInputData()
@@ -56,12 +64,7 @@ namespace SiegeOfAshes.Controls
             HasClicked();
         }
 
-        private void OnDrawGizmos()
-        {
-            //Gizmos.color = new Vector4(44, 199, 79, 128);
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(cursorScreenPosition, .5f);
-        }
+
     }
 }
 

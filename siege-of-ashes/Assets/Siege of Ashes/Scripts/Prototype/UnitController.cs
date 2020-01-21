@@ -49,11 +49,11 @@ namespace SiegeOfAshes.Movement
             {
                 selectedUnit = gameObjectHit.collider.GetComponent<Unit>();
 
-                onSelect += selectedUnit.SelectionListener;
-                changeTileColours += selectedUnit.ChangeAvailableTilesColour;
+                onSelect = selectedUnit.SelectionListener;
+                changeTileColours = selectedUnit.ChangeAvailableTilesColour;
 
-                if (onSelect != null) onSelect.Invoke(true);
-                if (changeTileColours != null) changeTileColours(selectedColour);
+                onSelect?.Invoke(true);
+                changeTileColours?.Invoke(selectedColour);
             }
 
             else
@@ -64,9 +64,9 @@ namespace SiegeOfAshes.Movement
 
                     onSelect -= selectedUnit.SelectionListener;
                     changeTileColours -= selectedUnit.ChangeAvailableTilesColour;
-                }
 
-               selectedUnit = null;
+                    selectedUnit = null;
+                }          
             }
         }
     }

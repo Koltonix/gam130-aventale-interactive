@@ -4,10 +4,18 @@ namespace SiegeOfAshes.Controls
 {
     public abstract class UserInput : MonoBehaviour
     {
+        [Header("Camera")]
+        public Camera mainCamera;
+
         [Header("Raycast")]
         public Ray cameraRay;
         public RaycastHit cameraRaycastHit;
         private Vector3 debugRayHitPoint = Vector3.zero;
+
+        public virtual void Start()
+        {
+            if (mainCamera == null) mainCamera = Camera.main;
+        }
 
         public virtual void Update()
         {
@@ -28,6 +36,11 @@ namespace SiegeOfAshes.Controls
         public virtual RaycastHit GetRaycastHit()
         {
             return new RaycastHit();
+        }
+
+        public virtual void RaycastFromCamera()
+        {
+
         }
 
         public void DebugDrawRay()
