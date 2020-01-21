@@ -12,8 +12,7 @@ namespace SiegeOfAshes.Movement
         [Space]
 
         [Header("Movement Settings")]
-        [SerializeField]
-        private int movementPoints;
+        public int movementPoints;
         public Tile[] currentTilesAvailable;
 
         [Header("Tile Colours")]

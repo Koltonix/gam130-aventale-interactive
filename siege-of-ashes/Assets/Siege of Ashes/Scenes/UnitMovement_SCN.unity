@@ -8611,9 +8611,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53a3f97fe3f71cf4ea2f125b72b4b024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedColour:
+  availableTileColour:
     serializedVersion: 2
-    rgba: 3224037
+    rgba: 1842388
+  selectedTileColour:
+    serializedVersion: 2
+    rgba: 33023
 --- !u!114 &941093011
 MonoBehaviour:
   m_ObjectHideFlags: 0

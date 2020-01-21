@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
 using SiegeOfAshes.Controls;
+using SiegeOfAshes.Tiles;
+
+public enum SelectionProgress 
+{
+    UNSELECTED = 0,
+    SELECTED = 1,
+}
 
 namespace SiegeOfAshes.Movement
 {
@@ -10,11 +17,14 @@ namespace SiegeOfAshes.Movement
         private UserInput currentInput;
         [Header("Selection Information")]
         private Unit selectedUnit;
-
+        private Tile lastSelectedTile;
+        private SelectionProgress selectionProgress = SelectionProgress.UNSELECTED;    
 
         [Header("Tile Colours")]
         [SerializeField]
-        private Color32 selectedColour;
+        private Color32 availableTileColour;
+        [SerializeField]
+        private Color32 selectedTileColour;
 
         public delegate void OnSelected(bool isSelected);
         public event OnSelected onSelect;
@@ -29,44 +39,90 @@ namespace SiegeOfAshes.Movement
 
         private void Update()
         {
+            SelectUnit();
+        }
+
+        private void SelectUnit()
+        {
             if (currentInput.HasClicked())
             {
-                SelectUnit();
+                RaycastHit gameObjectHit = currentInput.GetRaycastHit();
+
+                //if (selectionProgress == SelectionProgress.SELECTED)
+                //{
+                //    //MOVE IT
+
+
+                //    Unit temp = selectedUnit;
+                //    DeselectUnit();
+
+                //    selectedUnit.movementPoints -= 2; //STOP THE HARDCODE LATER
+
+                //    return;
+                //}
+
+                if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<Unit>() != null)
+                {
+                    ActivateUnit(gameObjectHit);
+                    return;
+                }
+
+                else DeselectUnit();
+            }
+
+            if (selectionProgress == SelectionProgress.SELECTED)
+            {
+                RaycastHit gameObjectHit = currentInput.GetRaycastHit();
+
+                if (gameObjectHit.collider != null && gameObjectHit.collider.gameObject.layer == 9)
+                {
+                    SelectTile(gameObjectHit);
+                    return;
+                }
             }
         }
 
         /// <summary>
         /// Selects the unit from the data input from IGetInput
         /// </summary>
-        private void SelectUnit()
+        private void ActivateUnit(RaycastHit gameObjectHit)
+        {            
+            selectionProgress = SelectionProgress.SELECTED;
+
+            selectedUnit = gameObjectHit.collider.GetComponent<Unit>();
+
+            onSelect = selectedUnit.SelectionListener;
+            changeTileColours = selectedUnit.ChangeAvailableTilesColour;
+
+            onSelect?.Invoke(true);
+            changeTileColours?.Invoke(availableTileColour);
+        }
+
+        private void DeselectUnit()
         {
-            RaycastHit gameObjectHit = currentInput.GetRaycastHit();
-
-            //More checks can be done later to make it so you can only
-            //select your units, but for now it will be one player
-            // for this prototype
-            if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<Unit>() != null)
+            if (onSelect != null)
             {
-                selectedUnit = gameObjectHit.collider.GetComponent<Unit>();
+                onSelect.Invoke(false);
 
-                onSelect = selectedUnit.SelectionListener;
-                changeTileColours = selectedUnit.ChangeAvailableTilesColour;
+                onSelect -= selectedUnit.SelectionListener;
+                changeTileColours -= selectedUnit.ChangeAvailableTilesColour;
 
-                onSelect?.Invoke(true);
-                changeTileColours?.Invoke(selectedColour);
+                selectedUnit = null;
+                selectionProgress = SelectionProgress.UNSELECTED;
             }
+        }
 
-            else
+        private void SelectTile(RaycastHit gameObjectHit)
+        {
+            foreach (Tile tile in selectedUnit.currentTilesAvailable)
             {
-                if (onSelect != null)
+                if (gameObjectHit.collider.gameObject == tile.GameObject)
                 {
-                    onSelect.Invoke(false);
+                    lastSelectedTile = tile;
+                    lastSelectedTile.GameObject.GetComponent<Renderer>().material.color = selectedTileColour;
+                }
 
-                    onSelect -= selectedUnit.SelectionListener;
-                    changeTileColours -= selectedUnit.ChangeAvailableTilesColour;
-
-                    selectedUnit = null;
-                }          
+                else tile.GameObject.GetComponent<Renderer>().material.color = availableTileColour;
             }
         }
     }
