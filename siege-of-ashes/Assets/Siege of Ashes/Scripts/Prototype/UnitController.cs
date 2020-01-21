@@ -6,6 +6,7 @@ public enum SelectionProgress
 {
     UNSELECTED = 0,
     SELECTED = 1,
+    MOVING = 2
 }
 
 namespace SiegeOfAshes.Movement
@@ -48,28 +49,29 @@ namespace SiegeOfAshes.Movement
             {
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
 
-                //if (selectionProgress == SelectionProgress.SELECTED)
-                //{
-                //    //MOVE IT
+                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.movementPoints > 0)
+                {
+                    Unit _selectedUnit = selectedUnit;
+                    DeselectUnit();
+                    _selectedUnit.movementPoints -= Mathf.RoundToInt(Vector3.Distance(
+                                                                 new Vector3(_selectedUnit.transform.position.x, 0, _selectedUnit.transform.position.z),
+                                                                 new Vector3(lastSelectedTile.Position.x, 0, lastSelectedTile.Position.z)));
+                    ActivateUnit(_selectedUnit);
+                    return;
+                }
 
 
-                //    Unit temp = selectedUnit;
-                //    DeselectUnit();
-
-                //    selectedUnit.movementPoints -= 2; //STOP THE HARDCODE LATER
-
-                //    return;
-                //}
-
+                //If the player is about to click a unit
                 if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<Unit>() != null)
                 {
-                    ActivateUnit(gameObjectHit);
+                    ActivateUnit(gameObjectHit.collider.GetComponent<Unit>());
                     return;
                 }
 
                 else DeselectUnit();
             }
 
+            //If a unit has been selected. The tile picking phase
             if (selectionProgress == SelectionProgress.SELECTED)
             {
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
@@ -85,11 +87,11 @@ namespace SiegeOfAshes.Movement
         /// <summary>
         /// Selects the unit from the data input from IGetInput
         /// </summary>
-        private void ActivateUnit(RaycastHit gameObjectHit)
+        private void ActivateUnit(Unit unit)
         {            
             selectionProgress = SelectionProgress.SELECTED;
 
-            selectedUnit = gameObjectHit.collider.GetComponent<Unit>();
+            selectedUnit = unit;
 
             onSelect = selectedUnit.SelectionListener;
             changeTileColours = selectedUnit.ChangeAvailableTilesColour;

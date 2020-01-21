@@ -41,15 +41,18 @@ namespace SiegeOfAshes.Movement
         public void DetermineAvailableTiles(Tile[] allTiles)
         {
             Vector3 unitPosition = this.transform.position;
+            unitPosition.y = 0;
+
             List<Tile> accessibleTiles = new List<Tile>();
 
             foreach(Tile tile in allTiles)
             {
                 if (tile.IsPassable)
                 {
-                    float tileDistance = Vector3.Distance(tile.Position, unitPosition);
+                    float tileDistance = Vector3.Distance(new Vector3(tile.Position.x, 0, tile.Position.z), unitPosition);
+
                     tileDistance = Mathf.RoundToInt(tileDistance);
-                    if (tileDistance <= movementPoints)
+                    if (tileDistance <= movementPoints & tileDistance > 0)
                     {
                         accessibleTiles.Add(tile);
                     }
