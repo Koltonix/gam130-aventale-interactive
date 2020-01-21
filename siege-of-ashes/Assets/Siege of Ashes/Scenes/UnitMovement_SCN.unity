@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11472,7 +11472,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1250377468}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
   m_Name: 
@@ -17372,7 +17372,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bbb57d941ef8d24a9ee3bacd352bb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontal_joystick: 0
+  axisSensitivity: 0.5
+  horizontalAxis:
+    name: JOYSTICK_AXIS_HORIZONTAL
+    value: 0
+  verticalAxis:
+    name: JOYSTICK_AXIS_VERTICAL
+    value: 0
+  enterButton:
+    name: JOYSTICK_BUTTON_A
+    value: 0
 --- !u!4 &1891045584
 Transform:
   m_ObjectHideFlags: 0
