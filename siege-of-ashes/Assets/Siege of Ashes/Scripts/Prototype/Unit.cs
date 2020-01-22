@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using SiegeOfAshes.Tiles;
+using SiegeOfAshes.Data;
 
 namespace SiegeOfAshes.Movement
 {
@@ -9,6 +10,8 @@ namespace SiegeOfAshes.Movement
         [Header("Attributes")]
         [SerializeField]
         private new string name;
+        [SerializeField]
+        private Player currentPlayer;
         [Space]
 
         [Header("Movement Settings")]
@@ -18,6 +21,7 @@ namespace SiegeOfAshes.Movement
         private void Start()
         {
             BoardManager.Instance.onBoardUpdate += DetermineAvailableTiles;
+            this.GetComponent<Renderer>().material.color = currentPlayer.colour;
         }
 
         #region Tile Prediction
@@ -58,6 +62,18 @@ namespace SiegeOfAshes.Movement
             currentTilesAvailable = accessibleTiles.ToArray();
         }
 
+        /// <summary>
+        /// A check to see if the tile that has been provided is a 
+        /// tile that is currently available to move to.
+        /// </summary>
+        /// <param name="tileToMoveTo">
+        /// The tile that is to be checked against all of the 
+        /// available tiles.
+        /// </param>
+        /// <returns>
+        /// Returns true if the tile provided is a tile that is
+        /// available to move to.
+        /// </returns>
         public bool CanMoveToTile(Tile tileToMoveTo)
         {
             foreach(Tile tile in currentTilesAvailable)
@@ -88,7 +104,6 @@ namespace SiegeOfAshes.Movement
         }
 
         #endregion
-
 
         #region Event Listener
         /// <summary>

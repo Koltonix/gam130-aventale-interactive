@@ -2447,7 +2447,7 @@ GameObject:
   - component: {fileID: 261971420}
   - component: {fileID: 261971419}
   - component: {fileID: 261971418}
-  - component: {fileID: 261971417}
+  - component: {fileID: 261971422}
   m_Layer: 0
   m_Name: Unit Piece (1)
   m_TagString: Untagged
@@ -2455,24 +2455,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &261971417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261971416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8344afaac84c51e44a839f3095b9d859, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: Default
-  movementPoints: 5
-  currentTilesAvailable: []
-  selectedColour:
-    serializedVersion: 2
-    rgba: 0
 --- !u!65 &261971418
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2543,8 +2525,28 @@ Transform:
   m_LocalScale: {x: 0.7, y: 1.4, z: 0.7}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &261971422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261971416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8344afaac84c51e44a839f3095b9d859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Default
+  currentPlayer:
+    number: 2
+    colour:
+      serializedVersion: 2
+      rgba: 4282270879
+  movementPoints: 5
+  currentTilesAvailable: []
 --- !u!1001 &264433603
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7778,7 +7780,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &829393379
 PrefabInstance:
@@ -8289,7 +8291,7 @@ Transform:
   - {fileID: 80632536}
   - {fileID: 278866316}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &877812370
 PrefabInstance:
@@ -13004,11 +13006,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Default
+  currentPlayer:
+    number: 1
+    colour:
+      serializedVersion: 2
+      rgba: 4288630846
   movementPoints: 5
   currentTilesAvailable: []
-  selectedColour:
-    serializedVersion: 2
-    rgba: 0
 --- !u!1001 &1359559417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19758,7 +19762,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2036326787
 PrefabInstance:

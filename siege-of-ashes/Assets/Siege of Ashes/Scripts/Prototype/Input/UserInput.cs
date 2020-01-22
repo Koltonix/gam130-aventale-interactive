@@ -10,7 +10,6 @@ namespace SiegeOfAshes.Controls
         [Header("Raycast")]
         public Ray cameraRay;
         public RaycastHit cameraRaycastHit;
-        private Vector3 debugRayHitPoint = Vector3.zero;
 
         public virtual void Start()
         {

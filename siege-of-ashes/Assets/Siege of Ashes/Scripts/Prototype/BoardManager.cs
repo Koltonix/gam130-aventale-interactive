@@ -26,6 +26,15 @@ namespace SiegeOfAshes.Tiles
             tiles = GetBoardTiles();
         }
 
+        /// <summary>
+        /// Retrives all of the board tiles from a singular parent gameobject.
+        /// </summary>
+        /// <remarks>
+        /// This is mainly a debugging tool since in the final build it is anticipated
+        /// that we will be using the procedural generation which will have all of the
+        /// tiles in one array already and therefore will not need this check.
+        /// </remarks>
+        /// <returns></returns>
         public Tile[] GetBoardTiles()
         {
             int amountOfTiles = board.transform.childCount;

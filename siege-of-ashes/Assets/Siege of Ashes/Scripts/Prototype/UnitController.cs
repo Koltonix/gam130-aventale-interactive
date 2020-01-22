@@ -2,15 +2,20 @@
 using SiegeOfAshes.Controls;
 using SiegeOfAshes.Tiles;
 
-public enum SelectionProgress 
-{
-    UNSELECTED = 0,
-    SELECTED = 1,
-    MOVING = 2
-}
-
 namespace SiegeOfAshes.Movement
 {
+    public enum SelectionProgress
+    {
+        UNSELECTED = 0,
+        SELECTED = 1,
+        MOVING = 2
+    }
+
+    /// <summary>
+    /// Deals with controlling the Units using a UserInput input type. This allows the units to be move
+    /// depending on the available tiles to them and updates the colours appropriately to indicate to the
+    /// player.
+    /// </summary>
     [RequireComponent(typeof(UserInput))]
     public class UnitController : MonoBehaviour
     {
@@ -40,10 +45,16 @@ namespace SiegeOfAshes.Movement
 
         private void Update()
         {
-            SelectUnit();
+            DetermineClick();
         }
 
-        private void SelectUnit()
+        /// <summary>
+        /// Used to determine what the click is to do depending on where the player
+        /// has clicked on the screen. It can either move to a tile, select a unit
+        /// (or a new one) and also deselect itself. It also will constantly update
+        /// which tile is being hovered over if a unit has been selected.
+        /// </summary>
+        private void DetermineClick()
         {
             if (currentInput.HasClicked())
             {
@@ -74,35 +85,8 @@ namespace SiegeOfAshes.Movement
             }
         }
 
-        private void MoveToTile()
-        {
-            Unit _selectedUnit = selectedUnit;
-            DeselectUnit();
-
-            #region Movement Deduction
-            _selectedUnit.movementPoints -= Mathf.RoundToInt(Vector3.Distance(
-                                                         new Vector3(_selectedUnit.transform.position.x, 0, _selectedUnit.transform.position.z),
-                                                         new Vector3(lastSelectedTile.Position.x, 0, lastSelectedTile.Position.z)));
-            #endregion
-
-            _selectedUnit.transform.position = new Vector3(lastSelectedTile.Position.x, _selectedUnit.transform.position.y, lastSelectedTile.Position.z);
-            ActivateUnit(_selectedUnit);
-            return;
-        }
-
-        private void SelectTile()
-        {
-            RaycastHit gameObjectHit = currentInput.GetRaycastHit();
-
-            if (gameObjectHit.collider != null && gameObjectHit.collider.gameObject.layer == 9)
-            {
-                lastSelectedTile = GetSelectedTile(gameObjectHit);
-                return;
-            }
-        }
-
         /// <summary>
-        /// Selects the unit from the data input from IGetInput
+        /// Selects the unit from the data input from the UserInput parent class
         /// </summary>
         private void ActivateUnit(Unit unit)
         {            
@@ -117,6 +101,10 @@ namespace SiegeOfAshes.Movement
             changeTileColours?.Invoke(availableTileColour);
         }
 
+        /// <summary>
+        /// Deselects the unit that has been currently selected and removes them from the
+        /// caller since it no longer needs to listen.
+        /// </summary>
         private void DeselectUnit()
         {
             if (onSelect != null)
@@ -131,6 +119,32 @@ namespace SiegeOfAshes.Movement
             }
         }
 
+        /// <summary>
+        /// Used to select the current tile that is beinh hovered over currently.
+        /// </summary>
+        private void SelectTile()
+        {
+            RaycastHit gameObjectHit = currentInput.GetRaycastHit();
+
+            if (gameObjectHit.collider != null && gameObjectHit.collider.gameObject.layer == 9)
+            {
+                lastSelectedTile = GetSelectedTile(gameObjectHit);
+                return;
+            }
+        }
+
+        
+        /// <summary>
+        /// Shows the tile that the player is currently hovering over to be used
+        /// in the selection progress later to move the unit.
+        /// </summary>
+        /// <param name="gameObjectHit">
+        /// A RaycastHit that provides the data of what gameobject the player has
+        /// currently selected to see if it is a tile and a selectable one at that.
+        /// </param>
+        /// <returns>
+        /// Returns the tile that the player is hovering over
+        /// </returns>
         private Tile GetSelectedTile(RaycastHit gameObjectHit)
         {
             foreach (Tile tile in selectedUnit.currentTilesAvailable)
@@ -147,6 +161,28 @@ namespace SiegeOfAshes.Movement
 
             return null;
         }
+
+        /// <summary>
+        /// Moves the unit to the new tile and deselects and activates it since the functions reset
+        /// the new tiles that the unit can move to which is more preferable than repeating the two
+        /// functions in here separately.
+        /// </summary>
+        private void MoveToTile()
+        {
+            Unit _selectedUnit = selectedUnit;
+            DeselectUnit();
+
+            #region Movement Deduction
+            _selectedUnit.movementPoints -= Mathf.RoundToInt(Vector3.Distance(
+                                                         new Vector3(_selectedUnit.transform.position.x, 0, _selectedUnit.transform.position.z),
+                                                         new Vector3(lastSelectedTile.Position.x, 0, lastSelectedTile.Position.z)));
+            #endregion
+
+            _selectedUnit.transform.position = new Vector3(lastSelectedTile.Position.x, _selectedUnit.transform.position.y, lastSelectedTile.Position.z);
+            ActivateUnit(_selectedUnit);
+            return;
+        }
+
     }
 
 }
