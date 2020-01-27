@@ -12,6 +12,7 @@ namespace SiegeOfAshes.Movement
             base.OnInspectorGUI();
 
             Unit unit = (Unit)target;
+
             if (GUILayout.Button("Tiles Available"))
             {
                 unit.DetermineAvailableTiles(BoardManager.Instance.tiles);

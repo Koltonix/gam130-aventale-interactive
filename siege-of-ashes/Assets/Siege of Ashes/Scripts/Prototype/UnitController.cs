@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using SiegeOfAshes.Controls;
 using SiegeOfAshes.Tiles;
+using SiegeOfAshes.Data;
 
 namespace SiegeOfAshes.Movement
 {
@@ -18,7 +19,7 @@ namespace SiegeOfAshes.Movement
     /// </summary>
     [RequireComponent(typeof(UserInput))]
     public class UnitController : MonoBehaviour
-    {
+    { 
         [Header("Input")]
         private UserInput currentInput;
         [Header("Selection Information")]
@@ -37,6 +38,8 @@ namespace SiegeOfAshes.Movement
 
         public delegate void ChangeTileColours(Color32 colour);
         public event ChangeTileColours changeTileColours;
+
+        public Player currentPlayer;
 
         private void Start()
         {
@@ -183,6 +186,10 @@ namespace SiegeOfAshes.Movement
             return;
         }
 
-    }
+        public void ChangePlayer(Player newPlayer)
+        {
+            currentPlayer = newPlayer;
+        }
 
+    }
 }

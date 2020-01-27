@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SiegeOfAshes.Data
 {
@@ -9,6 +10,7 @@ namespace SiegeOfAshes.Data
     [Serializable]
     public class Player
     {
+        [HideInInspector]
         public int number;
         public Color32 colour;
     }
