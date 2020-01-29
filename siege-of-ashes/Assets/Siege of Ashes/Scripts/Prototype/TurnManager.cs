@@ -6,6 +6,16 @@ namespace SiegeOfAshes.Data
 {
     public class TurnManager : MonoBehaviour
     {
+        #region Singleton
+        public static TurnManager Instance;
+        private void Awake()
+        {
+            if (Instance == null) Instance = this;
+            else Destroy(this);
+        }
+
+        #endregion
+
         [Header("Game Settings")]
         [SerializeField]
         private Player[] allPlayers;
@@ -14,7 +24,7 @@ namespace SiegeOfAshes.Data
         public int currentPlayer;
 
         public delegate void OnPlayerCycle(Player player);
-        private event OnPlayerCycle onPlayerCycle;
+        public event OnPlayerCycle onPlayerCycle;
 
         private void Start()
         {
@@ -26,7 +36,7 @@ namespace SiegeOfAshes.Data
         {
             for (int i = 0; i < players.Length; i++)
             {
-                players[i].number = i + 1;
+                players[i].number = i;
             }
         }
 
@@ -35,11 +45,11 @@ namespace SiegeOfAshes.Data
             playerIndex++;
             if (playerIndex >= allPlayers.Length)
             {
-                onPlayerCycle.Invoke(allPlayers[playerIndex]);
+                onPlayerCycle?.Invoke(allPlayers[playerIndex]);
                 return 0;
             }
 
-            onPlayerCycle.Invoke(allPlayers[playerIndex]);
+            onPlayerCycle?.Invoke(allPlayers[playerIndex]);
             return playerIndex;
         }
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2449,7 +2449,7 @@ GameObject:
   - component: {fileID: 261971418}
   - component: {fileID: 261971422}
   m_Layer: 0
-  m_Name: Unit Piece (1)
+  m_Name: Enemy Unit Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2541,11 +2541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Default
   currentPlayer:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: SiegeOfAshes.Data.Player, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    number: 2
+    number: 1
     colour:
       serializedVersion: 2
       rgba: 4282270879
@@ -4040,7 +4036,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdbc52c630a3e844a1318da15ce2aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allPlayers: []
+  allPlayers:
+  - number: 0
+    colour:
+      serializedVersion: 2
+      rgba: 10440766
+  - number: 1
+    colour:
+      serializedVersion: 2
+      rgba: 4080799
   currentPlayer: 0
 --- !u!4 &417332113
 Transform:
@@ -8751,6 +8755,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 941093012}
+  - component: {fileID: 941093013}
   - component: {fileID: 941093011}
   - component: {fileID: 941093010}
   m_Layer: 0
@@ -8779,10 +8784,6 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 33023
   currentPlayer:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: SiegeOfAshes.Data.Player, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
     number: 0
     colour:
       serializedVersion: 2
@@ -8794,7 +8795,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941093009}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bbb57d941ef8d24a9ee3bacd352bb10, type: 3}
   m_Name: 
@@ -8825,6 +8826,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &941093013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941093009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da29e18181e61e429abaab6b07457d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
 --- !u!1001 &943364778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13065,11 +13079,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Default
   currentPlayer:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: SiegeOfAshes.Data.Player, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    number: 1
+    number: 0
     colour:
       serializedVersion: 2
       rgba: 4288630846

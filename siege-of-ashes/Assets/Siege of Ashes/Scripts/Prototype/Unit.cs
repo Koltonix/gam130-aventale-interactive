@@ -10,8 +10,7 @@ namespace SiegeOfAshes.Movement
         [Header("Attributes")]
         [SerializeField]
         private new string name;
-        [SerializeField]
-        private Player currentPlayer;
+        public Player currentPlayer;
         [Space]
 
         [Header("Movement Settings")]
