@@ -44,6 +44,7 @@ namespace SiegeOfAshes.Movement
         private void Start()
         {
             currentInput = this.GetComponent<UserInput>();
+            TurnManager.Instance.onPlayerCycle += ChangePlayer;
         }
 
         private void Update()
@@ -73,9 +74,12 @@ namespace SiegeOfAshes.Movement
                 //Clicking the unit itself
                 if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<Unit>() != null)
                 {
-                    DeselectUnit();
-                    ActivateUnit(gameObjectHit.collider.GetComponent<Unit>());
-                    return;
+                    if (gameObjectHit.collider.GetComponent<Unit>().currentPlayer.number == currentPlayer.number)
+                    {
+                        DeselectUnit();
+                        ActivateUnit(gameObjectHit.collider.GetComponent<Unit>());
+                        return;
+                    }
                 }
 
                 else DeselectUnit();
@@ -129,7 +133,7 @@ namespace SiegeOfAshes.Movement
         {
             RaycastHit gameObjectHit = currentInput.GetRaycastHit();
 
-            if (gameObjectHit.collider != null && gameObjectHit.collider.gameObject.layer == 9)
+            if (gameObjectHit.collider != null)
             {
                 lastSelectedTile = GetSelectedTile(gameObjectHit);
                 return;
@@ -150,18 +154,21 @@ namespace SiegeOfAshes.Movement
         /// </returns>
         private Tile GetSelectedTile(RaycastHit gameObjectHit)
         {
-            foreach (Tile tile in selectedUnit.currentTilesAvailable)
+            if (gameObjectHit.collider != null)
             {
-                if (gameObjectHit.collider.gameObject == tile.GameObject)
+                foreach (Tile tile in selectedUnit.currentTilesAvailable)
                 {
-                    changeTileColours(availableTileColour);
-                    tile.GameObject.GetComponent<Renderer>().material.color = selectedTileColour;
-                    return tile;
+                    if (gameObjectHit.collider.gameObject == tile.GameObject)
+                    {
+                        changeTileColours(availableTileColour);
+                        tile.GameObject.GetComponent<Renderer>().material.color = selectedTileColour;
+                        return tile;
+                    }
+
+                    else tile.GameObject.GetComponent<Renderer>().material.color = availableTileColour;
                 }
-
-                else tile.GameObject.GetComponent<Renderer>().material.color = availableTileColour;
             }
-
+           
             return null;
         }
 
@@ -188,6 +195,7 @@ namespace SiegeOfAshes.Movement
 
         public void ChangePlayer(Player newPlayer)
         {
+            DeselectUnit();
             currentPlayer = newPlayer;
         }
 
