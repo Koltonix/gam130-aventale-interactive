@@ -9,6 +9,7 @@ public class UIIngame : MonoBehaviour
 {
     private UIController uIController;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +18,7 @@ public class UIIngame : MonoBehaviour
 
     public void Menu()
     {
-        uIController.togglePauseMenu();
+        uIController.TogglePauseMenu();
     }
 
     public void Scores()
@@ -27,6 +28,6 @@ public class UIIngame : MonoBehaviour
 
     public void Flag()
     {
-
+        uIController.ToggleCatopedia();
     }
 }

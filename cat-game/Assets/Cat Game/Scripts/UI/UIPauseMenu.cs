@@ -16,7 +16,7 @@ public class UIPauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        uIController.togglePauseMenu();
+        uIController.TogglePauseMenu();
     }
 
     public void Options()

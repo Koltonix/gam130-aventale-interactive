@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private Catopedia catopedia;
 
     // Called by buttons.
-    public void togglePauseMenu()
+    public void TogglePauseMenu()
     {
         if (pauseMenu.activeSelf)
         {
@@ -27,7 +28,12 @@ public class UIController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            togglePauseMenu();
+            TogglePauseMenu();
         }
+    }
+
+    public void ToggleCatopedia()
+    {
+        catopedia.Toggle();
     }
 }
