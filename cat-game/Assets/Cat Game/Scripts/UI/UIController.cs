@@ -6,12 +6,8 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
+    // Called by buttons.
     public void togglePauseMenu()
     {
         if (pauseMenu.activeSelf)

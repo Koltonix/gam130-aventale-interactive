@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+// This is the ingame UI script.
 public class UIIngame : MonoBehaviour
 {
     private UIController uIController;

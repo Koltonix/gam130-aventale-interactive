@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// This is the main menu script. All of the functions are designed to be called buy buttons.
 public class UIMainMenu : MonoBehaviour
 {
     public void NewGame()
