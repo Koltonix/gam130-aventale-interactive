@@ -40,6 +40,11 @@ namespace SiegeOfAshes.Data
             }
         }
 
+        public void EndTurn()
+        {
+            CyclePlayers(currentPlayer);
+        }
+
         public int CyclePlayers(int playerIndex)
         {
             playerIndex++;
