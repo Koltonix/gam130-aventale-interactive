@@ -5,6 +5,8 @@ The Repository for Team 2 in the GAM130 assignment.
 ## Information
 - This project will be using Unity Version 2018.4.2f1 
 
+![Roomba Cat](Images/roomba_cat.png)
+
 ### Team Members
 |Programmer                                          |Artist       |Designer       |Animator     |Writer
 |----------------------------------------------------|-------------|----------------|-------------|-----------|
@@ -12,3 +14,4 @@ The Repository for Team 2 in the GAM130 assignment.
 |James Vanstone                					     |Alfie Hamblin|Deanna Marshall |             |           |
 |                               				     |             |Iestyn Young    |             |           |
 |                               				     |             |Lachezar Penchev|             |           |
+
