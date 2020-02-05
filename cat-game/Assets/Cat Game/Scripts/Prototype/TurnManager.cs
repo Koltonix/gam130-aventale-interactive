@@ -42,14 +42,15 @@ namespace SiegeOfAshes.Data
 
         public void EndTurn()
         {
-            CyclePlayers(currentPlayer);
+            currentPlayer = GetNextPlayersTurn(currentPlayer);
         }
 
-        public int CyclePlayers(int playerIndex)
+        public int GetNextPlayersTurn(int playerIndex)
         {
             playerIndex++;
             if (playerIndex >= allPlayers.Length)
             {
+                playerIndex = 0;
                 onPlayerCycle?.Invoke(allPlayers[playerIndex]);
                 return 0;
             }

@@ -14,7 +14,7 @@ namespace SiegeOfAshes.Data
             
             if (GUILayout.Button("Cycle Players"))
             {
-                turnManager.currentPlayer = turnManager.CyclePlayers(turnManager.currentPlayer);
+                turnManager.currentPlayer = turnManager.GetNextPlayersTurn(turnManager.currentPlayer);
             }
         }
     }
