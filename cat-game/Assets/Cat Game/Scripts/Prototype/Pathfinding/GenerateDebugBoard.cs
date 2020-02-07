@@ -3,8 +3,18 @@ using UnityEngine;
 
 namespace SiegeOfAshes.Pathfinding
 {
-    public class GenerateDebugBoard : MonoBehaviour
+    public class GenerateDebugBoard : MonoBehaviour, IGetBoardData
     {
+
+        #region Singleton
+        public static GenerateDebugBoard Instance;
+        private void Awake()
+        {
+            if (Instance == null) Instance = this;
+            else Destroy(this);
+        }
+        #endregion
+
         [Header("Board Settings")]
         private Tile[,] board;
         private List<Tile> debugBoard;
@@ -59,6 +69,28 @@ namespace SiegeOfAshes.Pathfinding
             board = new Tile[width, height];
             debugBoard = new List<Tile>();
         }
+
+        #region Contractual Obligations
+        public Tile[,] GetTiles()
+        {
+            return board;
+        }
+
+        public int GetBoardWidth()
+        {
+            return width;
+        }
+
+        public int GetBoardHeight()
+        {
+            return height;
+        }
+
+        public Vector3 GetBoardCentre()
+        {
+            return this.transform.position;
+        }
+        #endregion
     }
 }
 
