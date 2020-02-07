@@ -65,7 +65,7 @@ namespace SiegeOfAshes.Movement
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
 
                 //Acceping the tile to move to
-                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.movementPoints > 0 && lastSelectedTile != null)
+                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.actionPoints > 0 && lastSelectedTile != null)
                 {
                     MoveToTile();
                     return;
@@ -183,7 +183,7 @@ namespace SiegeOfAshes.Movement
             DeselectUnit();
 
             #region Movement Deduction
-            _selectedUnit.movementPoints -= Mathf.RoundToInt(Vector3.Distance(
+            _selectedUnit.actionPoints -= Mathf.RoundToInt(Vector3.Distance(
                                                          new Vector3(_selectedUnit.transform.position.x, 0, _selectedUnit.transform.position.z),
                                                          new Vector3(lastSelectedTile.Position.x, 0, lastSelectedTile.Position.z)));
             #endregion
