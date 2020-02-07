@@ -21,6 +21,7 @@ namespace SiegeOfAshes.Pathfinding
             {
                 generateDebugBoard.DeleteBoard();
             }
+
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SiegeOfAshes.Pathfinding
 {
     [Serializable]
-    public class Tile : MonoBehaviour
+    public class Tile
     {
         public GameObject WorldReference;
         public Vector2 Position;

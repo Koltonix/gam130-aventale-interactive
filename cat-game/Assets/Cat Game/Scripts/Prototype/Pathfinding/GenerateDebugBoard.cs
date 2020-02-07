@@ -49,7 +49,10 @@ namespace SiegeOfAshes.Pathfinding
                     GameObject worldTile = Instantiate(tilePrefab, spawnPosition, Quaternion.identity);
                     worldTile.transform.parent = tileHolder;
 
-                    Tile tile = new Tile(worldTile, spawnPosition, false);
+                    bool isPassable = Random.Range(0, 2) == 1 ? true : false;
+                    if (isPassable) worldTile.GetComponent<Renderer>().material.color *= .5f;
+
+                    Tile tile = new Tile(worldTile, spawnPosition, isPassable);
                     board[x, z] = tile;
                     debugBoard.Add(tile);
                 }
@@ -58,12 +61,9 @@ namespace SiegeOfAshes.Pathfinding
 
         public void DeleteBoard()
         {
-            for (int x = 0; x < width; x++)
+            for (int i = tileHolder.childCount - 1; i >= 0; i--)
             {
-                for (int y = 0; y < height; y++)
-                {
-                    DestroyImmediate(board[x, y].WorldReference);
-                }
+                DestroyImmediate(tileHolder.GetChild(i).gameObject);
             }
 
             board = new Tile[width, height];
