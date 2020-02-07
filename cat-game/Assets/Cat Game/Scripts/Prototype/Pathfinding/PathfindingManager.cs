@@ -16,6 +16,12 @@ namespace SiegeOfAshes.Pathfinding
 
         private IGetBoardData boardData;
 
+        [Header("Debug Colour Settings")]
+        [SerializeField]
+        private Color32 passableColour;
+        [SerializeField]
+        private Color32 unpassableColour;
+
         private void Start()
         {
             boardData = GenerateDebugBoard.Instance.GetComponent<IGetBoardData>();
@@ -23,9 +29,18 @@ namespace SiegeOfAshes.Pathfinding
 
         private void OnDrawGizmos()
         {
-            if (boardData != null)
+            if (boardData != null && boardData.GetTiles() != null)
             {
-                Gizmos.DrawWireCube(boardData.GetBoardCentre(), new Vector3(boardData.GetBoardWidth(), boardData.GetBoardCentre().y, boardData.GetBoardHeight()));
+                Gizmos.DrawWireCube(boardData.GetBoardCentre(), new Vector3(boardData.GetBoardWidth(), boardData.GetBoardCentre().y + 1, boardData.GetBoardHeight()));
+
+                foreach (Tile tile in boardData.GetTiles())
+                {
+                    Vector3 spawnPosition = tile.WorldReference.transform.position;
+                    spawnPosition.y++;
+
+                    Gizmos.color = tile.IsPassable ? unpassableColour : passableColour;
+                    Gizmos.DrawCube(spawnPosition, Vector3.one);
+                }
             }
             
         }
