@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Siege of Ashes/Scenes/Main Menu.unity
+    path: Assets/Cat Game/Scenes/MainMenu_SCN.unity
     guid: 5c272852ea17b8c4980a4d3929bed6ea
   - enabled: 1
-    path: Assets/Siege of Ashes/Scenes/UI Scene.unity
+    path: Assets/Cat Game/Scenes/UIScene_SCN.unity
     guid: fa05364cc0139cb4897c61dce8b00d82
   m_configObjects: {}

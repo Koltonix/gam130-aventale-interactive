@@ -14,12 +14,16 @@ namespace SiegeOfAshes.Movement
         [Space]
 
         [Header("Movement Settings")]
-        public int movementPoints;
+        public int actionPoints;
+        private int defaultActionPoints;
         public Tile[] currentTilesAvailable;
 
         private void Start()
         {
+            defaultActionPoints = actionPoints;
+
             BoardManager.Instance.onBoardUpdate += DetermineAvailableTiles;
+            TurnManager.Instance.onPlayerCycle += OnPlayerCycle;
             this.GetComponent<Renderer>().material.color = currentPlayer.colour;
         }
 
@@ -44,14 +48,14 @@ namespace SiegeOfAshes.Movement
 
             List<Tile> accessibleTiles = new List<Tile>();
 
-            foreach(Tile tile in allTiles)
+            foreach (Tile tile in allTiles)
             {
                 if (tile.IsPassable)
                 {
                     float tileDistance = Vector3.Distance(new Vector3(tile.Position.x, 0, tile.Position.z), unitPosition);
 
                     tileDistance = Mathf.RoundToInt(tileDistance);
-                    if (tileDistance <= movementPoints & tileDistance > 0)
+                    if (tileDistance <= actionPoints & tileDistance > 0)
                     {
                         accessibleTiles.Add(tile);
                     }
@@ -75,7 +79,7 @@ namespace SiegeOfAshes.Movement
         /// </returns>
         public bool CanMoveToTile(Tile tileToMoveTo)
         {
-            foreach(Tile tile in currentTilesAvailable)
+            foreach (Tile tile in currentTilesAvailable)
             {
                 if (tile == tileToMoveTo)
                 {
@@ -115,6 +119,11 @@ namespace SiegeOfAshes.Movement
         {
             DetermineAvailableTiles(BoardManager.Instance.tiles);
             if (!isSelected) ResetTileColours();
+        }
+
+        private void OnPlayerCycle(Player player)
+        {
+            if (currentPlayer.number == player.number) actionPoints = defaultActionPoints;
         }
         #endregion
     }
