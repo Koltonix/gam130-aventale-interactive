@@ -20,7 +20,21 @@ namespace SiegeOfAshes.Board
         public int height;
         public Vector2 offset;
         public Vector2 scale;
-        public Texture2D texture;
+
+        private Texture2D texture;
+        public Texture2D Texture
+        {
+            get { return texture; }
+            set
+            {
+                texture = value;
+                width = texture.width;
+                height = texture.height;
+
+                debugTexture = texture;
+            }
+        }
+        public Texture2D debugTexture;
 
         /// <summary>
         /// Constructor for the Perlin Noise Data class.
@@ -49,7 +63,7 @@ namespace SiegeOfAshes.Board
         /// </returns>
         public Texture2D GenerateRandomNoise()
         {
-            texture = new Texture2D(width, height);
+            Texture = new Texture2D(width, height);
             offset = GetRandomOffset();
 
             for (int x = 0; x < width; x++)
@@ -58,12 +72,12 @@ namespace SiegeOfAshes.Board
                 {
                     float noiseValue = GetRandomNoiseValue(x, y);
                     Color noiseColour = new Color(noiseValue, noiseValue, noiseValue, 1);
-                    texture.SetPixel(x, y, noiseColour);
+                    Texture.SetPixel(x, y, noiseColour);
                 }
             }
 
-            texture.Apply();
-            return texture;
+            Texture.Apply();
+            return Texture;
         }
 
         /// <summary>
@@ -117,18 +131,18 @@ namespace SiegeOfAshes.Board
         {
             if (HasMorePassableThanImpassable())
             {
-                for (int x = 0; x < texture.width; x++)
+                for (int x = 0; x < Texture.width; x++)
                 {
-                    for (int y = 0; y < texture.height; y++)
+                    for (int y = 0; y < Texture.height; y++)
                     {
-                        Vector4 invertedColour = (Vector4.one - (Vector4)texture.GetPixel(x, y));
+                        Vector4 invertedColour = (Vector4.one - (Vector4)Texture.GetPixel(x, y));
                         invertedColour.w = 1f;
-                        texture.SetPixel(x, y, invertedColour);
+                        Texture.SetPixel(x, y, invertedColour);
                     }
                 }
             }
 
-            texture.Apply();
+            Texture.Apply();
         }
 
         /// <summary>
@@ -143,11 +157,11 @@ namespace SiegeOfAshes.Board
             int passableBlocks = 0;
             int unpassableBlocks = 0;
 
-            for (int x = 0; x < texture.width; x++)
+            for (int x = 0; x < Texture.width; x++)
             {
-                for (int y = 0; y < texture.height; y++)
+                for (int y = 0; y < Texture.height; y++)
                 {
-                    if (texture.GetPixel(x, y).r < 0.5f) passableBlocks++;
+                    if (Texture.GetPixel(x, y).r < 0.5f) passableBlocks++;
                     else unpassableBlocks++;
                 }
             }
@@ -164,28 +178,28 @@ namespace SiegeOfAshes.Board
         /// <param name="increaseAmount"></param>
         public void IncreaseContrast(float increaseAmount)
         {
-            for (int x = 0; x < texture.width; x++)
+            for (int x = 0; x < Texture.width; x++)
             {
-                for (int y = 0; y < texture.height; y++)
+                for (int y = 0; y < Texture.height; y++)
                 {
-                    Vector4 pixelColour = texture.GetPixel(x, y);
+                    Vector4 pixelColour = Texture.GetPixel(x, y);
                     if (pixelColour.x > .5f)
                     {
                         pixelColour += (Vector4.one * increaseAmount);
                         pixelColour.w = 1f;
-                        texture.SetPixel(x, y, pixelColour);
+                        Texture.SetPixel(x, y, pixelColour);
                     }
 
                     else if (pixelColour.x <= .5f)
                     {
                         pixelColour -= (Vector4.one * increaseAmount);
                         pixelColour.w = 1f;
-                        texture.SetPixel(x, y, pixelColour);
+                        Texture.SetPixel(x, y, pixelColour);
                     }
                 }
             }
 
-            texture.Apply();
+            Texture.Apply();
         }
 
         /// <summary>
