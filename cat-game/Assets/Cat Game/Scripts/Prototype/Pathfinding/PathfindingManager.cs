@@ -23,6 +23,7 @@ namespace SiegeOfAshes.Pathfinding
         private Color32 passableColour;
         [SerializeField]
         private Color32 unpassableColour;
+        private float drawHeight = 0.25f;
 
         private void Start()
         {
@@ -33,15 +34,13 @@ namespace SiegeOfAshes.Pathfinding
         {
             if (boardData != null && boardData.GetTiles() != null)
             {
-                Gizmos.DrawWireCube(boardData.GetBoardCentre(), new Vector3(boardData.GetBoardWidth(), boardData.GetBoardCentre().y + 1, boardData.GetBoardHeight()));
-
                 foreach (Tile tile in boardData.GetTiles())
                 {
                     Vector3 spawnPosition = tile.WorldReference.transform.position;
-                    spawnPosition.y++;
+                    spawnPosition.y += drawHeight * .5f;
 
                     Gizmos.color = tile.IsPassable ? unpassableColour : passableColour;
-                    Gizmos.DrawCube(spawnPosition, Vector3.one);
+                    Gizmos.DrawWireCube(spawnPosition, new Vector3(1, 1 + drawHeight, 1));
                 }
             }
             
