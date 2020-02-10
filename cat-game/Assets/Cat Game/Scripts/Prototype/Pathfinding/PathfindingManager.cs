@@ -14,6 +14,8 @@ namespace SiegeOfAshes.Pathfinding
         }
         #endregion
 
+        [SerializeField]
+        private GameObject boardGenerator;
         private IGetBoardData boardData;
 
         [Header("Debug Colour Settings")]
@@ -24,7 +26,7 @@ namespace SiegeOfAshes.Pathfinding
 
         private void Start()
         {
-            //boardData = GenerateDebugBoard.Instance.GetComponent<IGetBoardData>();
+            boardData = boardGenerator.GetComponent<IGetBoardData>();
         }
 
         private void OnDrawGizmos()

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using SiegeOfAshes.Pathfinding;
@@ -9,35 +10,29 @@ namespace SiegeOfAshes.Board
     /// A class that deals with the spawning of the game board using
     /// a perlin noise data structure.
     /// </summary>
-    public class BoardGeneration : MonoBehaviour
+    public class BoardGeneration : MonoBehaviour, IGetBoardData
     {
+        [Header("Perlin Noise Data")]
         public PerlinNoise currentNoiseData;
 
-        [SerializeField]
-        private RawImage noiseMapImage;
-        public RawImage NoiseMapImage
-        {
-            get { return noiseMapImage; }
-            set
-            {
-                noiseMapImage = value;
-                noiseMapImage.SetNativeSize();
-                noiseMapImage.transform.localScale *= 10f;
-            }
-        }
-
         [Header("Board Attributes")]
+        private Tile[,] board;
+        [SerializeField]
+        private List<Tile> debugBoard;
         [HideInInspector]
-        public GameObject tileParent;
+        public GameObject boardHolder;
         [SerializeField]
-        private Vector3 boardStartPosition;
+        private Vector3 boardSpawnPosition;
         [SerializeField]
-        private Vector3 tileOffset;
+        private Vector3 tileGap;
+        [Space]
+
+        [Header("Tile Prefabs")]
         [SerializeField]
         private GameObject loweredTile;
         [SerializeField]
         private GameObject risenTile;
-        public Coroutine generatingBoard;
+        [Space]
 
         [Header("Board Animation Attributes")]
         [SerializeField]
@@ -46,40 +41,6 @@ namespace SiegeOfAshes.Board
         private float raiseDistance = 10f;
         [SerializeField]
         private float spawnHeight = -10f;
-
-        /// <summary>
-        /// Generates a Perlin noise and assigns a raw image the texture of the perlin noise.
-        /// </summary>
-        public void CreatePerlinNoise()
-        {
-            currentNoiseData = new PerlinNoise(currentNoiseData.width, currentNoiseData.height, currentNoiseData.offset, currentNoiseData.scale);
-            if (NoiseMapImage != null) NoiseMapImage.texture = currentNoiseData.texture;
-        }
-
-        /// <summary>
-        /// Starts the spawning of the board coroutine since I need to keep a reference of 
-        /// the coroutine in this script rather than the editor.
-        /// </summary>
-        /// <param name="noiseData"></param>
-        public void CreateBoard(PerlinNoise noiseData)
-        {
-            if (generatingBoard != null) StopCoroutine(generatingBoard);
-            generatingBoard = StartCoroutine(GenerateBoard(noiseData));
-        }
-
-        /// <summary>
-        /// A debug feature that stops the spawning coroutine since coroutines are not able to
-        /// be run during editor runtime without specific implementation.
-        /// </summary>
-        /// <remarks>
-        /// I did attempt to use [ExecuteInEditMode], but unfortunately this would only update
-        /// when you interacting with the editor.
-        /// </remarks>
-        public void StopBoardSpawning()
-        {
-            if (generatingBoard != null) StopCoroutine(generatingBoard);
-        }
-
 
         /// <summary>
         /// A coroutine that deals with spawning the board as a whole and allows for the rows
@@ -91,69 +52,113 @@ namespace SiegeOfAshes.Board
         /// Intermittently spawns the rows of tiles every fixed frame rather than based on frame
         /// rate.
         /// </returns>
-        public IEnumerator GenerateBoard(PerlinNoise noiseData)
+        public void GenerateBoard(PerlinNoise noiseData)
         {
-            DestroyImmediate(tileParent);
-            tileParent = new GameObject("Board");
+            DestroyImmediate(boardHolder);
 
-            for (int x = 0; x < noiseData.texture.width; x++)
+            board = new Tile[noiseData.width, noiseData.height];
+            debugBoard = new List<Tile>();
+
+            boardHolder = new GameObject("Board");
+
+            for (int x = 0; x < noiseData.width; x++)
             {
-                for (int z = 0; z < noiseData.texture.height; z++)
+                for (int z = 0; z < noiseData.height; z++)
                 {
-                    Vector3 spawnPosition = new Vector3((boardStartPosition.x + x) * tileOffset.x, spawnHeight, (boardStartPosition.z + z) * tileOffset.z);
+                    Vector3 spawnPosition = new Vector3(x * tileGap.x - ((noiseData.width - 1) * tileGap.x * .5f),
+                                                        spawnHeight,
+                                                        z * tileGap.z - ((noiseData.height - 1) * tileGap.z * .5f));
 
-                    float heightValue = noiseData.texture.GetPixel(x, z).grayscale;
-                    if (heightValue > .5f) SpawnTile(loweredTile, spawnPosition);
+                    boardHolder.transform.position = boardSpawnPosition;
 
-                    else SpawnTile(risenTile, spawnPosition);
+                    float heightValue = noiseData.Texture.GetPixel(x, z).grayscale;
+                    if (heightValue > .5f)
+                    {
+                        Tile tile = SpawnTile(loweredTile, spawnPosition, true);
+                        board[x, z] = tile;
+                        debugBoard.Add(tile);
+                    }
+
+
+                    else
+                    {
+                        Tile tile = SpawnTile(risenTile, spawnPosition, false);
+                        board[x, z] = tile;
+                        debugBoard.Add(tile);
+                    }
                 }
-
-                yield return new WaitForFixedUpdate();
             }
-
-            yield return null;
         }
 
         /// <summary>
         /// Spawns the tile and automatically assigns it to the empty board parent object to
         /// ensure the scene is clean.
         /// </summary>
-        /// <param name="tile"></param>
+        /// <param name="worldReference"></param>
         /// <param name="spawnPosition"></param>
-        public void SpawnTile(GameObject tile, Vector3 spawnPosition)
+        public Tile SpawnTile(GameObject worldReference, Vector3 spawnPosition, bool isPassable)
         {
-            GameObject clonedTile = Instantiate(tile, spawnPosition, Quaternion.identity);
-            clonedTile.transform.SetParent(tileParent.transform);
+            GameObject clonedTile = Instantiate(worldReference, spawnPosition, Quaternion.identity);
+            clonedTile.transform.SetParent(boardHolder.transform);
 
-            StartCoroutine(ElevateTile(clonedTile.transform, raiseDistance, raiseSpeed));
+            Tile tile = new Tile(clonedTile, spawnPosition, isPassable);
+
+
+            return tile;
+        }
+
+        #region Board Initialisers
+        /// <summary>
+        /// Generates a Perlin noise and assigns a raw image the texture of the perlin noise.
+        /// </summary>
+        public void CreatePerlinNoise()
+        {
+            currentNoiseData = new PerlinNoise(currentNoiseData.width, currentNoiseData.height, currentNoiseData.offset, currentNoiseData.scale);
         }
 
         /// <summary>
-        /// Moves the tile from its spawn position to a provided height.
+        /// Starts the spawning of the board coroutine since I need to keep a reference of 
+        /// the coroutine in this script rather than the editor.
         /// </summary>
-        /// <param name="tile"></param>
-        /// <param name="raiseAmount"></param>
-        /// <param name="moveSpeed"></param>
-        /// <remarks>
-        /// I did intend to use Unity's animations, but animating positions becomes rather a
-        /// bit awkward using Unity's animator, so I opted for this coroutin method instead.
-        /// </remarks>
-        /// <returns>
-        /// Moves the tile every frame and returns until the next frame has passed.
-        /// </returns>
-        public IEnumerator ElevateTile(Transform tile, float raiseAmount, float moveSpeed)
+        /// <param name="noiseData"></param>
+        public void CreateBoard()
         {
-            Vector3 targetPosition = tile.position;
-            targetPosition.y += raiseAmount;
-
-            float t = 0;
-            while (t < 1 && tile != null)
-            {
-                tile.position = Vector3.Lerp(tile.position, targetPosition, t);
-                t += Time.deltaTime * moveSpeed;
-                yield return new WaitForFixedUpdate();
-            }
+            GenerateBoard(currentNoiseData);
         }
+
+        public void DestroyBoard()
+        {
+            DestroyImmediate(boardHolder);
+
+            board = new Tile[currentNoiseData.width, currentNoiseData.height];
+            debugBoard = new List<Tile>();
+        }
+
+        #endregion
+
+        #region Contractual Obligations
+
+        public Tile[,] GetTiles()
+        {
+            return board;
+        }
+
+        public int GetBoardWidth()
+        {
+            return currentNoiseData.width;
+        }
+
+        public int GetBoardHeight()
+        {
+            return currentNoiseData.height;
+        }
+
+        public Vector3 GetBoardCentre()
+        {
+            return boardSpawnPosition;
+        }
+
+        #endregion
     }
 
 }
