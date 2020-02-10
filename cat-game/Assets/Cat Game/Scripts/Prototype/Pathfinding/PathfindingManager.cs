@@ -24,7 +24,7 @@ namespace SiegeOfAshes.Pathfinding
 
         private void Start()
         {
-            boardData = GenerateDebugBoard.Instance.GetComponent<IGetBoardData>();
+            //boardData = GenerateDebugBoard.Instance.GetComponent<IGetBoardData>();
         }
 
         private void OnDrawGizmos()

@@ -345,15 +345,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 571425393}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23130d9f2aa3b0d4c83a9e9c4a5aa313, type: 3}
+  m_Script: {fileID: 11500000, guid: a8ccb0cf1888b0a4db65d5b42f970e3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 20
-  height: 20
-  tileGap: {x: 1, y: 0, z: 1}
-  tileHolder: {fileID: 873980194}
-  tilePrefab: {fileID: 2263864217131829366, guid: 7dae563ab0a3f8245915928e9560981e,
+  currentNoiseData:
+    width: 20
+    height: 20
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+    texture: {fileID: 0}
+  noiseMapImage: {fileID: 0}
+  tileParent: {fileID: 0}
+  boardStartPosition: {x: 0, y: 0, z: 0}
+  tileOffset: {x: 1, y: 1, z: 1}
+  loweredTile: {fileID: 2263864217131829366, guid: 7dae563ab0a3f8245915928e9560981e,
     type: 3}
+  risenTile: {fileID: 5476029951858658855, guid: 1209cf964f9e31e4a8107cc28dafd2f7,
+    type: 3}
+  raiseSpeed: 0.125
+  raiseDistance: 10
+  spawnHeight: -10
 --- !u!4 &571425395
 Transform:
   m_ObjectHideFlags: 0
@@ -396,7 +407,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &873980193
 GameObject:
@@ -426,7 +437,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1250377467
 PrefabInstance:
