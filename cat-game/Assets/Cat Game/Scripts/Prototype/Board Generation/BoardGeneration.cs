@@ -32,15 +32,6 @@ namespace SiegeOfAshes.Board
         private GameObject loweredTile;
         [SerializeField]
         private GameObject risenTile;
-        [Space]
-
-        [Header("Board Animation Attributes")]
-        [SerializeField]
-        private float raiseSpeed = 0.125f;
-        [SerializeField]
-        private float raiseDistance = 10f;
-        [SerializeField]
-        private float spawnHeight = -10f;
 
         /// <summary>
         /// A coroutine that deals with spawning the board as a whole and allows for the rows
@@ -66,7 +57,7 @@ namespace SiegeOfAshes.Board
                 for (int z = 0; z < noiseData.height; z++)
                 {
                     Vector3 spawnPosition = new Vector3(x * tileGap.x - ((noiseData.width - 1) * tileGap.x * .5f),
-                                                        spawnHeight,
+                                                        tileGap.y,
                                                         z * tileGap.z - ((noiseData.height - 1) * tileGap.z * .5f));
 
                     boardHolder.transform.position = boardSpawnPosition;
@@ -74,7 +65,7 @@ namespace SiegeOfAshes.Board
                     float heightValue = noiseData.Texture.GetPixel(x, z).grayscale;
                     if (heightValue > .5f)
                     {
-                        Tile tile = SpawnTile(loweredTile, spawnPosition, true);
+                        Tile tile = SpawnTile(loweredTile, spawnPosition, false);
                         board[x, z] = tile;
                         debugBoard.Add(tile);
                     }
@@ -82,7 +73,7 @@ namespace SiegeOfAshes.Board
 
                     else
                     {
-                        Tile tile = SpawnTile(risenTile, spawnPosition, false);
+                        Tile tile = SpawnTile(risenTile, spawnPosition, true);
                         board[x, z] = tile;
                         debugBoard.Add(tile);
                     }
