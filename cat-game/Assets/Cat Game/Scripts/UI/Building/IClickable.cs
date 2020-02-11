@@ -1,4 +1,7 @@
-﻿interface IClickable
+﻿namespace SiegeOfAshes.UI
 {
-    void ActionOnClick();
+    interface IClickable
+    {
+        void ActionOnClick();
+    }
 }

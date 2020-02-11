@@ -15,8 +15,8 @@ namespace SiegeOfAshes.UI
 
         private void Update()
         {
-            if (clickData.HasClicked())
-            {
+            if (clickData.HasClicked() && clickData.GetRaycastHit().collider != null)
+            {           
                 IClickable clickable = clickData.GetRaycastHit().collider.gameObject.GetComponent<IClickable>();
                 if (clickable != null)
                 {
