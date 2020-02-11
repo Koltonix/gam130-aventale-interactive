@@ -8758,6 +8758,7 @@ GameObject:
   - component: {fileID: 941093013}
   - component: {fileID: 941093011}
   - component: {fileID: 941093010}
+  - component: {fileID: 941093014}
   m_Layer: 0
   m_Name: Player Controller
   m_TagString: Untagged
@@ -8839,6 +8840,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
+--- !u!114 &941093014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941093009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a826cf8766d287d4281a3aea400837d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickReference: {fileID: 941093009}
 --- !u!1001 &943364778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21081,12 +21095,12 @@ PrefabInstance:
     - target: {fileID: 1943107705638838567, guid: da20a039e656767489b893fad8b2e4a0,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -259.72
+      value: -259.71997
       objectReference: {fileID: 0}
     - target: {fileID: 1943107705638838567, guid: da20a039e656767489b893fad8b2e4a0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 48.699997
+      value: 48.69995
       objectReference: {fileID: 0}
     - target: {fileID: 1943107705638838567, guid: da20a039e656767489b893fad8b2e4a0,
         type: 3}

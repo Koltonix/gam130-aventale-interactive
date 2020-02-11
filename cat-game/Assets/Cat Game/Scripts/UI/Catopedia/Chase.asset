@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 039ce812fc0ed934fb6c24fcc5e8767e, type: 3}
-  m_Name: Spike
+  m_Name: Chase
   m_EditorClassIdentifier: 
-  name: Spike
+  name: Chase
   image: {fileID: 0}
-  description: This is spike, he hits things.
+  description: "Personality: Intelligent \r\n\r\nOwners: Mark & Ellie \r\n\r\nLives
+    in: 49 LaPerm Lane \r\n\r\nDescription: A master of technology, never seen without
+    his robot steed. "

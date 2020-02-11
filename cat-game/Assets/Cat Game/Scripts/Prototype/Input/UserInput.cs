@@ -2,7 +2,7 @@
 
 namespace SiegeOfAshes.Controls
 {
-    public abstract class UserInput : MonoBehaviour
+    public abstract class UserInput : MonoBehaviour, IGetOnClick
     {
         [Header("Camera")]
         public Camera mainCamera;
