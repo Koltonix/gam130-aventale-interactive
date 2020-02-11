@@ -9,7 +9,7 @@ public class WorldMenu : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        worldCamera = GameObject.FindObjectOfType<Camera>();
+        worldCamera = Camera.main;
     }
     void Update()
     {
