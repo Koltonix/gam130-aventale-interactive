@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 039ce812fc0ed934fb6c24fcc5e8767e, type: 3}
-  m_Name: Tibbles
+  m_Name: Bo
   m_EditorClassIdentifier: 
-  name: Tibbles
+  name: Bo
   image: {fileID: 0}
-  description: "Personality: Heroic \r\n\r\nOwners: Amy \r\n\r\nLives in: 21 Bengal
-    Boulevard \r\n\r\nDescription: Tibbles and Amy love each other very much. She
-    will do anything to get Amy back. "
+  description: "Personality:  Snooty \r\n\r\nOwners: Charlie & Vanessa \r\n\r\nLives
+    in: 23 Ragamuffin Road \r\n\r\nDescription: She will only play with the finest
+    toys. Anything else she'll throw away. "

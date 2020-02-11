@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 039ce812fc0ed934fb6c24fcc5e8767e, type: 3}
-  m_Name: Tibbles
+  m_Name: Swipe
   m_EditorClassIdentifier: 
-  name: Tibbles
+  name: Swipe
   image: {fileID: 0}
-  description: "Personality: Heroic \r\n\r\nOwners: Amy \r\n\r\nLives in: 21 Bengal
-    Boulevard \r\n\r\nDescription: Tibbles and Amy love each other very much. She
-    will do anything to get Amy back. "
+  description: "Personality: Mischievous \r\n\r\nOwners: Hannah \r\n\r\nLives in:
+    14 Abby Avenue \r\n\r\nDescription: Loves to pull a good prank. Very proud of
+    his claws. "
