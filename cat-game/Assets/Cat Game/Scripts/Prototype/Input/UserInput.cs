@@ -27,8 +27,7 @@ namespace SiegeOfAshes.Controls
         }
         
         public virtual Ray GetRay()
-        {
-            
+        { 
             return cameraRay;
         }
 

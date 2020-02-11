@@ -1,0 +1,4 @@
+﻿interface IClickable
+{
+    void ActionOnClick();
+}
