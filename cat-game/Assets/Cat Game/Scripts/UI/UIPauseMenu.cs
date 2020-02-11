@@ -4,33 +4,36 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class UIPauseMenu : MonoBehaviour
+namespace SiegeOfAshes.UI
 {
-    private UIController uIController;
-
-    // Start is called before the first frame update
-    void Start()
+    public class UIPauseMenu : MonoBehaviour
     {
-        uIController = GameObject.FindObjectOfType<UIController>();
-    }
+        private UIController uIController;
 
-    public void Resume()
-    {
-        uIController.TogglePauseMenu();
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
+            uIController = GameObject.FindObjectOfType<UIController>();
+        }
 
-    public void Options()
-    {
+        public void Resume()
+        {
+            uIController.TogglePauseMenu();
+        }
 
-    }
+        public void Options()
+        {
 
-    public void MainMenu()
-    {
-        SceneManager.LoadScene(0);
-    }
+        }
 
-    public void Quit()
-    {
-        Application.Quit();
+        public void MainMenu()
+        {
+            SceneManager.LoadScene(0);
+        }
+
+        public void Quit()
+        {
+            Application.Quit();
+        }
     }
 }

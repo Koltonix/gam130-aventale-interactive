@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldMenu : MonoBehaviour
+namespace SiegeOfAshes.UI
 {
-    [SerializeField]
-    private Camera worldCamera;
-    // Update is called once per frame
-    void Start()
+    public class WorldMenu : MonoBehaviour
     {
-        worldCamera = Camera.main;
-    }
-    void Update()
-    {
-        gameObject.transform.rotation = worldCamera.transform.rotation;
+        [SerializeField]
+        private Camera worldCamera;
+        // Update is called once per frame
+        void Start()
+        {
+            worldCamera = Camera.main;
+        }
+        void Update()
+        {
+            gameObject.transform.rotation = worldCamera.transform.rotation;
+        }
     }
 }

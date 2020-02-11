@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-// This is the ingame UI script.
-public class UIIngame : MonoBehaviour
+namespace SiegeOfAshes.UI
 {
-    private UIController uIController;
-
-
-    // Start is called before the first frame update
-    void Start()
+    // This is the ingame UI script.
+    public class UIIngame : MonoBehaviour
     {
-        uIController = GameObject.FindObjectOfType<UIController>();
-    }
+        private UIController uIController;
 
-    public void Menu()
-    {
-        uIController.TogglePauseMenu();
-    }
 
-    public void Scores()
-    {
+        // Start is called before the first frame update
+        void Start()
+        {
+            uIController = GameObject.FindObjectOfType<UIController>();
+        }
 
-    }
+        public void Menu()
+        {
+            uIController.TogglePauseMenu();
+        }
 
-    public void Flag()
-    {
-        uIController.ToggleCatopedia();
+        public void Scores()
+        {
+
+        }
+
+        public void Flag()
+        {
+            uIController.ToggleCatopedia();
+        }
     }
 }

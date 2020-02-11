@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+
 [CreateAssetMenu(fileName = "Entry", menuName ="Catopedia Entry")]
 public class CatopediaEntry : ScriptableObject
 {

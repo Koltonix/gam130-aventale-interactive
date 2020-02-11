@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace SiegeOfAshes.UI
+{
 public class Catopedia : MonoBehaviour
 {
     [SerializeField] private CatopediaEntry[] catopediaEntries;
@@ -55,4 +57,5 @@ public class Catopedia : MonoBehaviour
             UpdateEntry();
         }
     }
+}
 }

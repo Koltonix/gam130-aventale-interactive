@@ -6,5 +6,6 @@ namespace SiegeOfAshes.Controls
     {
         RaycastHit GetRaycastHit();
         Ray GetRay();
+        bool HasClicked();
     }
 }
