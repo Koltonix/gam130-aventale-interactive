@@ -1,0 +1,18 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WorldMenu : MonoBehaviour
+{
+    [SerializeField]
+    private Camera worldCamera;
+    // Update is called once per frame
+    void Start()
+    {
+        worldCamera = GameObject.FindObjectOfType<Camera>();
+    }
+    void Update()
+    {
+        gameObject.transform.rotation = worldCamera.transform.rotation;
+    }
+}

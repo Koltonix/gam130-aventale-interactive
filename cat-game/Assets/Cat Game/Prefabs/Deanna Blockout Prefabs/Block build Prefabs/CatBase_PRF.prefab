@@ -4378,7 +4378,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1056596754223612575}
   m_Layer: 0
-  m_Name: Cat Base
+  m_Name: CatBase_PRF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
