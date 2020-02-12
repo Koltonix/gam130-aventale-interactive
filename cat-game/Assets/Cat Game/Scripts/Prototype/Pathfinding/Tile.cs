@@ -21,11 +21,15 @@ namespace SiegeOfAshes.Pathfinding
 
         public Tile parent;
 
-        public Tile(GameObject worldReference, Vector2 position, bool isPassable)
+        public Tile(int x, int y, GameObject worldReference, Vector2 position, bool isPassable)
         {
             this.worldReference = worldReference;
             this.position = position;
             this.isPassable = isPassable;
+            isOccupied = false;
+
+            boardX = x;
+            boardY = y;
         }
     }
 }

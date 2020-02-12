@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using SiegeOfAshes.Data;
+using SiegeOfAshes.Controls;
 
 namespace SiegeOfAshes.Pathfinding
 {
@@ -17,11 +17,16 @@ namespace SiegeOfAshes.Pathfinding
 
         [Header("Pathfinding Values")]
         private List<Tile> finalPath;
+        [SerializeField]
+        private Transform start;
 
         [Header("Interface Initialisers")]
         [SerializeField]
         private GameObject boardGenerator;
         private IGetBoardData boardData;
+        [SerializeField]
+        private GameObject userInput;
+        private IGetOnClick clickData;
 
         [Header("Debug Colour Settings")]
         [SerializeField]
@@ -33,11 +38,102 @@ namespace SiegeOfAshes.Pathfinding
         private void Start()
         {
             boardData = boardGenerator.GetComponent<IGetBoardData>();
+            clickData = userInput.GetComponent<IGetOnClick>();
         }
 
-        private void CreatePathfindingGrid()
+        private void Update()
         {
-           
+            if (clickData.HasClicked() && clickData.GetRaycastHit().collider != null)
+            {
+                FindPath(new Vector3(start.position.x, boardData.GetBoardHeight(), start.position.z), 
+                         new Vector3(clickData.GetRaycastHit().point.x, boardData.GetBoardHeight(), clickData.GetRaycastHit().point.z));
+            }
+        }
+
+        /// <summary>
+        /// Finds the closest path for the object to take from a start to and end point
+        /// </summary>
+        /// <param name="startPosition"></param>
+        /// <param name="endPosition"></param>
+        /// <remarks>
+        /// Sourced from with alternations: https://youtu.be/AKKpPmxx07w
+        /// </remarks>
+        private void FindPath(Vector3 startPosition, Vector3 endPosition)
+        {
+            Tile startTile = boardData.GetTileFromWorldPosition(startPosition);
+            Tile endTile = boardData.GetTileFromWorldPosition(endPosition);
+
+            List<Tile> openList = new List<Tile>();
+            HashSet<Tile> closedList = new HashSet<Tile>();
+
+            openList.Add(startTile);
+
+            while (openList.Count > 0)
+            {
+                Tile currentTile = openList[0];
+                for (int i = 1; i < openList.Count; i++)
+                {
+                    if (openList[i].FCost < currentTile.FCost || openList[i].FCost == currentTile.FCost && openList[i].hCost < currentTile.hCost)
+                    {
+                        currentTile = openList[i];
+                    }
+                }
+
+                openList.Remove(currentTile);
+                closedList.Add(currentTile);
+
+                if (currentTile == endTile)
+                {
+                    GetFinalPath(startTile, endTile);
+                    break;
+                }
+
+                foreach (Tile tile in boardData.GetNeighbouringTiles(currentTile))
+                {
+                    if (tile.isPassable || tile.isOccupied || closedList.Contains(tile))
+                    {
+                        continue;
+                    }
+
+                    int moveCost = currentTile.gCost + GetManhattenDistance(currentTile, tile);
+
+                    if (!openList.Contains(tile) || moveCost < tile.FCost)
+                    {
+                        tile.gCost = moveCost;
+                        tile.hCost = GetManhattenDistance(tile, endTile);
+                        tile.parent = currentTile;
+
+                        if (!openList.Contains(tile))
+                        {
+                            openList.Add(tile);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void GetFinalPath(Tile startTile, Tile endTile)
+        {
+            List<Tile> finalPath = new List<Tile>();
+            Tile currentTile = endTile;
+
+            while (currentTile != startTile)
+            {
+                finalPath.Add(currentTile);
+                currentTile = currentTile.parent;
+            }
+
+            finalPath.Reverse();
+
+            this.finalPath = finalPath;
+        }
+
+        private int GetManhattenDistance(Tile firstTile, Tile secondTile)
+        {
+            int iX = Mathf.Abs(firstTile.boardX - secondTile.boardX);
+            int iY = Mathf.Abs(firstTile.boardY - secondTile.boardY);
+
+            return iX + iY;
         }
 
         private void OnDrawGizmos()

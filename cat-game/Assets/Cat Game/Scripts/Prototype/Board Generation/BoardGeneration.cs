@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using SiegeOfAshes.Pathfinding;
 
 namespace SiegeOfAshes.Board
@@ -25,6 +24,7 @@ namespace SiegeOfAshes.Board
         private Vector3 boardSpawnPosition;
         [SerializeField]
         private Vector3 tileGap;
+        private Vector3 gridWorldSize;
         [Space]
 
         [Header("Tile Prefabs")]
@@ -32,6 +32,11 @@ namespace SiegeOfAshes.Board
         private GameObject loweredTile;
         [SerializeField]
         private GameObject risenTile;
+
+        private void Start()
+        {
+            CreateBoard();
+        }
 
         /// <summary>
         /// A coroutine that deals with spawning the board as a whole and allows for the rows
@@ -51,30 +56,31 @@ namespace SiegeOfAshes.Board
             debugBoard = new List<Tile>();
 
             boardHolder = new GameObject("Board");
+            gridWorldSize = new Vector3(currentNoiseData.width * tileGap.x, 0, currentNoiseData.height * tileGap.z);
 
             for (int x = 0; x < noiseData.width; x++)
             {
-                for (int z = 0; z < noiseData.height; z++)
+                for (int y = 0; y < noiseData.height; y++)
                 {
                     Vector3 spawnPosition = new Vector3(x * tileGap.x - ((noiseData.width - 1) * tileGap.x * .5f),
                                                         tileGap.y,
-                                                        z * tileGap.z - ((noiseData.height - 1) * tileGap.z * .5f));
+                                                        y * tileGap.z - ((noiseData.height - 1) * tileGap.z * .5f));
 
                     boardHolder.transform.position = boardSpawnPosition;
 
-                    float heightValue = noiseData.Texture.GetPixel(x, z).grayscale;
+                    float heightValue = noiseData.Texture.GetPixel(x, y).grayscale;
                     if (heightValue > .5f)
                     {
-                        Tile tile = SpawnTile(loweredTile, spawnPosition, false);
-                        board[x, z] = tile;
+                        Tile tile = SpawnTile(x, y, loweredTile, spawnPosition, false);
+                        board[x, y] = tile;
                         debugBoard.Add(tile);
                     }
 
 
                     else
                     {
-                        Tile tile = SpawnTile(risenTile, spawnPosition, true);
-                        board[x, z] = tile;
+                        Tile tile = SpawnTile(x, y, risenTile, spawnPosition, true);
+                        board[x, y] = tile;
                         debugBoard.Add(tile);
                     }
                 }
@@ -87,12 +93,12 @@ namespace SiegeOfAshes.Board
         /// </summary>
         /// <param name="worldReference"></param>
         /// <param name="spawnPosition"></param>
-        public Tile SpawnTile(GameObject worldReference, Vector3 spawnPosition, bool isPassable)
+        public Tile SpawnTile(int x, int y, GameObject worldReference, Vector3 spawnPosition, bool isPassable)
         {
             GameObject clonedTile = Instantiate(worldReference, spawnPosition, Quaternion.identity);
             clonedTile.transform.SetParent(boardHolder.transform);
 
-            Tile tile = new Tile(clonedTile, spawnPosition, isPassable);
+            Tile tile = new Tile(x, y, clonedTile, spawnPosition, isPassable);
 
 
             return tile;
@@ -154,7 +160,80 @@ namespace SiegeOfAshes.Board
             return boardSpawnPosition;
         }
 
+        public Tile GetTileFromWorldPosition(Vector3 position)
+        {
+            float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x);
+            float zPoint = ((position.z + gridWorldSize.z * .5f) / gridWorldSize.z);
+
+            xPoint = Mathf.Clamp01(xPoint);
+            zPoint = Mathf.Clamp01(zPoint);
+
+            int x = Mathf.RoundToInt((gridWorldSize.x - 1) * xPoint);
+            int y = Mathf.RoundToInt((gridWorldSize.z - 1) * zPoint);
+
+            return board[x, y];
+        }
+        
+        public Tile[] GetNeighbouringTiles(Tile tile)
+        {
+            List<Tile> neighbouringTiles = new List<Tile>();
+            
+            Tile checkingTile;
+            int xCheck;
+            int yCheck;
+
+            //Right hand check
+            xCheck = tile.boardX + 1;
+            yCheck = tile.boardY;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+
+            //Left hand check
+            xCheck = tile.boardX - 1;
+            yCheck = tile.boardY;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            //Upper hand check
+            xCheck = tile.boardX;
+            yCheck = tile.boardY + 1;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            //Left hand check
+            xCheck = tile.boardX;
+            yCheck = tile.boardY - 1;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            return neighbouringTiles.ToArray();
+
+        }
+
+        private Tile CheckForNeighbour(int xCheck, int yCheck)
+        {
+            if (xCheck >= 0 && xCheck < currentNoiseData.width)
+            {
+                if (yCheck >= 0 && yCheck < currentNoiseData.height)
+                {
+                    return board[xCheck, yCheck];
+                }
+            }
+
+            return null;
+        }
+
         #endregion
+
+        private void OnDestroy()
+        {
+            DestroyBoard();
+        }
     }
 
 }
