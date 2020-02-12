@@ -47,6 +47,8 @@ namespace SiegeOfAshes.Pathfinding
             {
                 FindPath(new Vector3(start.position.x, boardData.GetBoardHeight(), start.position.z), 
                          new Vector3(clickData.GetRaycastHit().point.x, boardData.GetBoardHeight(), clickData.GetRaycastHit().point.z));
+
+                DrawPath();
             }
         }
 
@@ -124,6 +126,7 @@ namespace SiegeOfAshes.Pathfinding
             }
 
             finalPath.Reverse();
+            finalPath.Add(endTile);
 
             this.finalPath = finalPath;
         }
@@ -134,6 +137,26 @@ namespace SiegeOfAshes.Pathfinding
             int iY = Mathf.Abs(firstTile.boardY - secondTile.boardY);
 
             return iX + iY;
+        }
+
+        private void DrawPath()
+        {
+            if (finalPath != null)
+            {
+                ResetTileColours();
+                foreach (Tile tile in finalPath)
+                {
+                    tile.worldReference.GetComponent<Renderer>().material.color = Color.blue;
+                }
+            }
+        }
+
+        private void ResetTileColours()
+        {
+            foreach (Tile tile in boardData.GetTiles())
+            {
+                tile.worldReference.GetComponent<Renderer>().material.color = tile.defaultColour;
+            }
         }
 
         private void OnDrawGizmos()

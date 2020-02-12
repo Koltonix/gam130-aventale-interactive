@@ -10,6 +10,7 @@ namespace SiegeOfAshes.Pathfinding
         public int boardY;
 
         public GameObject worldReference;
+        public Color defaultColour;
         public Vector2 position;
 
         public bool isPassable;
@@ -30,6 +31,8 @@ namespace SiegeOfAshes.Pathfinding
 
             boardX = x;
             boardY = y;
+
+            defaultColour = worldReference.GetComponent<Renderer>().material.color;
         }
     }
 }
