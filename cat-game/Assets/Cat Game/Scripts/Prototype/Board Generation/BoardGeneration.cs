@@ -114,6 +114,11 @@ namespace SiegeOfAshes.Board
         /// <param name="noiseData"></param>
         public void CreateBoard()
         {
+            CreatePerlinNoise();
+            currentNoiseData.IncreaseContrast(.5f);
+
+            currentNoiseData.BalanceMap();
+
             GenerateBoard(currentNoiseData);
         }
 
