@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using SiegeOfAshes.Data;
 
 namespace SiegeOfAshes.Pathfinding
@@ -14,6 +15,10 @@ namespace SiegeOfAshes.Pathfinding
         }
         #endregion
 
+        [Header("Pathfinding Values")]
+        private List<Tile> finalPath;
+
+        [Header("Interface Initialisers")]
         [SerializeField]
         private GameObject boardGenerator;
         private IGetBoardData boardData;
@@ -30,16 +35,30 @@ namespace SiegeOfAshes.Pathfinding
             boardData = boardGenerator.GetComponent<IGetBoardData>();
         }
 
+        private void CreatePathfindingGrid()
+        {
+           
+        }
+
         private void OnDrawGizmos()
         {
             if (boardData != null && boardData.GetTiles() != null)
             {
                 foreach (Tile tile in boardData.GetTiles())
                 {
-                    Vector3 spawnPosition = tile.WorldReference.transform.position;
+                    Vector3 spawnPosition = tile.worldReference.transform.position;
                     spawnPosition.y += drawHeight * .5f;
 
-                    Gizmos.color = tile.IsPassable ? unpassableColour : passableColour;
+                    Gizmos.color = tile.isPassable ? unpassableColour : passableColour;
+
+                    if (finalPath != null)
+                    {
+                        if (finalPath.Contains(tile))
+                        {
+                            Gizmos.color = Color.blue;
+                        }
+                    }
+
                     Gizmos.DrawWireCube(spawnPosition, new Vector3(1, 1 + drawHeight, 1));
                 }
             }

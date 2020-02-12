@@ -6,15 +6,26 @@ namespace SiegeOfAshes.Pathfinding
     [Serializable]
     public class Tile
     {
-        public GameObject WorldReference;
-        public Vector2 Position;
-        public bool IsPassable;
+        public int boardX;
+        public int boardY;
+
+        public GameObject worldReference;
+        public Vector2 position;
+
+        public bool isPassable;
+        public bool isOccupied;
+
+        public int hCost;
+        public int gCost;
+        public int FCost { get { return hCost + gCost; } }
+
+        public Tile parent;
 
         public Tile(GameObject worldReference, Vector2 position, bool isPassable)
         {
-            WorldReference = worldReference;
-            Position = position;
-            IsPassable = isPassable;
+            this.worldReference = worldReference;
+            this.position = position;
+            this.isPassable = isPassable;
         }
     }
 }
