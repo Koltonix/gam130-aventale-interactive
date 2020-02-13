@@ -16,6 +16,7 @@ namespace CatGame.UI
         private Player owner;
         public int CurrentPlayer;
         public int SpawnPoints;
+        public const int UnitCap = 10;
         
         [Space]
 
@@ -34,6 +35,7 @@ namespace CatGame.UI
 
         void Start()
         {
+            SpawnPoints = 2;
             this.GetComponent<Renderer>().material.color = owner.colour;
             TurnManager.Instance.onPlayerCycle += ChangePlayer;
             MakeMenu();
@@ -80,8 +82,9 @@ namespace CatGame.UI
 
         public void SpawnUnit(GameObject unit)
         {
-            if (selectedPad)
+            if (selectedPad && SpawnPoints > 0)
             {
+                SpawnPoints--;
                 GameObject newUnit = Instantiate(unit);
                 newUnit.GetComponent<Unit>().currentPlayer = owner;
                 newUnit.transform.position = new Vector3(selectedPad.transform.position.x, selectedPad.transform.position.y + 0.7f, selectedPad.transform.position.z);
@@ -109,6 +112,7 @@ namespace CatGame.UI
         /// <param name="newPlayer"></param>
         public void ChangePlayer(Player newPlayer)
         {
+            SpawnPoints = 2;
             setBuildingUI(false);
             if (CurrentPlayer == 0)
             {
