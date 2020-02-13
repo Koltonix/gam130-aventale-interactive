@@ -1088,6 +1088,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f27e20bde538c14db8c794bab57ebf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner:
+    number: 0
+    colour:
+      serializedVersion: 2
+      rgba: 0
+  CurrentPlayer:
+    number: 0
+    colour:
+      serializedVersion: 2
+      rgba: 10638145
+  SpawnPoints: 10
   BuildmenuPrefab: {fileID: 761650807146044451, guid: 32b2939ed75a6bc4c895ee15bb5cc652,
     type: 3}
   spawnPads:

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CatGame.Data;
+using CatGame.Movement;
 
 namespace CatGame.UI
 {
@@ -12,7 +13,8 @@ namespace CatGame.UI
 
         [Header("Attributes")]
         [SerializeField]
-        public Player CurrentPlayer;
+        private Player owner;
+        public int CurrentPlayer;
         public int SpawnPoints;
         
         [Space]
@@ -32,6 +34,8 @@ namespace CatGame.UI
 
         void Start()
         {
+            this.GetComponent<Renderer>().material.color = owner.colour;
+            TurnManager.Instance.onPlayerCycle += ChangePlayer;
             MakeMenu();
             setBuildingUI(false);
         }
@@ -50,13 +54,19 @@ namespace CatGame.UI
 
         void toggleBuildingUI()
         {
-            uIState = !uIState;
-            setBuildingUI(uIState);
+            if (owner.number == CurrentPlayer)
+            {
+                uIState = !uIState;
+                setBuildingUI(uIState);
+            }
         }
 
         void OnMouseDown()
         {
-            toggleBuildingUI();
+            if (owner.number == CurrentPlayer)
+            {
+                toggleBuildingUI();
+            }
         }
 
         public void SelectTile(SpawnPad pad)
@@ -73,6 +83,7 @@ namespace CatGame.UI
             if (selectedPad)
             {
                 GameObject newUnit = Instantiate(unit);
+                newUnit.GetComponent<Unit>().currentPlayer = owner;
                 newUnit.transform.position = new Vector3(selectedPad.transform.position.x, selectedPad.transform.position.y + 0.7f, selectedPad.transform.position.z);
                 toggleBuildingUI();
             }
@@ -91,5 +102,22 @@ namespace CatGame.UI
                 button.onClick.AddListener(() => { SpawnUnit(unit); });
             }
         }
-    }
+
+        /// <summary>
+        /// This needs fixing when we get around to working on the turn-change system.
+        /// </summary>
+        /// <param name="newPlayer"></param>
+        public void ChangePlayer(Player newPlayer)
+        {
+            setBuildingUI(false);
+            if (CurrentPlayer == 0)
+            {
+                CurrentPlayer = 1;
+            }
+            else
+            {
+                CurrentPlayer = 0;
+            }
+        }
+    }  
 }
