@@ -11,28 +11,40 @@ namespace SiegeOfAshes.UI
         [SerializeField]
         Material white;
         [SerializeField]
+        Material clear;
         MeshRenderer meshRenderer;
         Building building;
+        bool tileSelected;
 
-        void Start()
+        void Awake()
         {
             meshRenderer = gameObject.GetComponent<MeshRenderer>();
             building = gameObject.GetComponentInParent<Building>();
         }
 
-        void OnMouseOver()
+        void OnMouseEnter()
         {
-            meshRenderer.material = green;
+            meshRenderer.material = white;
         }
 
         void OnMouseDown()
         {
-            building.SpawnUnit(gameObject.transform);
+            building.SelectTile(this);
+            meshRenderer.material = green;
+            tileSelected = true;
+        }
+        public void DeselectTile()
+        {
+            meshRenderer.material = clear;
+            tileSelected = false;
         }
 
         void OnMouseExit()
         {
-            meshRenderer.material = white;
+            if (!tileSelected)
+            {
+                meshRenderer.material = clear;
+            }
         }
     }
 }
