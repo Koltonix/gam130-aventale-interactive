@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SiegeOfAshes.UI
 {
@@ -8,6 +9,9 @@ namespace SiegeOfAshes.UI
     {
         [SerializeField]
         private Camera worldCamera;
+        [SerializeField]
+        public Button[] Buttons;
+
         // Update is called once per frame
         void Start()
         {

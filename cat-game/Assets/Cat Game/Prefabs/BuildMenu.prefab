@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &761650806740199558
 RectTransform:
   m_ObjectHideFlags: 0
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 761650807146044448}
   - component: {fileID: 761650807146044449}
   - component: {fileID: 761650807146044450}
-  - component: {fileID: 2404215592330633856}
+  - component: {fileID: 3162847609477913779}
   m_Layer: 5
   m_Name: BuildMenu
   m_TagString: Untagged
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2404215592330633856
+--- !u!114 &3162847609477913779
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -312,6 +312,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldCamera: {fileID: 0}
+  Buttons:
+  - {fileID: 761650807169627607}
+  - {fileID: 761650806740199557}
+  - {fileID: 761650807470744761}
 --- !u!1 &761650807169627601
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &761650807169627600
 RectTransform:
   m_ObjectHideFlags: 0
@@ -448,7 +452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &761650807470744762
 RectTransform:
   m_ObjectHideFlags: 0
