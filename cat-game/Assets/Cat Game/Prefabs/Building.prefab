@@ -108,7 +108,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &640318560275468342
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +216,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &1259347552924807819
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,7 +324,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &2023885029604459185
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,7 +432,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &2558141489554032437
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +540,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &3623806220927747043
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,7 +648,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &4320993926357981892
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,7 +756,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &4685915832755948612
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,7 +864,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &6483407435681608807
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,7 +972,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &7199226515336942355
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,7 +1088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f27e20bde538c14db8c794bab57ebf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BuildingMenu: {fileID: 761650807146044451, guid: 32b2939ed75a6bc4c895ee15bb5cc652,
+  BuildmenuPrefab: {fileID: 761650807146044451, guid: 32b2939ed75a6bc4c895ee15bb5cc652,
     type: 3}
   spawnPads:
   - {fileID: 8620319813131673279}
@@ -1114,7 +1105,6 @@ MonoBehaviour:
   - {fileID: 3301921478179550105}
   units:
   - {fileID: 5634768893781493900, guid: ef4869362072ee949a8246c6119d66b7, type: 3}
-  selectedPad: {fileID: 0}
 --- !u!1 &8103494909896546274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,7 +1213,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &8265795564743288302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1332,7 +1321,6 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}
 --- !u!1 &8933564738773095953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1441,4 +1429,3 @@ MonoBehaviour:
   green: {fileID: 2100000, guid: 2d593d29f6f3bb8439648adfba1b3645, type: 2}
   white: {fileID: 2100000, guid: 440cba046a9e3ea48b18029c42e38602, type: 2}
   clear: {fileID: 2100000, guid: 5fdd603b9d55c4440b2d34c6611239f0, type: 2}
-  meshRenderer: {fileID: 0}

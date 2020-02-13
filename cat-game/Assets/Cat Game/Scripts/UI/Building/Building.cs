@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,28 +15,36 @@ namespace SiegeOfAshes.UI
         [SerializeField]
         private GameObject[] units;
         private SpawnPad selectedPad;
+        private bool uIState;
 
         void Start()
         {
             buildMenu = Instantiate(BuildmenuPrefab, gameObject.transform);
             buildMenu.transform.position = new Vector3(buildMenu.transform.position.x, buildMenu.transform.position.y + 3, buildMenu.transform.position.z);
-            buildingSwitch();
+            setBuildingUI(false);
         }
 
-        void buildingSwitch()
+        private void setBuildingUI(bool toggle)
         {
-            buildMenu.SetActive(!buildMenu.activeSelf);
+            uIState = toggle;
+            buildMenu.SetActive(toggle);
             foreach (SpawnPad pad in spawnPads)
             {
                 pad.DeselectTile();
                 selectedPad = null;
-                pad.gameObject.SetActive(!pad.gameObject.activeSelf);
+                pad.gameObject.SetActive(toggle);
             }
+        }
+
+        void toggleBuildingUI()
+        {
+            uIState = !uIState;
+            setBuildingUI(uIState);
         }
 
         void OnMouseDown()
         {
-            buildingSwitch();
+            toggleBuildingUI();
         }
 
         public void SelectTile(SpawnPad pad)
@@ -47,11 +56,14 @@ namespace SiegeOfAshes.UI
             selectedPad = pad;
         }
 
-        public void SpawnUnit(Transform pad)
+        public void SpawnUnit()
         {
-            GameObject newUnit = Instantiate(units[0]);
-            newUnit.transform.position = new Vector3(pad.position.x, pad.position.y+0.7f, pad.position.z);
-            buildingSwitch();
+            if (selectedPad)
+            {
+                GameObject newUnit = Instantiate(units[0]);
+                newUnit.transform.position = new Vector3(selectedPad.transform.position.x, selectedPad.transform.position.y + 0.7f, selectedPad.transform.position.z);
+                toggleBuildingUI();
+            }
         }
     }
 }

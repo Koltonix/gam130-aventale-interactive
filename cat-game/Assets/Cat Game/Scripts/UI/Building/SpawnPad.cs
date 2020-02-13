@@ -24,7 +24,10 @@ namespace SiegeOfAshes.UI
 
         void OnMouseEnter()
         {
-            meshRenderer.material = white;
+            if (!tileSelected)
+            {
+                meshRenderer.material = white;
+            }
         }
 
         void OnMouseDown()
