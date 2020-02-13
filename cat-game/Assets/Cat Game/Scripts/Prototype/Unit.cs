@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using SiegeOfAshes.Tiles;
-using SiegeOfAshes.Data;
+using CatGame.Tiles;
+using CatGame.Data;
 
-namespace SiegeOfAshes.Movement
+namespace CatGame.Movement
 {
     public class Unit : MonoBehaviour
     {

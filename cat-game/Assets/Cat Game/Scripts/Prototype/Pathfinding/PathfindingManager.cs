@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using SiegeOfAshes.Controls;
+using CatGame.Controls;
 
-namespace SiegeOfAshes.Pathfinding
+namespace CatGame.Pathfinding
 {
     public class PathfindingManager : MonoBehaviour
     {

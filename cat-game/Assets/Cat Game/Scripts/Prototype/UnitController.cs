@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using SiegeOfAshes.Controls;
-using SiegeOfAshes.Tiles;
-using SiegeOfAshes.Data;
+using CatGame.Controls;
+using CatGame.Tiles;
+using CatGame.Data;
 
-namespace SiegeOfAshes.Movement
+namespace CatGame.Movement
 {
     public enum SelectionProgress
     {

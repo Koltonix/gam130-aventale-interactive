@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SiegeOfAshes.Pathfinding;
+using CatGame.Pathfinding;
 
-namespace SiegeOfAshes.Board
+namespace CatGame.Board
 {
     /// <summary>
     /// A class that deals with the spawning of the game board using

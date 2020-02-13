@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace SiegeOfAshes.Controls
+namespace CatGame.Controls
 {
     public class ControllerInput : UserInput
     {

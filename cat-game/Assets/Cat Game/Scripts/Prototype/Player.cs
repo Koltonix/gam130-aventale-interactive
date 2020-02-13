@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SiegeOfAshes.Data
+namespace CatGame.Data
 {
     /// <summary>
     /// Stores the data of each player that is currently playing.

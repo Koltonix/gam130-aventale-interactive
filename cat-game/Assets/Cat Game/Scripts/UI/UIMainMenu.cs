@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SiegeOfAshes.UI
+namespace CatGame.UI
 {
     // This is the main menu script. All of the functions are designed to be called buy buttons.
     public class UIMainMenu : MonoBehaviour

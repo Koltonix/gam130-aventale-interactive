@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace SiegeOfAshes.Pathfinding
+namespace CatGame.Pathfinding
 {
     [CustomEditor(typeof(GenerateDebugBoard))]
     public class GenerateDebugBoardEditor : Editor

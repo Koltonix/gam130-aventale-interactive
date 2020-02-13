@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SiegeOfAshes.UI
+namespace CatGame.UI
 {
     public class SpawnPad : MonoBehaviour
     {

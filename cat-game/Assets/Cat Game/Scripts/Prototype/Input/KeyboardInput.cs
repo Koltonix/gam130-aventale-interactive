@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SiegeOfAshes.Controls
+namespace CatGame.Controls
 {
     public class KeyboardInput : UserInput
     {

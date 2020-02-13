@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using SiegeOfAshes.Tiles;
+using CatGame.Tiles;
 
-namespace SiegeOfAshes.Movement
+namespace CatGame.Movement
 {
     [CustomEditor(typeof(Unit))]
     public class UnitEditor : Editor

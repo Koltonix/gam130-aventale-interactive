@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SiegeOfAshes.UI
+namespace CatGame.UI
 {
     // This is the ingame UI script.
     public class UIIngame : MonoBehaviour

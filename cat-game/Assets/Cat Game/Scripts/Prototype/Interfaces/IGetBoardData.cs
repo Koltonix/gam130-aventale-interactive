@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SiegeOfAshes.Pathfinding
+namespace CatGame.Pathfinding
 {
     public interface IGetBoardData
     {

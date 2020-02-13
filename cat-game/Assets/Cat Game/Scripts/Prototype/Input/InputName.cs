@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SiegeOfAshes.Controls
+namespace CatGame.Controls
 {
     [Serializable]
     public struct InputName

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace SiegeOfAshes.Pathfinding
+namespace CatGame.Pathfinding
 {
     public class GenerateDebugBoard : MonoBehaviour, IGetBoardData
     {

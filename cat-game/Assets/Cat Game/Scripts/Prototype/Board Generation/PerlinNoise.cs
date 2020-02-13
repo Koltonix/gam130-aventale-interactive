@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace SiegeOfAshes.Board
+namespace CatGame.Board
 {
     /// <summary>
     /// A class that stores the data and function implementations for a perlin

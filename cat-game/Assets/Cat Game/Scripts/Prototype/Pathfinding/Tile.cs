@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SiegeOfAshes.Pathfinding
+namespace CatGame.Pathfinding
 {
     [Serializable]
     public class Tile

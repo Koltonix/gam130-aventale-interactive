@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SiegeOfAshes.Data
+namespace CatGame.Data
 {
     public class TurnManager : MonoBehaviour
     {

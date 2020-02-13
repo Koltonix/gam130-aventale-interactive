@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace SiegeOfAshes.Data
+namespace CatGame.Data
 {
     [CustomEditor(typeof(TurnManager))]
     public class TurnManagerEditor : Editor

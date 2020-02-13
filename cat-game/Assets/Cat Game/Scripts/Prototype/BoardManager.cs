@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SiegeOfAshes.Tiles
+namespace CatGame.Tiles
 {
     public class BoardManager : MonoBehaviour
     {

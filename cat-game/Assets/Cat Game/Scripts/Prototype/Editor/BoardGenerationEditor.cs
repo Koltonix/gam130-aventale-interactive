@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace SiegeOfAshes.Board
+namespace CatGame.Board
 {
     [CustomEditor(typeof(BoardGeneration))]
     public class BoardGenerationEditor : Editor

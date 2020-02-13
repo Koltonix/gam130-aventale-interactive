@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-namespace SiegeOfAshes.UI
+namespace CatGame.UI
 {
     public class UIPauseMenu : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SiegeOfAshes.Tiles
+namespace CatGame.Tiles
 {
     [Serializable]
     public class Tile

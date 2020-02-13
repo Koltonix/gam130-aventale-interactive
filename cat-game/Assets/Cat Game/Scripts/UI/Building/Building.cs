@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using SiegeOfAshes.Data;
+using CatGame.Data;
 
-namespace SiegeOfAshes.UI
+namespace CatGame.UI
 {
     public class Building : MonoBehaviour
     {
