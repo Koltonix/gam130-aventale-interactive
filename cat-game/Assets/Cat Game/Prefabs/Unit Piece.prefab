@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5634768893781493899}
   - component: {fileID: 5634768893781493898}
   - component: {fileID: 5634768893781493901}
-  - component: {fileID: 5634768893781493897}
+  - component: {fileID: 2331581690834231310}
+  - component: {fileID: 3662666720628452032}
   m_Layer: 0
   m_Name: Unit Piece
   m_TagString: Untagged
@@ -92,7 +93,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5634768893781493897
+--- !u!114 &2331581690834231310
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,14 +102,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 5634768893781493900}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8344afaac84c51e44a839f3095b9d859, type: 3}
+  m_Script: {fileID: 11500000, guid: d683cc40bef867249bae8d16c7cbbaab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Default
+  actionPoints: 0
+  currentTilesAvailable: []
+--- !u!114 &3662666720628452032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634768893781493900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f9546e8417ed342a18a4f33ae45666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  owner:
+    number: 0
+    colour:
+      serializedVersion: 2
+      rgba: 0
   currentPlayer:
     number: 0
     colour:
       serializedVersion: 2
-      rgba: 4288630846
-  actionPoints: 5
-  currentTilesAvailable: []
+      rgba: 0
+  IsActive: 0

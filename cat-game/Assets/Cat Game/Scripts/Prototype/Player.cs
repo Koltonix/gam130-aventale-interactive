@@ -12,5 +12,16 @@ namespace CatGame.Data
     {
         public int number;
         public Color32 colour;
+        public bool isActive;
+        public int actionPoints;
+
+        public delegate void OnActivation();
+        public event OnActivation onActive;
+
+        public void ActivateUnit()
+        {
+            isActive = true;
+            onActive?.Invoke();
+        }
     }
 }
