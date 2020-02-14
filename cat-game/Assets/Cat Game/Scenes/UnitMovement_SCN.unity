@@ -14993,12 +14993,12 @@ PrefabInstance:
     - target: {fileID: 7199226515336942382, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}
       propertyPath: CurrentPlayer.number
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7199226515336942382, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}
       propertyPath: CurrentPlayer.colour.rgba
-      value: 4080799
+      value: 10776380
       objectReference: {fileID: 0}
     - target: {fileID: 7199226515336942382, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}
