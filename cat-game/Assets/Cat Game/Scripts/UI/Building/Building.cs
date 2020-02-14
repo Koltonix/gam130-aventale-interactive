@@ -96,13 +96,16 @@ namespace CatGame.UI
         {
             buildMenu = Instantiate(BuildmenuPrefab, gameObject.transform);
             buildMenu.transform.position = new Vector3(buildMenu.transform.position.x, buildMenu.transform.position.y + 3, buildMenu.transform.position.z);
-            WorldMenu buildMenuScript = buildMenu.GetComponent<WorldMenu>();
-            for (int i = 0; i < units.Length; i++)
+            BuildMenu buildMenuScript = buildMenu.GetComponent<BuildMenu>();
+            buildMenuScript.GenerateButtons(units);
+            for (int i = units.Length-1; i >= 0; i--)
             {
                 Button button = buildMenuScript.Buttons[i];
                 button.gameObject.SetActive(true);
                 GameObject unit = units[i];
                 button.onClick.AddListener(() => { SpawnUnit(unit); });
+                Text text = button.gameObject.GetComponentInChildren<Text>();
+                text.text = "Build " + unit.name;
             }
         }
 

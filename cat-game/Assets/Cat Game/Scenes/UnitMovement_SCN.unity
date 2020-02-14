@@ -13248,6 +13248,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7199226515336942382, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}
+      propertyPath: units.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199226515336942382, guid: 51c3652799c894541bdda77891e3b0a6,
+        type: 3}
       propertyPath: CurrentPlayer.colour.rgba
       value: 10440766
       objectReference: {fileID: 0}
@@ -13256,6 +13261,12 @@ PrefabInstance:
       propertyPath: owner.colour.rgba
       value: 10440766
       objectReference: {fileID: 0}
+    - target: {fileID: 7199226515336942382, guid: 51c3652799c894541bdda77891e3b0a6,
+        type: 3}
+      propertyPath: units.Array.data[1]
+      value: 
+      objectReference: {fileID: 5634768893781493900, guid: ef4869362072ee949a8246c6119d66b7,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51c3652799c894541bdda77891e3b0a6, type: 3}
 --- !u!1001 &1446714184
