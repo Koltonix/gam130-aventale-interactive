@@ -2,7 +2,7 @@
 using UnityEditor;
 using CatGame.Tiles;
 
-namespace CatGame.Movement
+namespace CatGame.Units
 {
     [CustomEditor(typeof(UnitMovement))]
     public class UnitEditor : Editor

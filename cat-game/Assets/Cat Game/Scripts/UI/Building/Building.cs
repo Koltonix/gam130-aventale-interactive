@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CatGame.Data;
-using CatGame.Movement;
+using CatGame.Units;
 
 namespace CatGame.UI
 {
@@ -14,7 +14,7 @@ namespace CatGame.UI
         [Header("Attributes")]
         [SerializeField]
         private Player owner;
-        public int CurrentPlayer;
+        public Player CurrentPlayer;
         public int SpawnPoints;
         public const int UnitCap = 10;
         
@@ -56,7 +56,7 @@ namespace CatGame.UI
 
         void toggleBuildingUI()
         {
-            if (owner.number == CurrentPlayer)
+            if (owner.number == CurrentPlayer.number)
             {
                 uIState = !uIState;
                 setBuildingUI(uIState);
@@ -65,7 +65,7 @@ namespace CatGame.UI
 
         void OnMouseDown()
         {
-            if (owner.number == CurrentPlayer)
+            if (owner.number == CurrentPlayer.number)
             {
                 toggleBuildingUI();
             }
@@ -86,7 +86,7 @@ namespace CatGame.UI
             {
                 SpawnPoints--;
                 GameObject newUnit = Instantiate(unit);
-                newUnit.GetComponent<UnitMovement>().currentPlayer = owner;
+                newUnit.GetComponent<UnitMovement>().owner = owner;
                 newUnit.transform.position = new Vector3(selectedPad.transform.position.x, selectedPad.transform.position.y + 0.7f, selectedPad.transform.position.z);
                 toggleBuildingUI();
             }
@@ -114,14 +114,7 @@ namespace CatGame.UI
         {
             SpawnPoints = 2;
             setBuildingUI(false);
-            if (CurrentPlayer == 0)
-            {
-                CurrentPlayer = 1;
-            }
-            else
-            {
-                CurrentPlayer = 0;
-            }
+            CurrentPlayer = newPlayer;
         }
     }  
 }
