@@ -86,7 +86,7 @@ namespace CatGame.UI
             {
                 SpawnPoints--;
                 GameObject newUnit = Instantiate(unit);
-                newUnit.GetComponent<Unit>().currentPlayer = owner;
+                newUnit.GetComponent<UnitMovement>().currentPlayer = owner;
                 newUnit.transform.position = new Vector3(selectedPad.transform.position.x, selectedPad.transform.position.y + 0.7f, selectedPad.transform.position.z);
                 toggleBuildingUI();
             }

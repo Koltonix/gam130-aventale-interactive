@@ -23,7 +23,7 @@ namespace CatGame.Movement
         [Header("Input")]
         private UserInput currentInput;
         [Header("Selection Information")]
-        private Unit selectedUnit;
+        private UnitMovement selectedUnit;
         private Tile lastSelectedTile;
         private SelectionProgress selectionProgress = SelectionProgress.UNSELECTED;    
 
@@ -72,12 +72,12 @@ namespace CatGame.Movement
                 }
 
                 //Clicking the unit itself
-                if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<Unit>() != null)
+                if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<UnitMovement>() != null)
                 {
-                    if (gameObjectHit.collider.GetComponent<Unit>().currentPlayer.number == currentPlayer.number)
+                    if (gameObjectHit.collider.GetComponent<UnitMovement>().currentPlayer.number == currentPlayer.number)
                     {
                         DeselectUnit();
-                        ActivateUnit(gameObjectHit.collider.GetComponent<Unit>());
+                        ActivateUnit(gameObjectHit.collider.GetComponent<UnitMovement>());
                         return;
                     }
                 }
@@ -95,7 +95,7 @@ namespace CatGame.Movement
         /// <summary>
         /// Selects the unit from the data input from the UserInput parent class
         /// </summary>
-        private void ActivateUnit(Unit unit)
+        private void ActivateUnit(UnitMovement unit)
         {            
             selectionProgress = SelectionProgress.SELECTED;
 
@@ -179,7 +179,7 @@ namespace CatGame.Movement
         /// </summary>
         private void MoveToTile()
         {
-            Unit _selectedUnit = selectedUnit;
+            UnitMovement _selectedUnit = selectedUnit;
             DeselectUnit();
 
             #region Movement Deduction
