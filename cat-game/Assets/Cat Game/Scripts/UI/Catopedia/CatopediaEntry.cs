@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CatopediaEntry : ScriptableObject
 {
     public new string name;
-    public Image image;
+    public Sprite sprite;
 
     [TextArea(0,15)]
     public string description;
