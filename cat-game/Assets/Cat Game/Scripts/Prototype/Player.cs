@@ -13,7 +13,9 @@ namespace CatGame.Data
         public int number;
         public Color32 colour;
         public bool isActive;
-        public int actionPoints;
+
+        private int actionPoints;
+        public int defaultActionPoints = 8;
 
         public delegate void OnActivation();
         public event OnActivation onActive;
@@ -22,6 +24,11 @@ namespace CatGame.Data
         {
             isActive = true;
             onActive?.Invoke();
+        }
+
+        public void ResetActionPoints(Player player)
+        {
+            if (player == this) actionPoints = defaultActionPoints;
         }
     }
 }

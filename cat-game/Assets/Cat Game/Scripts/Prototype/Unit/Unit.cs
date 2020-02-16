@@ -5,35 +5,45 @@ using CatGame.Data;
 
 namespace CatGame.Units
 {
-    [RequireComponent(typeof(Mover))]
-    public class Unit : MonoBehaviour
+    [RequireComponent(typeof(UnitMovement))]
+    public class Unit : MonoBehaviour, IUnitData
     {
         [Header("Attributes")]
         [SerializeField]
         private new string name;
+        public bool isActive;
+
+        [Header("Player Settings")]
         public Player owner;
         public Player currentPlayer;
-        public bool IsActive;
-        public Mover mover;
 
-        void Start()
+        [Header("Movement")]
+        public UnitMovement unitMovement;
+
+        private void Start()
         {
-            mover = this.GetComponent<Mover>();
+            unitMovement = this.GetComponent<UnitMovement>();
             this.GetComponent<Renderer>().material.color = owner.colour;
+
             TurnManager.Instance.onPlayerCycle += OnPlayerCycle;
         }
 
         private void OnPlayerCycle(Player player)
         {
-            if (owner.number == currentPlayer.number)
-            {
-                mover.ResetActionPoints();
-                IsActive = true;
-            }
-            else
-            {
-                IsActive = false;
-            }
+            if (owner == currentPlayer) isActive = true;
+            else isActive = false;
         }
+
+        #region Contractual Obligations
+        public Player GetOwner()
+        {
+            return owner;
+        }
+
+        public Player GetCurrentPlayer()
+        {
+            return currentPlayer;
+        }
+        #endregion
     }
 }

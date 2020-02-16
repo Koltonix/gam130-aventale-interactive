@@ -5,19 +5,20 @@ using CatGame.Data;
 
 namespace CatGame.Units
 {
-    public class Mover : MonoBehaviour
+    public class UnitMovement : MonoBehaviour
     {
         [Header("Movement Settings")]
         public int actionPoints;
         private int defaultActionPoints;
         public Tile[] currentTilesAvailable;
 
-        private Unit unit;
+        [Header("Unit Data")]
+        private IUnitData unitData;
 
         private void Start()
         {
-            unit = this.GetComponent<Unit>();
-            unit.owner.onActive += SetIsActive;
+            unitData = this.GetComponent<IUnitData>();
+            unitData.GetOwner().onActive += SetIsActive;
 
             defaultActionPoints = actionPoints;
             BoardManager.Instance.onBoardUpdate += DetermineAvailableTiles;
@@ -101,11 +102,6 @@ namespace CatGame.Units
             {
                 tile.GameObject.GetComponent<Renderer>().material.color = tile.Colour;
             }
-        }
-
-        public void ResetActionPoints()
-        {
-            actionPoints = defaultActionPoints;
         }
 
         #endregion

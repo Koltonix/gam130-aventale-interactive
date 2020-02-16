@@ -22,10 +22,13 @@ namespace CatGame.Units
     { 
         [Header("Input")]
         private UserInput currentInput;
+        [Space]
+
         [Header("Selection Information")]
-        private Mover selectedUnit;
+        private UnitMovement selectedUnit;
         private Tile lastSelectedTile;
         private SelectionProgress selectionProgress = SelectionProgress.UNSELECTED;    
+        [Space]
 
         [Header("Tile Colours")]
         [SerializeField]
@@ -33,11 +36,13 @@ namespace CatGame.Units
         [SerializeField]
         private Color32 selectedTileColour;
 
+        #region Event System
         public delegate void OnSelected(bool isSelected);
         public event OnSelected onSelect;
 
         public delegate void ChangeTileColours(Color32 colour);
         public event ChangeTileColours changeTileColours;
+        #endregion
 
         public Player currentPlayer;
 
@@ -72,12 +77,12 @@ namespace CatGame.Units
                 }
 
                 //Clicking the unit itself
-                if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<Mover>() != null)
+                if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<UnitMovement>() != null)
                 {
-                    if (gameObjectHit.collider.GetComponent<Unit>().IsActive)
+                    if (gameObjectHit.collider.GetComponent<Unit>().isActive)
                     {
                         DeselectUnit();
-                        UnitClicked(gameObjectHit.collider.GetComponent<Mover>());
+                        UnitClicked(gameObjectHit.collider.GetComponent<UnitMovement>());
                         return;
                     }
                 }
@@ -95,11 +100,11 @@ namespace CatGame.Units
         /// <summary>
         /// Selects the unit from the data input from the UserInput parent class
         /// </summary>
-        private void UnitClicked(Mover mover)
+        private void UnitClicked(UnitMovement unitMovement)
         {            
             selectionProgress = SelectionProgress.SELECTED;
 
-            selectedUnit = mover;
+            selectedUnit = unitMovement;
 
             onSelect = selectedUnit.SelectionListener;
             changeTileColours = selectedUnit.ChangeAvailableTilesColour;
@@ -179,7 +184,7 @@ namespace CatGame.Units
         /// </summary>
         private void MoveToTile()
         {
-            Mover _selectedUnit = selectedUnit;
+            UnitMovement _selectedUnit = selectedUnit;
             DeselectUnit();
 
             #region Movement Deduction

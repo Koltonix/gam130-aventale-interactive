@@ -4,14 +4,14 @@ using CatGame.Tiles;
 
 namespace CatGame.Units
 {
-    [CustomEditor(typeof(Mover))]
+    [CustomEditor(typeof(UnitMovement))]
     public class UnitEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
-            Mover unit = (Mover)target;
+            UnitMovement unit = (UnitMovement)target;
 
             if (GUILayout.Button("Tiles Available"))
             {
