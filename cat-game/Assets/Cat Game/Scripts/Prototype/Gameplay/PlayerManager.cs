@@ -41,6 +41,7 @@ namespace CatGame.Data
         #region Contractual Obligations
         public Player GetCurrentPlayer()
         {
+            if (turnData == null) turnData = TurnManager.Instance;
             return allPlayers[turnData.GetCurrentPlayerIndex()];
         }
 

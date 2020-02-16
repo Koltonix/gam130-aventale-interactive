@@ -19,7 +19,9 @@ namespace CatGame.UI
         private IPlayerData owner;
         private IPlayerManager globalPlayerData;
         private ITurn turnData;
-        private Player currentPlayer;
+
+        private Player currentTurnPlayer;
+        private Player debugOwner;
 
         public int SpawnPoints;
         public const int UnitCap = 10;
@@ -45,7 +47,9 @@ namespace CatGame.UI
             turnData = TurnManager.Instance;
 
             owner = globalPlayerData.GetPlayerFromIndex(playerIndex);
-            currentPlayer = owner.GetPlayerReference();
+            debugOwner = owner.GetPlayerReference();
+
+            currentTurnPlayer = globalPlayerData.GetCurrentPlayer();
 
             SpawnPoints = 2;
             this.GetComponent<Renderer>().material.color = owner.GetPlayerReference().colour;
@@ -68,7 +72,7 @@ namespace CatGame.UI
 
         void toggleBuildingUI()
         {
-            if (owner == currentPlayer)
+            if (owner == currentTurnPlayer)
             {
                 uIState = !uIState;
                 setBuildingUI(uIState);
@@ -77,7 +81,7 @@ namespace CatGame.UI
 
         void OnMouseDown()
         {
-            if (owner == currentPlayer)
+            if (owner == currentTurnPlayer)
             {
                 toggleBuildingUI();
             }
@@ -127,7 +131,7 @@ namespace CatGame.UI
         /// <param name="newPlayer"></param>
         public void ChangePlayer(Player newPlayer)
         {
-            currentPlayer = newPlayer;
+            currentTurnPlayer = newPlayer;
 
             SpawnPoints = 2;
             setBuildingUI(false);
