@@ -10,14 +10,13 @@ namespace CatGame.UI
 {
     public class Building : MonoBehaviour
     {
-
         [Header("Attributes")]
         //This index is currently needed to get reference to the correct instance of the Player class, not created
         //a new one entirely. This will be fixed when you are able to place buildings using the mouse since we
         //can assign a reference to the class from there.
         [SerializeField]
         private int playerIndex;
-        private Player owner;
+        private IPlayerData owner;
         private Player currentPlayer;
 
         public int SpawnPoints;
@@ -41,9 +40,9 @@ namespace CatGame.UI
         void Start()
         {
             owner = GameController.Instance.GetPlayerFromIndex(playerIndex);
-
+            
             SpawnPoints = 2;
-            this.GetComponent<Renderer>().material.color = owner.colour;
+            this.GetComponent<Renderer>().material.color = owner.GetPlayerReference().colour;
             GameController.Instance.onPlayerCycle += ChangePlayer;
             MakeMenu();
             setBuildingUI(false);
@@ -93,7 +92,7 @@ namespace CatGame.UI
             {
                 SpawnPoints--;
                 GameObject newUnit = Instantiate(unit);
-                newUnit.GetComponent<Unit>().owner = owner;
+                //newUnit.GetComponent<Unit>().owner = owner;
                 newUnit.transform.position = new Vector3(selectedPad.transform.position.x, selectedPad.transform.position.y + 0.7f, selectedPad.transform.position.z);
                 toggleBuildingUI();
             }

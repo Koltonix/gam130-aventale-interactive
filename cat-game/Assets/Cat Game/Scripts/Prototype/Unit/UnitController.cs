@@ -70,7 +70,7 @@ namespace CatGame.Units
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
 
                 //Acceping the tile to move to
-                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.actionPoints > 0 && lastSelectedTile != null)
+                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null)
                 {
                     MoveToTile();
                     return;
@@ -80,8 +80,7 @@ namespace CatGame.Units
                 if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<UnitMovement>() != null)
                 {
                     //Seeing if the Unit can moved based on the current player
-                    Debug.Log(gameObjectHit.collider.GetComponent<Unit>());
-                    if (gameObjectHit.collider.GetComponent<Unit>().isActive)
+                    if (gameObjectHit.collider.GetComponent<Unit>().owner.GetActiveState())
                     {
                         DeselectUnit();
                         UnitClicked(gameObjectHit.collider.GetComponent<UnitMovement>());
@@ -190,7 +189,7 @@ namespace CatGame.Units
             DeselectUnit();
 
             #region Movement Deduction
-            _selectedUnit.actionPoints -= Mathf.RoundToInt(Vector3.Distance(
+            _selectedUnit.owner.GetPlayerReference().actionPoints -= Mathf.RoundToInt(Vector3.Distance(
                                                          new Vector3(_selectedUnit.transform.position.x, 0, _selectedUnit.transform.position.z),
                                                          new Vector3(lastSelectedTile.Position.x, 0, lastSelectedTile.Position.z)));
             #endregion

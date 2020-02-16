@@ -3927,12 +3927,14 @@ MonoBehaviour:
   allPlayers:
   - number: 0
     isActive: 0
+    actionPoints: 8
     defaultActionPoints: 8
     colour:
       serializedVersion: 2
       rgba: 10440766
   - number: 1
     isActive: 0
+    actionPoints: 8
     defaultActionPoints: 8
     colour:
       serializedVersion: 2
@@ -8678,6 +8680,7 @@ MonoBehaviour:
   currentPlayer:
     number: 0
     isActive: 0
+    actionPoints: 0
     defaultActionPoints: 8
     colour:
       serializedVersion: 2

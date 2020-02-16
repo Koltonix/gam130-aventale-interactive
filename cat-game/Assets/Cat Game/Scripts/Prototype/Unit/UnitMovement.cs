@@ -8,19 +8,21 @@ namespace CatGame.Units
     public class UnitMovement : MonoBehaviour
     {
         [Header("Movement Settings")]
-        public int actionPoints;
-        private int defaultActionPoints;
         public Tile[] currentTilesAvailable;
 
-        [Header("Unit Data")]
+        [Header("Required Data")]
+        public IPlayerData owner;
         private IUnitData unitData;
+        private Player debugPlayer;
 
         private void Start()
         {
-            unitData = this.GetComponent<IUnitData>();
-            unitData.GetOwner().onActive += SetIsActive;
+            owner = GameController.Instance.GetCurrentPlayer();
+            debugPlayer = owner.GetPlayerReference();
 
-            defaultActionPoints = actionPoints;
+            unitData = this.GetComponent<IUnitData>();
+            owner.GetPlayerReference().onActive += SetIsActive;
+
             BoardManager.Instance.onBoardUpdate += DetermineAvailableTiles;
             GameController.Instance.onPlayerCycle += OnPlayerCycle;
         }
@@ -53,7 +55,7 @@ namespace CatGame.Units
                     float tileDistance = Vector3.Distance(new Vector3(tile.Position.x, 0, tile.Position.z), unitPosition);
 
                     tileDistance = Mathf.RoundToInt(tileDistance);
-                    if (tileDistance <= actionPoints & tileDistance > 0)
+                    if (tileDistance <= owner.GetCurrentActionPoints() & tileDistance > 0)
                     {
                         accessibleTiles.Add(tile);
                     }
