@@ -49,7 +49,7 @@ namespace CatGame.Units
         private void Start()
         {
             currentInput = this.GetComponent<UserInput>();
-            TurnManager.Instance.onPlayerCycle += ChangePlayer;
+            GameController.Instance.onPlayerCycle += ChangePlayer;
         }
 
         private void Update()
@@ -76,9 +76,11 @@ namespace CatGame.Units
                     return;
                 }
 
-                //Clicking the unit itself
+                //Checking to see if it is a moveable object
                 if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<UnitMovement>() != null)
                 {
+                    //Seeing if the Unit can moved based on the current player
+                    Debug.Log(gameObjectHit.collider.GetComponent<Unit>());
                     if (gameObjectHit.collider.GetComponent<Unit>().isActive)
                     {
                         DeselectUnit();

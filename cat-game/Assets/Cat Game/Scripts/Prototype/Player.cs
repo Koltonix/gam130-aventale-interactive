@@ -10,19 +10,22 @@ namespace CatGame.Data
     [Serializable]
     public class Player
     {
+        [Header("Information")]
         public int number;
-        public Color32 colour;
         public bool isActive;
 
         private int actionPoints;
         public int defaultActionPoints = 8;
 
+        [Header("Aesthetic")]
+        public Color32 colour;
+
         public delegate void OnActivation();
         public event OnActivation onActive;
 
-        public void ActivateUnit()
+        public void ActivateUnit(bool isEnabled)
         {
-            isActive = true;
+            isActive = isEnabled;
             onActive?.Invoke();
         }
 

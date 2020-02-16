@@ -22,7 +22,7 @@ namespace CatGame.Units
 
             defaultActionPoints = actionPoints;
             BoardManager.Instance.onBoardUpdate += DetermineAvailableTiles;
-            TurnManager.Instance.onPlayerCycle += OnPlayerCycle;
+            GameController.Instance.onPlayerCycle += OnPlayerCycle;
         }
 
         #region Tile Prediction

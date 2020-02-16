@@ -3,18 +3,18 @@ using UnityEditor;
 
 namespace CatGame.Data
 {
-    [CustomEditor(typeof(TurnManager))]
+    [CustomEditor(typeof(GameController))]
     public class TurnManagerEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
-            TurnManager turnManager = (TurnManager)target;
+            GameController turnManager = (GameController)target;
             
             if (GUILayout.Button("Cycle Players"))
             {
-                turnManager.currentPlayer = turnManager.GetNextPlayersTurn(turnManager.currentPlayer);
+                turnManager.currentPlayerIndex = turnManager.GetNextPlayersTurn(turnManager.currentPlayerIndex);
             }
         }
     }

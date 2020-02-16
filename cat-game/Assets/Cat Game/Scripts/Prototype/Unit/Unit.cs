@@ -25,12 +25,16 @@ namespace CatGame.Units
             unitMovement = this.GetComponent<UnitMovement>();
             this.GetComponent<Renderer>().material.color = owner.colour;
 
-            TurnManager.Instance.onPlayerCycle += OnPlayerCycle;
+            GameController.Instance.onPlayerCycle += OnTurnEnd;
+            currentPlayer = GameController.Instance.GetCurrentPlayer();
         }
 
-        private void OnPlayerCycle(Player player)
+        private void OnTurnEnd(Player player)
         {
-            if (owner == currentPlayer) isActive = true;
+            Debug.Log(player.number);
+            currentPlayer = player;
+
+            if (owner == player) isActive = true;
             else isActive = false;
         }
 

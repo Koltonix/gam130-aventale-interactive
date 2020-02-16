@@ -1,13 +1,12 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace CatGame.Data
 {
-    public class TurnManager : MonoBehaviour
+    public class GameController : MonoBehaviour
     {
         #region Singleton
-        public static TurnManager Instance;
+        public static GameController Instance;
         private void Awake()
         {
             if (Instance == null) Instance = this;
@@ -21,7 +20,7 @@ namespace CatGame.Data
         private Player[] allPlayers;
 
         [Header("Current Turn")]
-        public int currentPlayer;
+        public int currentPlayerIndex;
 
         public delegate void OnPlayerCycle(Player player);
         public event OnPlayerCycle onPlayerCycle;
@@ -30,6 +29,8 @@ namespace CatGame.Data
         {
             if (allPlayers.Length == 0) throw new Exception("No Players are in the game");
             AssignPlayerNumbers(allPlayers);
+
+            onPlayerCycle?.Invoke(allPlayers[currentPlayerIndex]);
         }
 
         private void AssignPlayerNumbers(Player[] players)
@@ -37,26 +38,48 @@ namespace CatGame.Data
             for (int i = 0; i < players.Length; i++)
             {
                 players[i].number = i;
+                if (allPlayers[currentPlayerIndex] == players[i]) players[i].isActive = true;
             }
         }
 
         public void EndTurn()
         {
-            currentPlayer = GetNextPlayersTurn(currentPlayer);
+            currentPlayerIndex = GetNextPlayersTurn(currentPlayerIndex);
         }
 
         public int GetNextPlayersTurn(int playerIndex)
         {
+            allPlayers[playerIndex].ActivateUnit(false);
+
             playerIndex++;
             if (playerIndex >= allPlayers.Length)
             {
                 playerIndex = 0;
+
+                Debug.Log(String.Format("Player {0}'s turn", playerIndex));
+
                 onPlayerCycle?.Invoke(allPlayers[playerIndex]);
+                allPlayers[playerIndex].ActivateUnit(true);
                 return 0;
             }
 
+            Debug.Log(String.Format("Player {0}'s turn", playerIndex));
+
             onPlayerCycle?.Invoke(allPlayers[playerIndex]);
+            allPlayers[playerIndex].ActivateUnit(true);
+
             return playerIndex;
+        }
+
+        public Player GetCurrentPlayer()
+        {
+            return allPlayers[currentPlayerIndex];
+        }
+
+        public Player GetPlayerFromIndex(int index)
+        {
+            if (index <= allPlayers.Length - 1) return allPlayers[index];
+            return null;
         }
     }
 }
