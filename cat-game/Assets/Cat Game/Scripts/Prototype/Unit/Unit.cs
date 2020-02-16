@@ -16,12 +16,16 @@ namespace CatGame.Units
         public IPlayerData owner;
         public Player currentPlayer;
 
+        [Header("Global Settings")]
+        private ITurn turnData;
+
         private void Start()
         {
-            owner = GameController.Instance.GetCurrentPlayer();
+            turnData = TurnManager.Instance;
+            owner = PlayerManager.Instance.GetCurrentPlayer();
 
             this.GetComponent<Renderer>().material.color = owner.GetPlayerReference().colour;
-            GameController.Instance.onPlayerCycle += OnTurnEnd;
+            turnData.AddToListener += OnTurnEnd;
         }
 
         private void OnTurnEnd(Player player)

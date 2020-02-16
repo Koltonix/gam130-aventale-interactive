@@ -3905,8 +3905,9 @@ GameObject:
   m_Component:
   - component: {fileID: 417332113}
   - component: {fileID: 417332112}
+  - component: {fileID: 417332114}
   m_Layer: 0
-  m_Name: Turn Manager
+  m_Name: Gameplay Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3939,7 +3940,6 @@ MonoBehaviour:
     colour:
       serializedVersion: 2
       rgba: 4080799
-  currentPlayerIndex: 0
 --- !u!4 &417332113
 Transform:
   m_ObjectHideFlags: 0
@@ -3954,6 +3954,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &417332114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417332111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa0445dd40ca4ae45a4df25e266846ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPlayerIndex: 0
 --- !u!1001 &430804935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20878,7 +20891,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 417332112}
+      objectReference: {fileID: 417332114}
     - target: {fileID: 6659736166524880714, guid: da20a039e656767489b893fad8b2e4a0,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

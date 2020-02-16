@@ -17,6 +17,8 @@ namespace CatGame.UI
         [SerializeField]
         private int playerIndex;
         private IPlayerData owner;
+        private IPlayerManager globalPlayerData;
+        private ITurn turnData;
         private Player currentPlayer;
 
         public int SpawnPoints;
@@ -39,11 +41,15 @@ namespace CatGame.UI
 
         void Start()
         {
-            owner = GameController.Instance.GetPlayerFromIndex(playerIndex);
-            
+            globalPlayerData = PlayerManager.Instance;
+            turnData = TurnManager.Instance;
+
+            owner = globalPlayerData.GetPlayerFromIndex(playerIndex);
+            currentPlayer = owner.GetPlayerReference();
+
             SpawnPoints = 2;
             this.GetComponent<Renderer>().material.color = owner.GetPlayerReference().colour;
-            GameController.Instance.onPlayerCycle += ChangePlayer;
+            turnData.AddToListener += ChangePlayer;
             MakeMenu();
             setBuildingUI(false);
         }
