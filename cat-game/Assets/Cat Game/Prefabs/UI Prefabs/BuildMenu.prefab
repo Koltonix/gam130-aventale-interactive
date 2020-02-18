@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 761650807146044449}
   - component: {fileID: 761650807146044450}
   - component: {fileID: 3162847609477913779}
+  - component: {fileID: 5299771939134059570}
   m_Layer: 5
   m_Name: BuildMenu
   m_TagString: Untagged
@@ -115,3 +116,15 @@ MonoBehaviour:
   Buttons: []
   buttonPrefab: {fileID: 7566935799962482655, guid: d78860d2382019642921406f334f8fc8,
     type: 3}
+--- !u!114 &5299771939134059570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761650807146044451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b5194b805f35c409c0101eb80b8a9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
