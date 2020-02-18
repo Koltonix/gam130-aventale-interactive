@@ -8,17 +8,9 @@ namespace CatGame.UI
     public class BuildMenu : MonoBehaviour
     {
         [SerializeField]
-        private Camera worldCamera;
-        [SerializeField]
         public Button[] Buttons;
         [SerializeField]
         private GameObject buttonPrefab;
-
-        // Update is called once per frame
-        void Start()
-        {
-            worldCamera = Camera.main;
-        }
 
         public void GenerateButtons(GameObject[] units)
         {
@@ -30,11 +22,6 @@ namespace CatGame.UI
                 newButtons[i] = newButton;
             }
             Buttons = newButtons;
-        }
-
-        void Update()
-        {
-            gameObject.transform.rotation = worldCamera.transform.rotation;
         }
     }
 }

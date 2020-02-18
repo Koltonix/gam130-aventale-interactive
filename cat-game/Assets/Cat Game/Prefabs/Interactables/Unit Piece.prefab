@@ -1,35 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &713840625940214093
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5816431277289224565}
-  m_Layer: 11
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5816431277289224565
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 713840625940214093}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5634768893781493896}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5634768893781493900
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,9 +12,10 @@ GameObject:
   - component: {fileID: 5634768893781493899}
   - component: {fileID: 5634768893781493898}
   - component: {fileID: 5634768893781493901}
-  - component: {fileID: 3662666720628452032}
   - component: {fileID: 2331581690834231310}
-  m_Layer: 11
+  - component: {fileID: 3662666720628452032}
+  - component: {fileID: 899322927159366496}
+  m_Layer: 0
   m_Name: Unit Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,8 +32,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7, y: 1.4, z: 0.7}
-  m_Children:
-  - {fileID: 5816431277289224565}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -124,38 +94,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3662666720628452032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5634768893781493900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83f9546e8417ed342a18a4f33ae45666, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner:
-    hashCode: -1991757824
-    number: 0
-    isActive: 0
-    actionPoints: 0
-    defaultActionPoints: 8
-    colour:
-      serializedVersion: 2
-      rgba: 0
-  currentPlayer:
-    hashCode: -275520512
-    number: 0
-    isActive: 0
-    actionPoints: 0
-    defaultActionPoints: 8
-    colour:
-      serializedVersion: 2
-      rgba: 0
-  isEnabled: 0
-  name: 
 --- !u!114 &2331581690834231310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,22 +106,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d683cc40bef867249bae8d16c7cbbaab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTile:
-    Position: {x: 0, y: 0, z: 0}
-    WorldReference: {fileID: 0}
-    DefaultColour:
-      serializedVersion: 2
-      rgba: 0
-    OccupiedUnit: {fileID: 0}
-    IsPassable: 0
-    boardX: 0
-    boardY: 0
-    hCost: 0
-    gCost: 0
-  availableTiles: []
-  nearbyUnits: []
-  owner:
-    hashCode: -702392832
+  currentTilesAvailable: []
+--- !u!114 &3662666720628452032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634768893781493900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f9546e8417ed342a18a4f33ae45666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  currentPlayer:
     number: 0
     isActive: 0
     actionPoints: 0
@@ -191,4 +128,19 @@ MonoBehaviour:
     colour:
       serializedVersion: 2
       rgba: 0
-  currentUnit: {fileID: 0}
+--- !u!114 &899322927159366496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634768893781493900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0b220faa48dd049a27ce0424ea9676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  healthBarPrefab: {fileID: 889152434078798198, guid: d389fcb94443bd143bf1d0b3705d0f3f,
+    type: 3}
+  animator: {fileID: 0}
