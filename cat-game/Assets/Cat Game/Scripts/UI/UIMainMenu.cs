@@ -20,7 +20,7 @@ namespace CatGame.UI
 
         public void Options()
         {
-
+            SceneManager.LoadScene("Options_SCN");
         }
 
         public void Debug()
