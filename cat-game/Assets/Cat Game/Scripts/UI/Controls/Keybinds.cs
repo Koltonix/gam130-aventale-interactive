@@ -15,6 +15,7 @@ namespace CatGame.ControlScheme
         public KeyCode backward { get; set; }
         public KeyCode left { get; set; }
         public KeyCode right { get; set; }
+        public KeyCode boost { get; set; }
 
         void Awake()
         {
@@ -40,6 +41,7 @@ namespace CatGame.ControlScheme
             backward = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("backwardKey", "S"));
             left = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey", "A"));
             right = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightKey", "D"));
+            boost = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("boostKey", "LeftShift"));
         }
 
         public void SetBinding(string bindingName, string newBinding)
