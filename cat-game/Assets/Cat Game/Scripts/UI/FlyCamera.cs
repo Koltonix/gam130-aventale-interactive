@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CatGame.ControlScheme;
 
 namespace CatGame.UI
 {
@@ -57,27 +58,27 @@ namespace CatGame.UI
         Vector3 CameraInput()
         {
             Vector3 returnVector = new Vector3(0, 0, 0);
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKey(Keybinds.KeybindsManager.up))
             {
                 returnVector.z += 1;
             }
-            if (Input.GetKey(KeyCode.Q))
+            if (Input.GetKey(Keybinds.KeybindsManager.down))
             {
                 returnVector.z -= 1;
             }
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(Keybinds.KeybindsManager.forward))
             {
                 returnVector.x += 1;
             }
-            if (Input.GetKey(KeyCode.S))
+            if (Input.GetKey(Keybinds.KeybindsManager.backward))
             {
                 returnVector.x -= 1;
             }
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(Keybinds.KeybindsManager.left))
             {
                 returnVector.y -= 1;
             }
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(Keybinds.KeybindsManager.right))
             {
                 returnVector.y += 1;
             }
