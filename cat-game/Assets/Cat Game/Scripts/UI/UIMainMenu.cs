@@ -27,6 +27,5 @@ namespace CatGame.UI
         {
             SceneManager.LoadScene(1);
         }
-
     }
 }
