@@ -123,11 +123,13 @@ MonoBehaviour:
   currentPlayer:
     number: 0
     isActive: 0
-    actionPoints: 0
+    unitCap: 10
+    PlayerUnits: []
     defaultActionPoints: 8
     colour:
       serializedVersion: 2
       rgba: 0
+  MovementModifier: 1
 --- !u!114 &899322927159366496
 MonoBehaviour:
   m_ObjectHideFlags: 0
