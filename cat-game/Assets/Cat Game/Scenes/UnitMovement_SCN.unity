@@ -3928,14 +3928,16 @@ MonoBehaviour:
   allPlayers:
   - number: 0
     isActive: 0
-    actionPoints: 8
+    unitCap: 10
+    PlayerUnits: []
     defaultActionPoints: 8
     colour:
       serializedVersion: 2
       rgba: 10440766
   - number: 1
     isActive: 0
-    actionPoints: 8
+    unitCap: 10
+    PlayerUnits: []
     defaultActionPoints: 8
     colour:
       serializedVersion: 2
@@ -8693,7 +8695,8 @@ MonoBehaviour:
   currentPlayer:
     number: 0
     isActive: 0
-    actionPoints: 0
+    unitCap: 0
+    PlayerUnits: []
     defaultActionPoints: 8
     colour:
       serializedVersion: 2
@@ -20908,69 +20911,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7389578050620446892, guid: da20a039e656767489b893fad8b2e4a0,
         type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7389578050620446892, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2788877903373412592}
-    - target: {fileID: 7389578050620446892, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7389578050620446891, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7389578050620446891, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 1920
-      objectReference: {fileID: 0}
-    - target: {fileID: 7389578050620446891, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 1080
-      objectReference: {fileID: 0}
-    - target: {fileID: 2214639810973882288, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6659736166524880714, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6659736166524880714, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6659736166524880714, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6659736166524880714, guid: da20a039e656767489b893fad8b2e4a0,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 417332114}
-    - target: {fileID: 6659736166524880714, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: EndTurn
-      objectReference: {fileID: 0}
-    - target: {fileID: 6659736166524880714, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da20a039e656767489b893fad8b2e4a0, type: 3}
 --- !u!1001 &9030254259380491866
