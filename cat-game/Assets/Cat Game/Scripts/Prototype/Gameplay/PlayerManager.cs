@@ -34,6 +34,7 @@ namespace CatGame.Data
             {
                 players[i].number = i;
                 if (allPlayers[turnData.GetCurrentPlayerIndex()] == players[i]) players[i].isActive = true;
+                players[i].ActionPoints = players[i].defaultActionPoints;
             }
         }
 
