@@ -19,6 +19,11 @@ namespace CatGame.Units
         [Header("Global Settings")]
         private ITurn turnData;
 
+        [Header("Unit Attributes")]
+        [SerializeField]
+        [Range(0.1f, 10f)]
+        public float MovementModifier = 1;
+
         private void Start()
         {
             turnData = TurnManager.Instance;

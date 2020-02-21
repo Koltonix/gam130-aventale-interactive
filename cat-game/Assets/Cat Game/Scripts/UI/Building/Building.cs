@@ -125,10 +125,6 @@ namespace CatGame.UI
             }
         }
 
-        /// <summary>
-        /// This needs fixing when we get around to working on the turn-change system.
-        /// </summary>
-        /// <param name="newPlayer"></param>
         public void ChangePlayer(Player newPlayer)
         {
             currentTurnPlayer = newPlayer;
