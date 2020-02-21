@@ -14,7 +14,17 @@ namespace CatGame.Data
         public int number;
         public bool isActive;
 
-        public int actionPoints;
+        private int actionPoints;
+        public int ActionPoints
+        {
+            get { return actionPoints; }
+            set
+            {
+                actionPoints = value;
+                onAP?.Invoke(actionPoints);
+            }
+        }
+
         public int defaultActionPoints = 8;
 
         [Header("Aesthetic")]
@@ -23,12 +33,12 @@ namespace CatGame.Data
         public delegate void OnActivation();
         public event OnActivation onActive;
 
-        public delegate void OnAP();
+        public delegate void OnAP(int actionPoints);
         public event OnAP onAP;
 
         public void ActivateUnit(bool isEnabled)
         {
-            actionPoints = defaultActionPoints;
+            ActionPoints = defaultActionPoints;
 
             isActive = isEnabled;
             onActive?.Invoke();
@@ -36,7 +46,7 @@ namespace CatGame.Data
 
         public void ResetActionPoints(Player player)
         {
-            if (player == this) actionPoints = defaultActionPoints;
+            if (player == this) ActionPoints = defaultActionPoints;
         }
 
         #region Contractual Obligations
@@ -47,7 +57,7 @@ namespace CatGame.Data
 
         public int GetCurrentActionPoints()
         {
-            return actionPoints;
+            return ActionPoints;
         }
 
         public int GetDefaultActionPoints()
