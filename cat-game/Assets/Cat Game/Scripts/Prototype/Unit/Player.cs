@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using CatGame.Units;
 
 namespace CatGame.Data
 {
@@ -10,12 +13,23 @@ namespace CatGame.Data
     public class Player : IPlayerData
     {
         [Header("Information")]
-        private int hashCode;
-
         public int number;
         public bool isActive;
 
-        public int actionPoints;
+        public int unitCap = 10;
+        public List<Unit> PlayerUnits = new List<Unit>();
+
+        private int actionPoints;
+        public int ActionPoints
+        {
+            get { return actionPoints; }
+            set
+            {
+                actionPoints = value;
+                onAP?.Invoke(actionPoints);
+            }
+        }
+
         public int defaultActionPoints = 8;
 
         [Header("Aesthetic")]
@@ -24,14 +38,12 @@ namespace CatGame.Data
         public delegate void OnActivation();
         public event OnActivation onActive;
 
-        public Player()
-        {
-            hashCode = this.GetHashCode();
-        }
+        public delegate void OnAP(int actionPoints);
+        public event OnAP onAP;
 
         public void ActivateUnit(bool isEnabled)
         {
-            actionPoints = defaultActionPoints;
+            ActionPoints = defaultActionPoints;
 
             isActive = isEnabled;
             onActive?.Invoke();
@@ -39,7 +51,7 @@ namespace CatGame.Data
 
         public void ResetActionPoints(Player player)
         {
-            if (player == this) actionPoints = defaultActionPoints;
+            if (player == this) ActionPoints = defaultActionPoints;
         }
 
         #region Contractual Obligations
@@ -50,7 +62,7 @@ namespace CatGame.Data
 
         public int GetCurrentActionPoints()
         {
-            return actionPoints;
+            return ActionPoints;
         }
 
         public int GetDefaultActionPoints()
