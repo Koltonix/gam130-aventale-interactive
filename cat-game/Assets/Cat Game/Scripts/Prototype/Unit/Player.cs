@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using CatGame.Units;
 
 namespace CatGame.Data
 {
@@ -13,6 +15,9 @@ namespace CatGame.Data
         [Header("Information")]
         public int number;
         public bool isActive;
+
+        public int unitCap = 10;
+        public List<Unit> PlayerUnits = new List<Unit>();
 
         private int actionPoints;
         public int ActionPoints
