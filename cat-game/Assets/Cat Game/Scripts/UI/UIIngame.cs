@@ -10,6 +10,10 @@ namespace CatGame.UI
     {
         private UIController uIController;
 
+        void Update()
+        {
+
+        }
 
         // Start is called before the first frame update
         void Start()
