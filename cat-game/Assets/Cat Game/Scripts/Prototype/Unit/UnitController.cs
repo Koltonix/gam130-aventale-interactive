@@ -211,7 +211,7 @@ namespace CatGame.Units
             DeselectUnit();
 
             #region Movement Deduction
-            _selectedUnit.owner.GetPlayerReference().actionPoints -= Mathf.RoundToInt(Vector3.Distance(
+            _selectedUnit.owner.GetPlayerReference().ActionPoints -= Mathf.RoundToInt(Vector3.Distance(
                                                          new Vector3(_selectedUnit.transform.position.x, 0, _selectedUnit.transform.position.z),
                                                          new Vector3(lastSelectedTile.Position.x, 0, lastSelectedTile.Position.z)));
             #endregion
