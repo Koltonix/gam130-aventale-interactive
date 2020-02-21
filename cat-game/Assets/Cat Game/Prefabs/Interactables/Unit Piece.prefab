@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2331581690834231310}
   - component: {fileID: 3662666720628452032}
   - component: {fileID: 899322927159366496}
+  - component: {fileID: 7862172290737842644}
   m_Layer: 0
   m_Name: Unit Piece
   m_TagString: Untagged
@@ -130,6 +131,7 @@ MonoBehaviour:
       serializedVersion: 2
       rgba: 0
   MovementModifier: 1
+  attackType: {fileID: 7862172290737842644}
 --- !u!114 &899322927159366496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,3 +148,16 @@ MonoBehaviour:
   healthBarPrefab: {fileID: 889152434078798198, guid: d389fcb94443bd143bf1d0b3705d0f3f,
     type: 3}
   animator: {fileID: 0}
+--- !u!114 &7862172290737842644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634768893781493900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 043cb2f4443425947b8a74bbf3e0b4ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 0
