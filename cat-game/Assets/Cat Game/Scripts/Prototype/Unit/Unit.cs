@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CatGame.Data;
+using CatGame.Combat;
 
 namespace CatGame.Units
 {
@@ -23,11 +24,14 @@ namespace CatGame.Units
         [SerializeField]
         [Range(0.1f, 10f)]
         public float MovementModifier = 1;
+        private Attacker attackType;
 
         private void Start()
         {
             turnData = TurnManager.Instance;
             owner = PlayerManager.Instance.GetCurrentPlayer();
+
+            attackType = gameObject.GetComponent<Attacker>();
 
             this.GetComponent<Renderer>().material.color = owner.GetPlayerReference().colour;
             turnData.AddToListener += OnTurnEnd;
