@@ -74,8 +74,11 @@ namespace CatGame.Units
             {
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
 
+                //Makes every Unit check its own tiles again
+                BoardManager.Instance.GetBoardTiles();
+
                 //Acceping the tile to move to
-                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null)
+                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedTile.OccupiedUnit == null)
                 {
                     MoveToTile();
                     return;
@@ -201,6 +204,7 @@ namespace CatGame.Units
 
             _selectedUnit.transform.position = new Vector3(lastSelectedTile.Position.x, _selectedUnit.transform.position.y, lastSelectedTile.Position.z);
             UnitClicked(_selectedUnit);
+
             return;
         }
 

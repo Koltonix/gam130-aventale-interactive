@@ -3,7 +3,7 @@
 namespace CatGame.Tiles
 {
     public class BoardManager : MonoBehaviour
-    {
+    {   
         #region Singleton
         public static BoardManager Instance;
         private void Awake()
@@ -27,7 +27,7 @@ namespace CatGame.Tiles
         }
 
         /// <summary>
-        /// Retrives all of the board tiles from a singular parent gameobject.
+        /// Retreives all of the board tiles from a singular parent gameobject.
         /// </summary>
         /// <remarks>
         /// This is mainly a debugging tool since in the final build it is anticipated

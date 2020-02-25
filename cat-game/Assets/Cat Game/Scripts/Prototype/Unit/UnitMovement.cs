@@ -9,10 +9,12 @@ namespace CatGame.Units
     {
         [Header("Movement Settings")]
         public Tile[] currentTilesAvailable;
+        public Unit[] nearbyUnits;
 
         [Header("Required Data")]
         public IPlayerData owner;
         private IUnitData unitData;
+        public Unit currentUnit;
 
         private ITurn turnData;
         private IPlayerManager globalPlayerData;
@@ -24,7 +26,9 @@ namespace CatGame.Units
             owner = PlayerManager.Instance.GetCurrentPlayer();
             turnData = TurnManager.Instance;
             globalPlayerData = PlayerManager.Instance;
+
             unitData = this.GetComponent<IUnitData>();
+            currentUnit = this.GetComponent<Unit>();
 
             debugPlayer = owner.GetPlayerReference();
             
@@ -54,10 +58,12 @@ namespace CatGame.Units
             unitPosition.y = 0;
 
             List<Tile> accessibleTiles = new List<Tile>();
+            List<Unit> accessibleUnits = new List<Unit>();
 
             foreach (Tile tile in allTiles)
             {
-                if (tile.IsPassable)
+                tile.CheckForUnit();
+                if (tile.IsPassable && tile.OccupiedUnit == null)
                 {
                     float tileDistance = Vector3.Distance(new Vector3(tile.Position.x, 0, tile.Position.z), unitPosition);
 
@@ -67,9 +73,15 @@ namespace CatGame.Units
                         accessibleTiles.Add(tile);
                     }
                 }
+
+                if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
+                {
+                    accessibleUnits.Add(tile.OccupiedUnit);
+                }
             }
 
             currentTilesAvailable = accessibleTiles.ToArray();
+            nearbyUnits = accessibleUnits.ToArray();
         }
 
         /// <summary>
