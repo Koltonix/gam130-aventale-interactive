@@ -113,7 +113,7 @@ namespace CatGame.Units
         {
             foreach (Tile tile in currentTilesAvailable)
             {
-                tile.GameObject.GetComponent<Renderer>().material.color = color;
+                tile.WorldReference.GetComponent<Renderer>().material.color = color;
             }
         }
 
@@ -121,7 +121,7 @@ namespace CatGame.Units
         {
             foreach (Tile tile in currentTilesAvailable)
             {
-                tile.GameObject.GetComponent<Renderer>().material.color = tile.Colour;
+                tile.WorldReference.GetComponent<Renderer>().material.color = tile.Colour;
             }
         }
 

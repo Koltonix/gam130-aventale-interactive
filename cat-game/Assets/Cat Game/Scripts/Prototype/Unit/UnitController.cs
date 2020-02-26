@@ -172,14 +172,14 @@ namespace CatGame.Units
             {
                 foreach (Tile tile in selectedUnit.currentTilesAvailable)
                 {
-                    if (gameObjectHit.collider.gameObject == tile.GameObject)
+                    if (gameObjectHit.collider.gameObject == tile.WorldReference)
                     {
                         changeTileColours(availableTileColour);
-                        tile.GameObject.GetComponent<Renderer>().material.color = selectedTileColour;
+                        tile.WorldReference.GetComponent<Renderer>().material.color = selectedTileColour;
                         return tile;
                     }
 
-                    else tile.GameObject.GetComponent<Renderer>().material.color = availableTileColour;
+                    else tile.WorldReference.GetComponent<Renderer>().material.color = availableTileColour;
                 }
             }
            

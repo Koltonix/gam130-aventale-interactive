@@ -18,6 +18,12 @@ namespace CatGame.Tiles
         private GameObject board;
         public Tile[] tiles;
 
+        [SerializeField]
+        private int boardWidth;
+        [SerializeField]
+        private int boardHeight;
+        private Vector2 gridWorldSize;
+
         public delegate void OnBoardUpdate(Tile[] boardTiles);
         public event OnBoardUpdate onBoardUpdate;
 
@@ -43,11 +49,45 @@ namespace CatGame.Tiles
             for (int i = 0; i < amountOfTiles; i++)
             {
                 GameObject tileChild = board.transform.GetChild(i).gameObject;
-                boardTiles[i] = new Tile(tileChild.transform.position, tileChild);
+                Vector2Int tilePosition = GetTilePositionFromWorld(tileChild.transform.position);
+
+                boardTiles[i] = new Tile(tileChild.transform.position, tileChild, tilePosition.x, tilePosition.y);
             }
 
             if (onBoardUpdate != null) onBoardUpdate.Invoke(boardTiles);
             return boardTiles;
+        }
+        
+        public Vector2Int GetTilePositionFromWorld(Vector3 position)
+        {
+            gridWorldSize = new Vector2(boardWidth * 1, boardHeight * 1);
+
+            float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x);
+            float yPoint = ((position.z + gridWorldSize.y * .5f) / gridWorldSize.y);
+
+            xPoint = Mathf.Clamp01(xPoint);
+            yPoint = Mathf.Clamp01(yPoint);
+
+            int x = Mathf.RoundToInt((gridWorldSize.x - 1) * xPoint);
+            int y = Mathf.RoundToInt((gridWorldSize.y - 1) * yPoint);
+
+            return new Vector2Int(x, y);
+        }
+
+        public void CheckForDuplicates(Tile[] tiles)
+        {
+            for (int x = 1; x < tiles.Length; x++)
+            {
+                for (int y = 0; y < tiles.Length; y++)
+                {
+                    if (tiles[x].Position == tiles[y].Position && x != y)
+                    {
+                        Vector3 newPos = tiles[x].WorldReference.transform.position;
+                        newPos.y += 1f;
+                        tiles[x].WorldReference.transform.position = newPos;
+                    }
+                }  
+            }
         }
     }
 }
