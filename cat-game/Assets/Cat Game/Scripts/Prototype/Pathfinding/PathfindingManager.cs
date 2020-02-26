@@ -46,8 +46,8 @@ namespace CatGame.Pathfinding
         {
             if (clickData.HasClicked() && clickData.GetRaycastHit().collider != null)
             {
-                FindPath(new Vector3(start.position.x, boardData.GetBoardHeight(), start.position.z), 
-                         new Vector3(clickData.GetRaycastHit().point.x, boardData.GetBoardHeight(), clickData.GetRaycastHit().point.z));
+                FindPath(new Vector3(start.position.x, boardData.GetBoardCentre().y, start.position.z), 
+                         new Vector3(clickData.GetRaycastHit().point.x, boardData.GetBoardCentre().y, clickData.GetRaycastHit().point.z));
 
                 DrawPath();
             }
@@ -93,6 +93,7 @@ namespace CatGame.Pathfinding
 
                 foreach (Tile tile in boardData.GetNeighbouringTiles(currentTile))
                 {
+                    //This might cause an issue in the future due to inversion
                     if (tile.IsPassable|| tile.OccupiedUnit == null || closedList.Contains(tile))
                     {
                         continue;
@@ -169,7 +170,7 @@ namespace CatGame.Pathfinding
                     Vector3 spawnPosition = tile.WorldReference.transform.position;
                     spawnPosition.y += drawHeight * .5f;
 
-                    Gizmos.color = tile.IsPassable ? unpassableColour : passableColour;
+                    Gizmos.color = tile.IsPassable ? passableColour : unpassableColour;
 
                     if (finalPath != null)
                     {
