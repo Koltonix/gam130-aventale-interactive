@@ -8665,7 +8665,6 @@ GameObject:
   m_Component:
   - component: {fileID: 941093012}
   - component: {fileID: 941093013}
-  - component: {fileID: 941093011}
   - component: {fileID: 941093010}
   m_Layer: 0
   m_Name: Player Controller
@@ -8701,30 +8700,6 @@ MonoBehaviour:
     colour:
       serializedVersion: 2
       rgba: 0
---- !u!114 &941093011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 941093009}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bbb57d941ef8d24a9ee3bacd352bb10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainCamera: {fileID: 1250377470}
-  axisSensitivity: 5
-  horizontalAxis:
-    name: JOYSTICK_AXIS_HORIZONTAL
-    value: 0
-  verticalAxis:
-    name: JOYSTICK_AXIS_VERTICAL
-    value: 0
-  enterButton:
-    name: JOYSTICK_BUTTON_A
-    value: 0
-  controllerIcon: {fileID: 1509458556}
 --- !u!4 &941093012
 Transform:
   m_ObjectHideFlags: 0
@@ -11680,12 +11655,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
---- !u!20 &1250377470 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6717407300474709608, guid: b078d57f57397ec48952b0a7425e1a34,
-    type: 3}
-  m_PrefabInstance: {fileID: 1250377467}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1263104119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13218,7 +13187,7 @@ PrefabInstance:
     - target: {fileID: 7199226515336942383, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7199226515336942383, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}
@@ -14984,7 +14953,7 @@ PrefabInstance:
     - target: {fileID: 7199226515336942383, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7199226515336942383, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}

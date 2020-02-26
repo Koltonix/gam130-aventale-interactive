@@ -43,7 +43,7 @@ namespace CatGame.Pathfinding
 
         private void Update()
         {
-            if (clickData.HasClicked() && clickData.GetRaycastHit().collider != null)
+            if (clickData.IsMovementSelected() && clickData.GetRaycastHit().collider != null)
             {
                 FindPath(new Vector3(start.position.x, boardData.GetBoardHeight(), start.position.z), 
                          new Vector3(clickData.GetRaycastHit().point.x, boardData.GetBoardHeight(), clickData.GetRaycastHit().point.z));
