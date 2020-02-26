@@ -19,7 +19,7 @@ namespace CatGame.UI
 
         void Update()
         {
-            if (Input.GetMouseButton(1))
+            if (Input.GetKey(Keybinds.KeybindsManager.cameraMove))
             {
                 currentRotation.x += Input.GetAxis("Mouse X") * camSens;
                 currentRotation.y -= Input.GetAxis("Mouse Y") * camSens;
@@ -28,12 +28,12 @@ namespace CatGame.UI
                 Camera.main.transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetKeyDown(Keybinds.KeybindsManager.cameraMove))
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
             }
-            if (Input.GetMouseButtonUp(1))
+            if (Input.GetKeyUp(Keybinds.KeybindsManager.cameraMove))
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;

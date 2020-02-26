@@ -6,6 +6,6 @@ namespace CatGame.Controls
     {
         RaycastHit GetRaycastHit();
         Ray GetRay();
-        bool HasClicked();
+        bool IsMovementSelected();
     }
 }

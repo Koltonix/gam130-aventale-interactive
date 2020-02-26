@@ -21,7 +21,12 @@ namespace CatGame.Controls
             DebugDrawRay();
         }
 
-        public virtual bool HasClicked()
+        public virtual bool IsMovementSelected()
+        {
+            return false;
+        }
+
+        public virtual bool IsAttackSelected()
         {
             return false;
         }
