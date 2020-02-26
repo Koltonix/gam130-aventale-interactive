@@ -32,6 +32,9 @@ namespace CatGame.ControlScheme
             configButtons[4].onClick.AddListener(SetLeft);
             configButtons[5].onClick.AddListener(SetRight);
             configButtons[6].onClick.AddListener(SetBoost);
+            configButtons[7].onClick.AddListener(SetCameraMove);
+            configButtons[8].onClick.AddListener(SetMovementSelect);
+            configButtons[9].onClick.AddListener(SetAttackSelect);
             UpdateButtonText();
             prompt.SetActive(false);
         }
@@ -69,6 +72,9 @@ namespace CatGame.ControlScheme
             configButtons[4].GetComponentInChildren<Text>().text = "Configure Camera Left Key (" + PlayerPrefs.GetString("leftKey", "A") + ")";
             configButtons[5].GetComponentInChildren<Text>().text = "Configure Camera Right Key (" + PlayerPrefs.GetString("rightKey", "D") + ")";
             configButtons[6].GetComponentInChildren<Text>().text = "Configure Camera Boost Key (" + PlayerPrefs.GetString("boostKey", "LeftShift") + ")";
+            configButtons[7].GetComponentInChildren<Text>().text = "Configure Camera Movement Key (" + PlayerPrefs.GetString("cameraMoveKey", "Mouse2") + ")";
+            configButtons[8].GetComponentInChildren<Text>().text = "Configure Movement Select Key (" + PlayerPrefs.GetString("movementSelectKey", "Mouse0") + ")";
+            configButtons[9].GetComponentInChildren<Text>().text = "Configure Attack Select Key (" + PlayerPrefs.GetString("attackSelectKey", "Mouse2") + ")";
         }
 
         void SetUp()
@@ -112,6 +118,24 @@ namespace CatGame.ControlScheme
         {
             waitingForInput = true;
             buttonToSet = "boostKey";
+            prompt.SetActive(true);
+        }
+        void SetCameraMove()
+        {
+            waitingForInput = true;
+            buttonToSet = "cameraMoveKey";
+            prompt.SetActive(true);
+        }
+        void SetAttackSelect()
+        {
+            waitingForInput = true;
+            buttonToSet = "attackSelectKey";
+            prompt.SetActive(true);
+        }
+        void SetMovementSelect()
+        {
+            waitingForInput = true;
+            buttonToSet = "movementSelectKey";
             prompt.SetActive(true);
         }
     }

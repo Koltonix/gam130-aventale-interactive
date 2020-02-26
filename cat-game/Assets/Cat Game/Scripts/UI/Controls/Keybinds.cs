@@ -16,6 +16,10 @@ namespace CatGame.ControlScheme
         public KeyCode left { get; set; }
         public KeyCode right { get; set; }
         public KeyCode boost { get; set; }
+        public KeyCode cameraMove { get; set; }
+        public KeyCode movementSelect { get; set; }
+        public KeyCode attackSelect { get; set; }
+
 
         void Awake()
         {
@@ -42,6 +46,10 @@ namespace CatGame.ControlScheme
             left = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey", "A"));
             right = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightKey", "D"));
             boost = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("boostKey", "LeftShift"));
+            cameraMove = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("cameraMoveKey", "Mouse2"));
+            movementSelect = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("movementSelectKey", "Mouse0"));
+            attackSelect = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("attackSelectKey", "Mouse1"));
+
         }
 
         public void SetBinding(string bindingName, string newBinding)
