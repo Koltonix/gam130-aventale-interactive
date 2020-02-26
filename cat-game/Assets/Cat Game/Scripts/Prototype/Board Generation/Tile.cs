@@ -9,7 +9,7 @@ namespace CatGame.Tiles
     {
         public Vector3 Position;
         public GameObject WorldReference;
-        public Color32 Colour;
+        public Color32 DefaultColour;
 
         public Unit OccupiedUnit;
 
@@ -34,7 +34,7 @@ namespace CatGame.Tiles
             boardY = y;
 
             IsPassable = GameObject.layer == 9 ? true : false;
-            Colour = GameObject.GetComponent<Renderer>().material.color;
+            DefaultColour = GameObject.GetComponent<Renderer>().material.color;
         }
 
         public Unit CheckForUnit()

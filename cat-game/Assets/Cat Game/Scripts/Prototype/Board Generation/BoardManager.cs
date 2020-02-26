@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using CatGame.Pathfinding;
 
 namespace CatGame.Tiles
 {
-    public class BoardManager : MonoBehaviour
+    public class BoardManager : MonoBehaviour, IGetBoardData
     {   
         #region Singleton
         public static BoardManager Instance;
@@ -17,6 +19,7 @@ namespace CatGame.Tiles
         [SerializeField]
         private GameObject board;
         public Tile[] tiles;
+        public Tile[,] gridTiles;
 
         [SerializeField]
         private int boardWidth;
@@ -45,13 +48,16 @@ namespace CatGame.Tiles
         {
             int amountOfTiles = board.transform.childCount;
             Tile[] boardTiles = new Tile[amountOfTiles];
+            gridTiles = new Tile[boardWidth, boardHeight];
 
             for (int i = 0; i < amountOfTiles; i++)
             {
                 GameObject tileChild = board.transform.GetChild(i).gameObject;
                 Vector2Int tilePosition = GetTilePositionFromWorld(tileChild.transform.position);
 
-                boardTiles[i] = new Tile(tileChild.transform.position, tileChild, tilePosition.x, tilePosition.y);
+                Tile newTile = new Tile(tileChild.transform.position, tileChild, tilePosition.x, tilePosition.y);
+                boardTiles[i] = newTile;
+                gridTiles[tilePosition.x, tilePosition.y] = newTile;
             }
 
             if (onBoardUpdate != null) onBoardUpdate.Invoke(boardTiles);
@@ -89,5 +95,106 @@ namespace CatGame.Tiles
                 }  
             }
         }
+
+        #region Contractual Obligations
+        public Tile[,] GetTiles()
+        {
+            if (gridTiles != null) return gridTiles;
+            return null;
+        }
+
+        public Tile GetTileFromWorldPosition(Vector3 position)
+        {
+            if (gridTiles != null)
+            {
+                gridWorldSize = new Vector2(boardWidth * 1, boardHeight * 1);
+
+                float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x);
+                float yPoint = ((position.z + gridWorldSize.y * .5f) / gridWorldSize.y);
+
+                xPoint = Mathf.Clamp01(xPoint);
+                yPoint = Mathf.Clamp01(yPoint);
+
+                int x = Mathf.RoundToInt((gridWorldSize.x - 1) * xPoint);
+                int y = Mathf.RoundToInt((gridWorldSize.y - 1) * yPoint);
+
+                return gridTiles[x, y];
+            }
+
+            return null;
+        }
+
+        public Tile[] GetNeighbouringTiles(Tile tile)
+        {
+            List<Tile> neighbouringTiles = new List<Tile>();
+
+            Tile checkingTile;
+            int xCheck;
+            int yCheck;
+
+            //Right hand check
+            xCheck = tile.boardX + 1;
+            yCheck = tile.boardY;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+
+            //Left hand check
+            xCheck = tile.boardX - 1;
+            yCheck = tile.boardY;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            //Upper hand check
+            xCheck = tile.boardX;
+            yCheck = tile.boardY + 1;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            //Left hand check
+            xCheck = tile.boardX;
+            yCheck = tile.boardY - 1;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            return neighbouringTiles.ToArray();
+        }
+
+        private Tile CheckForNeighbour(int xCheck, int yCheck)
+        {
+            if (gridTiles != null)
+            {
+                if (xCheck >= 0 && xCheck < boardWidth)
+                {
+                    if (yCheck >= 0 && yCheck < boardHeight)
+                    {
+                        return gridTiles[xCheck, yCheck];
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public int GetBoardWidth()
+        {
+            return boardWidth;
+        }
+
+        public int GetBoardHeight()
+        {
+            return boardHeight;
+        }
+
+        public Vector3 GetBoardCentre()
+        {
+            return board.transform.position;
+        }
+
+        #endregion
     }
 }
