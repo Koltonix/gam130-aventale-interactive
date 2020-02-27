@@ -20,6 +20,8 @@ namespace CatGame.Pathfinding
         private List<Tile> finalPath;
         [SerializeField]
         private Transform start;
+        [SerializeField]
+        private Transform end;
 
         [Header("Interface Initialisers")]
         [SerializeField]
@@ -40,17 +42,15 @@ namespace CatGame.Pathfinding
         {
             boardData = boardGenerator.GetComponent<IGetBoardData>();
             clickData = userInput.GetComponent<IGetOnClick>();
+
+            FindPath(new Vector3(start.position.x, boardData.GetBoardCentre().y, start.position.z),
+                         new Vector3(end.position.x, boardData.GetBoardCentre().y, end.position.z));
+
         }
 
         private void Update()
         {
-            if (clickData.HasClicked() && clickData.GetRaycastHit().collider != null)
-            {
-                FindPath(new Vector3(start.position.x, boardData.GetBoardCentre().y, start.position.z), 
-                         new Vector3(clickData.GetRaycastHit().point.x, boardData.GetBoardCentre().y, clickData.GetRaycastHit().point.z));
-
-                DrawPath();
-            }
+            DrawPath();
         }
 
         /// <summary>
@@ -93,9 +93,8 @@ namespace CatGame.Pathfinding
 
                 foreach (Tile tile in boardData.GetNeighbouringTiles(currentTile))
                 {
-                    //This might cause an issue in the future due to inversion
-                    if (tile.IsPassable|| tile.OccupiedUnit == null || closedList.Contains(tile))
-                    {
+                    if (!tile.IsPassable|| tile.OccupiedUnit != null || closedList.Contains(tile))
+                    { 
                         continue;
                     }
 
