@@ -15,7 +15,7 @@ namespace CatGame.Units
 
             if (GUILayout.Button("Tiles Available"))
             {
-                unit.DetermineAvailableTiles(BoardManager.Instance.tiles);
+                unit.DetermineTilesInSphere(BoardManager.Instance.tiles);
             }
         }
     }
