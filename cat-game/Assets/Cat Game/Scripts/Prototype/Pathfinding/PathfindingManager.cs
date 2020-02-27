@@ -41,16 +41,15 @@ namespace CatGame.Pathfinding
         private void Start()
         {
             boardData = boardGenerator.GetComponent<IGetBoardData>();
-            clickData = userInput.GetComponent<IGetOnClick>();
-
-            FindPath(new Vector3(start.position.x, boardData.GetBoardCentre().y, start.position.z),
-                         new Vector3(end.position.x, boardData.GetBoardCentre().y, end.position.z));
-
+            clickData = userInput.GetComponent<IGetOnClick>();  
         }
 
-        private void Update()
+        public List<Tile> GetPath(Vector3 startPosition, Vector3 endPosition)
         {
-            DrawPath();
+            FindPath(new Vector3(startPosition.x, boardData.GetBoardCentre().y, startPosition.z),
+                         new Vector3(endPosition.x, boardData.GetBoardCentre().y, endPosition.z));
+
+            return finalPath;
         }
 
         /// <summary>
@@ -170,15 +169,6 @@ namespace CatGame.Pathfinding
                     spawnPosition.y += drawHeight * .5f;
 
                     Gizmos.color = tile.IsPassable ? passableColour : unpassableColour;
-
-                    if (finalPath != null)
-                    {
-                        if (finalPath.Contains(tile))
-                        {
-                            Gizmos.color = Color.blue;
-                        }
-                    }
-
                     Gizmos.DrawWireCube(spawnPosition, new Vector3(1, 1 + drawHeight, 1));
                 }
             }

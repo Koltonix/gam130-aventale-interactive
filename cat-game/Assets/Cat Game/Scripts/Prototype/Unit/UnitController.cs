@@ -170,7 +170,7 @@ namespace CatGame.Units
         {
             if (gameObjectHit.collider != null)
             {
-                foreach (Tile tile in selectedUnit.currentTilesAvailable)
+                foreach (Tile tile in selectedUnit.availableTiles)
                 {
                     if (gameObjectHit.collider.gameObject == tile.WorldReference)
                     {
