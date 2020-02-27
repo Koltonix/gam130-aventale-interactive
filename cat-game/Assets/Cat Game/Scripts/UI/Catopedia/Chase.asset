@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chase
   m_EditorClassIdentifier: 
   name: Chase
-  image: {fileID: 0}
+  sprite: {fileID: 21300000, guid: e4ad0bab84022834e8be2c1a5634d2d0, type: 3}
   description: "Personality: Intelligent \r\n\r\nOwners: Mark & Ellie \r\n\r\nLives
     in: 49 LaPerm Lane \r\n\r\nDescription: A master of technology, never seen without
     his robot steed. "

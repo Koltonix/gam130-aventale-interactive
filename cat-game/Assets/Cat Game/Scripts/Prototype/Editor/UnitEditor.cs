@@ -2,16 +2,16 @@
 using UnityEditor;
 using CatGame.Tiles;
 
-namespace CatGame.Movement
+namespace CatGame.Units
 {
-    [CustomEditor(typeof(Unit))]
+    [CustomEditor(typeof(UnitMovement))]
     public class UnitEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
-            Unit unit = (Unit)target;
+            UnitMovement unit = (UnitMovement)target;
 
             if (GUILayout.Button("Tiles Available"))
             {

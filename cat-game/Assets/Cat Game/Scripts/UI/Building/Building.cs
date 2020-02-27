@@ -4,17 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CatGame.Data;
-using CatGame.Movement;
+using CatGame.Units;
 
 namespace CatGame.UI
 {
     public class Building : MonoBehaviour
     {
-
         [Header("Attributes")]
+        //This index is currently needed to get reference to the correct instance of the Player class, not created
+        //a new one entirely. This will be fixed when you are able to place buildings using the mouse since we
+        //can assign a reference to the class from there.
         [SerializeField]
-        private Player owner;
-        public int CurrentPlayer;
+        private int playerIndex;
+        private IPlayerData owner;
+        private IPlayerManager globalPlayerData;
+        private ITurn turnData;
+
+        private Player currentTurnPlayer;
+        private Player debugOwner;
+
         public int SpawnPoints;
         public const int UnitCap = 10;
         
@@ -35,9 +43,17 @@ namespace CatGame.UI
 
         void Start()
         {
+            globalPlayerData = PlayerManager.Instance;
+            turnData = TurnManager.Instance;
+
+            owner = globalPlayerData.GetPlayerFromIndex(playerIndex);
+            debugOwner = owner.GetPlayerReference();
+
+            currentTurnPlayer = globalPlayerData.GetCurrentPlayer();
+
             SpawnPoints = 2;
-            this.GetComponent<Renderer>().material.color = owner.colour;
-            TurnManager.Instance.onPlayerCycle += ChangePlayer;
+            this.GetComponent<Renderer>().material.color = owner.GetPlayerReference().colour;
+            turnData.AddToListener += ChangePlayer;
             MakeMenu();
             setBuildingUI(false);
         }
@@ -56,7 +72,7 @@ namespace CatGame.UI
 
         void toggleBuildingUI()
         {
-            if (owner.number == CurrentPlayer)
+            if (owner == currentTurnPlayer)
             {
                 uIState = !uIState;
                 setBuildingUI(uIState);
@@ -65,7 +81,7 @@ namespace CatGame.UI
 
         void OnMouseDown()
         {
-            if (owner.number == CurrentPlayer)
+            if (owner == currentTurnPlayer)
             {
                 toggleBuildingUI();
             }
@@ -86,7 +102,7 @@ namespace CatGame.UI
             {
                 SpawnPoints--;
                 GameObject newUnit = Instantiate(unit);
-                newUnit.GetComponent<Unit>().currentPlayer = owner;
+                //newUnit.GetComponent<Unit>().owner = owner;
                 newUnit.transform.position = new Vector3(selectedPad.transform.position.x, selectedPad.transform.position.y + 0.7f, selectedPad.transform.position.z);
                 toggleBuildingUI();
             }
@@ -96,13 +112,16 @@ namespace CatGame.UI
         {
             buildMenu = Instantiate(BuildmenuPrefab, gameObject.transform);
             buildMenu.transform.position = new Vector3(buildMenu.transform.position.x, buildMenu.transform.position.y + 3, buildMenu.transform.position.z);
-            WorldMenu buildMenuScript = buildMenu.GetComponent<WorldMenu>();
-            for (int i = 0; i < units.Length; i++)
+            BuildMenu buildMenuScript = buildMenu.GetComponent<BuildMenu>();
+            buildMenuScript.GenerateButtons(units);
+            for (int i = units.Length-1; i >= 0; i--)
             {
                 Button button = buildMenuScript.Buttons[i];
                 button.gameObject.SetActive(true);
                 GameObject unit = units[i];
                 button.onClick.AddListener(() => { SpawnUnit(unit); });
+                Text text = button.gameObject.GetComponentInChildren<Text>();
+                text.text = "Build " + unit.name;
             }
         }
 
@@ -112,16 +131,10 @@ namespace CatGame.UI
         /// <param name="newPlayer"></param>
         public void ChangePlayer(Player newPlayer)
         {
+            currentTurnPlayer = newPlayer;
+
             SpawnPoints = 2;
             setBuildingUI(false);
-            if (CurrentPlayer == 0)
-            {
-                CurrentPlayer = 1;
-            }
-            else
-            {
-                CurrentPlayer = 0;
-            }
         }
     }  
 }
