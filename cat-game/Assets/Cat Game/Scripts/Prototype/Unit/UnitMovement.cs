@@ -9,8 +9,9 @@ namespace CatGame.Units
     public class UnitMovement : MonoBehaviour
     {
         [Header("Movement Settings")]
-        public Tile[] availableTiles;
         public Tile currentTile;
+
+        public Tile[] availableTiles;
         public Unit[] nearbyUnits;
         public Dictionary<Tile, List<Tile>> tilePaths;
 
@@ -91,6 +92,16 @@ namespace CatGame.Units
             nearbyUnits = accessibleUnits.ToArray();
 
             tilePaths = PathfindAvailableTiles(availableTiles);
+        }
+
+        public Tile[] GetAvailableTilesFromPathfinding()
+        {
+            foreach (var tile in tilePaths)
+            {
+
+            }
+
+            return null;
         }
 
         public Dictionary<Tile, List<Tile>> PathfindAvailableTiles(Tile[] nearbyTiles)
