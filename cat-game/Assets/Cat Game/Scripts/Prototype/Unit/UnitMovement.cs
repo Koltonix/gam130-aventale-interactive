@@ -94,11 +94,17 @@ namespace CatGame.Units
             tilePaths = PathfindAvailableTiles(availableTiles);
         }
 
-        public Tile[] GetAvailableTilesFromPathfinding()
+        public Tile[] GetAvailableTilesFromPathfinding(Tile endTile)
         {
-            foreach (var tile in tilePaths)
+            if (tilePaths != null && endTile != null)
             {
-
+                foreach (var tile in tilePaths)
+                {
+                    if (tile.Key.Position == endTile.Position)
+                    {
+                        return tile.Value.ToArray();
+                    }
+                }
             }
 
             return null;
@@ -109,10 +115,10 @@ namespace CatGame.Units
             //Stores the pathfinding for every tile available using the final Tile as the unique identifier
             Dictionary<Tile, List<Tile>> allPaths = new Dictionary<Tile, List<Tile>>();
 
-            foreach (Tile tile in nearbyTiles)
+            foreach (Tile endTile in nearbyTiles)
             {
-                List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, tile.Position);
-                allPaths.Add(tile, finalPath);
+                List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position);
+                allPaths.Add(endTile, finalPath);
             }
 
             return allPaths;

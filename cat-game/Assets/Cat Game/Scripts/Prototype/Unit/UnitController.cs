@@ -27,6 +27,7 @@ namespace CatGame.Units
         [Header("Selection Information")]
         private UnitMovement selectedUnit;
         private Tile lastSelectedTile;
+        private Tile[] lastSelectedPath;
         private SelectionProgress selectionProgress = SelectionProgress.UNSELECTED;    
         [Space]
 
@@ -150,6 +151,18 @@ namespace CatGame.Units
             if (gameObjectHit.collider != null)
             {
                 lastSelectedTile = GetSelectedTile(gameObjectHit);
+                Tile[] path = selectedUnit.GetAvailableTilesFromPathfinding(lastSelectedTile);
+
+                if (path != null)
+                {
+                    for (int i = 0; i < path.Length; i++)
+                    {
+                        path[i].WorldReference.GetComponent<Renderer>().material.color = Color.blue;
+                    }
+
+                    lastSelectedPath = path;
+                }
+                
                 return;
             }
         }
