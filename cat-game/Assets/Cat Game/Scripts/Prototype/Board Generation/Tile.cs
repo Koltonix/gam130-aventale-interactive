@@ -8,21 +8,33 @@ namespace CatGame.Tiles
     public class Tile
     {
         public Vector3 Position;
-        public GameObject GameObject;
+        public GameObject WorldReference;
+        public Color32 DefaultColour;
+
         public Unit OccupiedUnit;
 
         public bool IsPassable;
-        public Color32 Colour;
-        
 
-        public Tile(Vector3 Position, GameObject GameObject)
+        public int boardX;
+        public int boardY;
+
+        public int hCost;
+        public int gCost;
+        public int FCost { get { return hCost + gCost; } }
+
+        public Tile parent;
+
+        public Tile(Vector3 Position, GameObject GameObject, int x, int y)
         {
             this.Position = Position;
-            this.GameObject = GameObject;
+            this.WorldReference = GameObject;
             this.OccupiedUnit = null;
 
+            boardX = x;
+            boardY = y;
+
             IsPassable = GameObject.layer == 9 ? true : false;
-            Colour = GameObject.GetComponent<Renderer>().material.color;
+            DefaultColour = GameObject.GetComponent<Renderer>().material.color;
         }
 
         public Unit CheckForUnit()

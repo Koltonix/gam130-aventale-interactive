@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CatGame.Pathfinding;
+using CatGame.Tiles;
 
 namespace CatGame.Board
 {
@@ -98,7 +99,7 @@ namespace CatGame.Board
             GameObject clonedTile = Instantiate(worldReference, spawnPosition, Quaternion.identity);
             clonedTile.transform.SetParent(boardHolder.transform);
 
-            Tile tile = new Tile(x, y, clonedTile, spawnPosition, isPassable);
+            Tile tile = new Tile(spawnPosition, clonedTile, x, y);
 
 
             return tile;

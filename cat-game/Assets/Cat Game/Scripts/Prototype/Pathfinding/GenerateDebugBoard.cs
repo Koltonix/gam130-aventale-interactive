@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using CatGame.Tiles;
 
 namespace CatGame.Pathfinding
 {
@@ -55,7 +56,7 @@ namespace CatGame.Pathfinding
                     bool isPassable = Random.Range(0, 2) == 1 ? true : false;
                     if (isPassable) worldTile.GetComponent<Renderer>().material.color *= .5f;
 
-                    Tile tile = new Tile(x, y, worldTile, spawnPosition, isPassable);
+                    Tile tile = new Tile(spawnPosition, worldTile, x, y);
                     board[x, y] = tile;
                     debugBoard.Add(tile);
                 }

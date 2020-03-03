@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using CatGame.Controls;
 using CatGame.Tiles;
 using CatGame.Data;
@@ -24,9 +25,15 @@ namespace CatGame.Units
         private UserInput currentInput;
         [Space]
 
+        [Header("Movement Settings")]
+        [SerializeField]
+        private float movementSpeed;
+        private Coroutine movingCoroutine;
+
         [Header("Selection Information")]
         private UnitMovement selectedUnit;
         private Tile lastSelectedTile;
+        private Tile[] lastSelectedPath;
         private SelectionProgress selectionProgress = SelectionProgress.UNSELECTED;    
         [Space]
 
@@ -70,7 +77,7 @@ namespace CatGame.Units
         /// </summary>
         private void DetermineClick()
         {
-            if (currentInput.HasClicked())
+            if (currentInput.HasClicked() && movingCoroutine == null)
             {
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
 
@@ -150,6 +157,18 @@ namespace CatGame.Units
             if (gameObjectHit.collider != null)
             {
                 lastSelectedTile = GetSelectedTile(gameObjectHit);
+                Tile[] path = selectedUnit.GetAvailableTilesFromPathfinding(lastSelectedTile);
+
+                if (path != null)
+                {
+                    for (int i = 0; i < path.Length; i++)
+                    {
+                        path[i].WorldReference.GetComponent<Renderer>().material.color = Color.blue;
+                    }
+
+                    lastSelectedPath = path;
+                }
+                
                 return;
             }
         }
@@ -170,16 +189,16 @@ namespace CatGame.Units
         {
             if (gameObjectHit.collider != null)
             {
-                foreach (Tile tile in selectedUnit.currentTilesAvailable)
+                foreach (Tile tile in selectedUnit.availableTiles)
                 {
-                    if (gameObjectHit.collider.gameObject == tile.GameObject)
+                    if (gameObjectHit.collider.gameObject == tile.WorldReference)
                     {
                         changeTileColours(availableTileColour);
-                        tile.GameObject.GetComponent<Renderer>().material.color = selectedTileColour;
+                        tile.WorldReference.GetComponent<Renderer>().material.color = selectedTileColour;
                         return tile;
                     }
 
-                    else tile.GameObject.GetComponent<Renderer>().material.color = availableTileColour;
+                    else tile.WorldReference.GetComponent<Renderer>().material.color = availableTileColour;
                 }
             }
            
@@ -202,10 +221,36 @@ namespace CatGame.Units
                                                          new Vector3(lastSelectedTile.Position.x, 0, lastSelectedTile.Position.z)));
             #endregion
 
-            _selectedUnit.transform.position = new Vector3(lastSelectedTile.Position.x, _selectedUnit.transform.position.y, lastSelectedTile.Position.z);
-            UnitClicked(_selectedUnit);
+            //_selectedUnit.transform.position = new Vector3(lastSelectedTile.Position.x, _selectedUnit.transform.position.y, lastSelectedTile.Position.z);
+            movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, lastSelectedPath, _selectedUnit.transform)); ;
 
             return;
+        }
+
+        private IEnumerator PathfindObject(UnitMovement _selectedUnit, Tile[] path, Transform objectToMove)
+        {
+            foreach (Tile tile in path)
+            {
+                Vector3 nextPosition = new Vector3(tile.Position.x, objectToMove.position.y, tile.Position.z);
+                yield return MoveToPosition(objectToMove, nextPosition, movementSpeed);
+            }
+
+            //Remove this if you do not want it to reselect upon completion.
+            UnitClicked(_selectedUnit);
+            movingCoroutine = null;
+        }
+
+        private IEnumerator MoveToPosition(Transform objectToMove, Vector3 targetPosition, float speed)
+        {
+            float t = 0;
+            while (t < 1)
+            {
+                t += Time.deltaTime * speed;
+                objectToMove.position = Vector3.Lerp(objectToMove.position, targetPosition, t);
+                yield return new WaitForEndOfFrame();
+            }
+
+            yield return null;
         }
 
         public void ChangePlayer(Player newPlayer)

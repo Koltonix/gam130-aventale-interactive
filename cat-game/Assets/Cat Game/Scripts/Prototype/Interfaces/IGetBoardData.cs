@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using CatGame.Tiles;
 
 namespace CatGame.Pathfinding
 {

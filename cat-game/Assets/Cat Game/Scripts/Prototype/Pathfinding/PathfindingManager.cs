@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using CatGame.Controls;
+using CatGame.Tiles;
 
 namespace CatGame.Pathfinding
 {
@@ -19,6 +20,8 @@ namespace CatGame.Pathfinding
         private List<Tile> finalPath;
         [SerializeField]
         private Transform start;
+        [SerializeField]
+        private Transform end;
 
         [Header("Interface Initialisers")]
         [SerializeField]
@@ -38,18 +41,15 @@ namespace CatGame.Pathfinding
         private void Start()
         {
             boardData = boardGenerator.GetComponent<IGetBoardData>();
-            clickData = userInput.GetComponent<IGetOnClick>();
+            clickData = userInput.GetComponent<IGetOnClick>();  
         }
 
-        private void Update()
+        public List<Tile> GetPath(Vector3 startPosition, Vector3 endPosition)
         {
-            if (clickData.HasClicked() && clickData.GetRaycastHit().collider != null)
-            {
-                FindPath(new Vector3(start.position.x, boardData.GetBoardHeight(), start.position.z), 
-                         new Vector3(clickData.GetRaycastHit().point.x, boardData.GetBoardHeight(), clickData.GetRaycastHit().point.z));
+            FindPath(new Vector3(startPosition.x, boardData.GetBoardCentre().y, startPosition.z),
+                         new Vector3(endPosition.x, boardData.GetBoardCentre().y, endPosition.z));
 
-                DrawPath();
-            }
+            return finalPath;
         }
 
         /// <summary>
@@ -92,8 +92,8 @@ namespace CatGame.Pathfinding
 
                 foreach (Tile tile in boardData.GetNeighbouringTiles(currentTile))
                 {
-                    if (tile.isPassable || tile.isOccupied || closedList.Contains(tile))
-                    {
+                    if (!tile.IsPassable|| tile.OccupiedUnit != null || closedList.Contains(tile))
+                    { 
                         continue;
                     }
 
@@ -146,7 +146,7 @@ namespace CatGame.Pathfinding
                 ResetTileColours();
                 foreach (Tile tile in finalPath)
                 {
-                    tile.worldReference.GetComponent<Renderer>().material.color = Color.blue;
+                    tile.WorldReference.GetComponent<Renderer>().material.color = Color.blue;
                 }
             }
         }
@@ -155,7 +155,7 @@ namespace CatGame.Pathfinding
         {
             foreach (Tile tile in boardData.GetTiles())
             {
-                tile.worldReference.GetComponent<Renderer>().material.color = tile.defaultColour;
+                tile.WorldReference.GetComponent<Renderer>().material.color = tile.DefaultColour;
             }
         }
 
@@ -165,19 +165,10 @@ namespace CatGame.Pathfinding
             {
                 foreach (Tile tile in boardData.GetTiles())
                 {
-                    Vector3 spawnPosition = tile.worldReference.transform.position;
+                    Vector3 spawnPosition = tile.WorldReference.transform.position;
                     spawnPosition.y += drawHeight * .5f;
 
-                    Gizmos.color = tile.isPassable ? unpassableColour : passableColour;
-
-                    if (finalPath != null)
-                    {
-                        if (finalPath.Contains(tile))
-                        {
-                            Gizmos.color = Color.blue;
-                        }
-                    }
-
+                    Gizmos.color = tile.IsPassable ? passableColour : unpassableColour;
                     Gizmos.DrawWireCube(spawnPosition, new Vector3(1, 1 + drawHeight, 1));
                 }
             }
