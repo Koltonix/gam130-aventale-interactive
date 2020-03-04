@@ -22,8 +22,8 @@ namespace CatGame.Units
         private void Start()
         {
             currentUnit = this.GetComponent<Unit>();
+            owner = currentUnit.owner.GetPlayerReference();
 
-            owner = PlayerManager.Instance.GetCurrentPlayer();
             owner.GetPlayerReference().onActive += SetIsActive;
 
             BoardManager.Instance.onBoardUpdate += DetermineTilesInSphere;
