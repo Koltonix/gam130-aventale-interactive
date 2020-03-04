@@ -12,24 +12,12 @@ namespace CatGame.Units
         [SerializeField]
         private new string name;
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             this.GetComponent<Renderer>().material.color = owner.colour;
 
             if (name == null) name = "UNNAMED_UNIT";
         }
-
-        #region Contractual Obligations
-        public Player GetOwner()
-        {
-            return owner.GetPlayerReference();
-        }
-
-        public Player GetCurrentPlayer()
-        {
-            return currentPlayer;
-        }
-        #endregion
     }
 }

@@ -8,7 +8,7 @@ namespace CatGame.Data
         public Player currentPlayer;
         public bool isEnabled;
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             TurnManager.Instance.onPlayerCycle += OnTurnEnd;
             owner = PlayerManager.Instance.GetCurrentPlayer();
@@ -20,6 +20,16 @@ namespace CatGame.Data
         {
             currentPlayer = player;
             isEnabled = (owner == currentPlayer);
+        }
+
+        public Player GetOwner()
+        {
+            return owner;
+        }
+
+        public Player GetCurrentPlayer()
+        {
+            return currentPlayer;
         }
     }
 }

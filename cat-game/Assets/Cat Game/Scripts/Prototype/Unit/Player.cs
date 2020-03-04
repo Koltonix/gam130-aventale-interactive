@@ -10,6 +10,9 @@ namespace CatGame.Data
     public class Player : IPlayerData
     {
         [Header("Information")]
+        [SerializeField]
+        private int hashCode;
+
         public int number;
         public bool isActive;
 
@@ -21,6 +24,11 @@ namespace CatGame.Data
 
         public delegate void OnActivation();
         public event OnActivation onActive;
+
+        public Player()
+        {
+            hashCode = this.GetHashCode();
+        }
 
         public void ActivateUnit(bool isEnabled)
         {
