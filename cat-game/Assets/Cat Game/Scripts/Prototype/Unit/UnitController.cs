@@ -215,8 +215,7 @@ namespace CatGame.Units
                                                          new Vector3(_selectedUnit.transform.position.x, 0, _selectedUnit.transform.position.z),
                                                          new Vector3(lastSelectedTile.Position.x, 0, lastSelectedTile.Position.z)));
             #endregion
-
-            //_selectedUnit.transform.position = new Vector3(lastSelectedTile.Position.x, _selectedUnit.transform.position.y, lastSelectedTile.Position.z);
+            
             movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, lastSelectedPath, _selectedUnit.transform)); ;
 
             return;

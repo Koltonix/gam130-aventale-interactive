@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using CatGame.Data;
 
 namespace CatGame.Units
@@ -17,7 +15,19 @@ namespace CatGame.Units
             base.Awake();
             this.GetComponent<Renderer>().material.color = owner.colour;
 
-            if (name == null) name = "UNNAMED_UNIT";
+            if (name.Length == 0) name = "UNNAMED_UNIT";
         }
+
+        #region Contractual Obligations
+        public Player GetOwner()
+        {
+            return owner;
+        }
+
+        public Player GetCurrentPlayer()
+        {
+            return currentPlayer;
+        }
+        #endregion
     }
 }

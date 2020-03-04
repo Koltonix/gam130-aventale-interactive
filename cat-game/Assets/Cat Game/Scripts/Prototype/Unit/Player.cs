@@ -10,7 +10,6 @@ namespace CatGame.Data
     public class Player : IPlayerData
     {
         [Header("Information")]
-        [SerializeField]
         private int hashCode;
 
         public int number;
