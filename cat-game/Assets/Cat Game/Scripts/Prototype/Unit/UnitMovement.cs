@@ -16,30 +16,18 @@ namespace CatGame.Units
         public Dictionary<Tile, List<Tile>> tilePaths;
 
         [Header("Required Data")]
-        public IPlayerData owner;
-        private IUnitData unitData;
+        public Player owner;
         public Unit currentUnit;
-
-        private ITurn turnData;
-        private IPlayerManager globalPlayerData;
-
-        private Player debugPlayer;
 
         private void Start()
         {
-            owner = PlayerManager.Instance.GetCurrentPlayer();
-            turnData = TurnManager.Instance;
-            globalPlayerData = PlayerManager.Instance;
-
-            unitData = this.GetComponent<IUnitData>();
             currentUnit = this.GetComponent<Unit>();
 
-            debugPlayer = owner.GetPlayerReference();
-            
+            owner = PlayerManager.Instance.GetCurrentPlayer();
             owner.GetPlayerReference().onActive += SetIsActive;
 
             BoardManager.Instance.onBoardUpdate += DetermineTilesInSphere;
-            turnData.AddToListener += OnPlayerCycle;
+            TurnManager.Instance.onPlayerCycle += OnPlayerCycle;
         }
 
         #region Tile Prediction

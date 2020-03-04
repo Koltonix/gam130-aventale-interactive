@@ -12,6 +12,8 @@ namespace CatGame.Data
         {
             TurnManager.Instance.onPlayerCycle += OnTurnEnd;
             owner = PlayerManager.Instance.GetCurrentPlayer();
+
+            OnTurnEnd(PlayerManager.Instance.GetCurrentPlayer());
         }
 
         protected virtual void OnTurnEnd(Player player)
