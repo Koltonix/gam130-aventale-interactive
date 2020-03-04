@@ -6,31 +6,16 @@ using CatGame.Data;
 namespace CatGame.Units
 {
     [RequireComponent(typeof(UnitMovement))]
-    public class Unit : MonoBehaviour, IUnitData
+    public class Unit : Entity, IUnitData
     {
         [Header("Attributes")]
         [SerializeField]
         private new string name;
 
-        [Header("Player Settings")]
-        public IPlayerData owner;
-        public Player currentPlayer;
-
-        [Header("Global Settings")]
-        private ITurn turnData;
-
-        private void Start()
+        protected override void Start()
         {
-            turnData = TurnManager.Instance;
-            owner = PlayerManager.Instance.GetCurrentPlayer();
-
-            this.GetComponent<Renderer>().material.color = owner.GetPlayerReference().colour;
-            turnData.AddToListener += OnTurnEnd;
-        }
-
-        private void OnTurnEnd(Player player)
-        {
-            currentPlayer = player;
+            base.Start();
+            this.GetComponent<Renderer>().material.color = owner.colour;
         }
 
         #region Contractual Obligations
