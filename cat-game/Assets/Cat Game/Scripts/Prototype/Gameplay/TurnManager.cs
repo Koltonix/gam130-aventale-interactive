@@ -5,7 +5,7 @@ namespace CatGame.Data
 {
     public delegate void OnPlayerCycle(Player player);
    
-    public class TurnManager : MonoBehaviour, ITurn
+    public class TurnManager : MonoBehaviour
     {
         #region Singleton
         public static TurnManager Instance;
@@ -57,19 +57,6 @@ namespace CatGame.Data
             playerManagerData.GetAllPlayers()[playerIndex].ActivateUnit(true);
 
             return playerIndex;
-        }
-
-        event OnPlayerCycle ITurn.AddToListener
-        {
-            add
-            {
-                onPlayerCycle += value;
-            }
-
-            remove
-            {
-                onPlayerCycle -= value;
-            }
         }
 
         public int GetCurrentPlayerIndex()

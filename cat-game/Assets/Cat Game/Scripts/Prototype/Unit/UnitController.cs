@@ -43,9 +43,6 @@ namespace CatGame.Units
         [SerializeField]
         private Color32 selectedTileColour;
 
-        [Header("Required Data")]
-        private ITurn turnData;
-
         #region Event System
         public delegate void OnSelected(bool isSelected);
         public event OnSelected onSelect;
@@ -58,10 +55,8 @@ namespace CatGame.Units
 
         private void Start()
         {
-            turnData = TurnManager.Instance;
-
             currentInput = this.GetComponent<UserInput>();
-            turnData.AddToListener += ChangePlayer;
+            TurnManager.Instance.onPlayerCycle += ChangePlayer;
         }
 
         private void Update()

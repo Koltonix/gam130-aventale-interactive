@@ -16,6 +16,8 @@ namespace CatGame.Units
         {
             base.Start();
             this.GetComponent<Renderer>().material.color = owner.colour;
+
+            if (name == null) name = "UNNAMED_UNIT";
         }
 
         #region Contractual Obligations

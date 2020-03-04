@@ -16,9 +16,7 @@ namespace CatGame.UI
         //can assign a reference to the class from there.
         [SerializeField]
         private int playerIndex;
-        private IPlayerData owner;
-        private IPlayerManager globalPlayerData;
-        private ITurn turnData;
+        private Player owner;
 
         private Player currentTurnPlayer;
         private Player debugOwner;
@@ -41,19 +39,16 @@ namespace CatGame.UI
         private SpawnPad selectedPad;
         private bool uIState;
 
-        void Start()
+        private void Start()
         {
-            globalPlayerData = PlayerManager.Instance;
-            turnData = TurnManager.Instance;
-
-            owner = globalPlayerData.GetPlayerFromIndex(playerIndex);
+            owner = PlayerManager.Instance.GetPlayerFromIndex(playerIndex);
             debugOwner = owner.GetPlayerReference();
 
-            currentTurnPlayer = globalPlayerData.GetCurrentPlayer();
+            currentTurnPlayer = PlayerManager.Instance.GetCurrentPlayer();
 
             SpawnPoints = 2;
             this.GetComponent<Renderer>().material.color = owner.GetPlayerReference().colour;
-            turnData.AddToListener += ChangePlayer;
+            TurnManager.Instance.onPlayerCycle += ChangePlayer;
             MakeMenu();
             setBuildingUI(false);
         }
