@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace SiegeOfAshes.Controls
+namespace CatGame.Controls
 {
-    public abstract class UserInput : MonoBehaviour
+    public abstract class UserInput : MonoBehaviour, IGetOnClick
     {
         [Header("Camera")]
         public Camera mainCamera;
@@ -27,8 +27,7 @@ namespace SiegeOfAshes.Controls
         }
         
         public virtual Ray GetRay()
-        {
-            
+        { 
             return cameraRay;
         }
 

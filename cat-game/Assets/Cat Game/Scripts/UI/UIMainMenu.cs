@@ -3,26 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// This is the main menu script. All of the functions are designed to be called buy buttons.
-public class UIMainMenu : MonoBehaviour
+namespace CatGame.UI
 {
-    public void NewGame()
+    // This is the main menu script. All of the functions are designed to be called buy buttons.
+    public class UIMainMenu : MonoBehaviour
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
+        public void NewGame()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
 
-    public void Quit()
-    {
-        Application.Quit();
-    }
+        public void Quit()
+        {
+            Application.Quit();
+        }
 
-    public void Options()
-    {
+        public void Options()
+        {
 
-    }
+        }
 
-    public void Debug()
-    {
-        SceneManager.LoadScene(1);
+        public void Debug()
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 }

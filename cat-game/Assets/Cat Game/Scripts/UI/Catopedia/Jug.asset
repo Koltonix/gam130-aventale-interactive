@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 039ce812fc0ed934fb6c24fcc5e8767e, type: 3}
+  m_Name: Jug
+  m_EditorClassIdentifier: 
+  name: Jug
+  image: {fileID: 0}
+  description: "Personality: Jolly \r\n\r\nOwners: Bill, Pat & the kids \r\n\r\nLives
+    in: 1 Ocicat Close \r\n\r\nDescription: Fat from years of being spoiled with treats
+    and food. Always happy to help as long as he gets fed afterwards. "

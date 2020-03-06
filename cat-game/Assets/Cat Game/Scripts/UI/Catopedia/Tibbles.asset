@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Tibbles
   image: {fileID: 0}
-  description: Test cat.
+  description: "Personality: Heroic \r\n\r\nOwners: Amy \r\n\r\nLives in: 21 Bengal
+    Boulevard \r\n\r\nDescription: Tibbles and Amy love each other very much. She
+    will do anything to get Amy back. "

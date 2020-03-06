@@ -3,37 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+namespace CatGame.UI
 {
-    [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private Catopedia catopedia;
-
-    // Called by buttons.
-    public void TogglePauseMenu()
+    public class UIController : MonoBehaviour
     {
-        if (pauseMenu.activeSelf)
-        {
-            pauseMenu.SetActive(false);
-            Time.timeScale = 1.0f;
-        }
-        else
-        {
-            pauseMenu.SetActive(true);
-            Time.timeScale = 0.0f;
-        }
-    }
+        [SerializeField] private GameObject pauseMenu;
+        [SerializeField] private Catopedia catopedia;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Called by buttons.
+        public void TogglePauseMenu()
         {
-            TogglePauseMenu();
+            if (pauseMenu.activeSelf)
+            {
+                pauseMenu.SetActive(false);
+                Time.timeScale = 1.0f;
+            }
+            else
+            {
+                pauseMenu.SetActive(true);
+                Time.timeScale = 0.0f;
+            }
         }
-    }
 
-    public void ToggleCatopedia()
-    {
-        catopedia.Toggle();
+        // Update is called once per frame
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                TogglePauseMenu();
+            }
+        }
+
+        public void ToggleCatopedia()
+        {
+            catopedia.Toggle();
+        }
     }
 }
