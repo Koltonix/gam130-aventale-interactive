@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using CatGame.Combat;
+using CatGame.Data;
+
 namespace CatGame.Units
 {
     public class Health : MonoBehaviour
     {
         [SerializeField]
         private int maxHealth;
+        [SerializeField]
         private int currentHealth;
 
         [SerializeField]
         private GameObject healthBarPrefab;
         private GameObject healthBar;
         private Image healthBarImage;
+        private bool healthBarIsActive;
 
         [SerializeField]
         private Animator animator;
@@ -27,15 +32,24 @@ namespace CatGame.Units
             healthBar.SetActive(false);
             healthBarImage = healthBar.GetComponentInChildren<Image>();
         }
+
+        void Update()
+        {
+            if (healthBarIsActive)
+            {
+                healthBarImage.fillAmount = (float)currentHealth / (float)maxHealth;
+            }
+        }
         
         void OnMouseEnter()
         {
-            healthBarImage.fillAmount = currentHealth / maxHealth;
             healthBar.SetActive(true);
+            healthBarIsActive = true;
         }
 
         void OnMouseExit()
         {
+            healthBarIsActive = false;
             healthBar.SetActive(false);
         }
 
@@ -51,7 +65,7 @@ namespace CatGame.Units
 
         public void Damage(int damage)
         {
-            currentHealth = Mathf.Clamp(currentHealth + damage, 0, maxHealth);
+            currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
             if (currentHealth == 0)
             {
                 //if (animator != null)
@@ -59,6 +73,11 @@ namespace CatGame.Units
                     //animator.Play();
                 //}
                 Delete();
+                Attacker attacker = this.GetComponent<Attacker>();
+                if (attacker != null)
+                {
+                    attacker.AttackerDeath();
+                }
             }
         }
         public void Delete()
