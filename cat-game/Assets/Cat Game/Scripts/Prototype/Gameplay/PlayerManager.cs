@@ -18,8 +18,12 @@ namespace CatGame.Data
         [SerializeField]
         private Player[] allPlayers;
 
+        private ITurn turnData;
+
         private void Start()
         {
+            turnData = TurnManager.Instance;
+
             if (allPlayers.Length == 0) throw new Exception("No Players are in the game");
             AssignPlayerNumbers(allPlayers);
         }
@@ -29,7 +33,8 @@ namespace CatGame.Data
             for (int i = 0; i < players.Length; i++)
             {
                 players[i].number = i;
-                if (allPlayers[TurnManager.Instance.GetCurrentPlayerIndex()] == players[i]) players[i].isActive = true;
+                if (allPlayers[turnData.GetCurrentPlayerIndex()] == players[i]) players[i].isActive = true;
+                players[i].ActionPoints = players[i].defaultActionPoints;
             }
         }
 
@@ -37,7 +42,8 @@ namespace CatGame.Data
         #region Contractual Obligations
         public Player GetCurrentPlayer()
         {
-            return allPlayers[TurnManager.Instance.GetCurrentPlayerIndex()];
+            if (turnData == null) turnData = TurnManager.Instance;
+            return allPlayers[turnData.GetCurrentPlayerIndex()];
         }
 
         public Player[] GetAllPlayers()
