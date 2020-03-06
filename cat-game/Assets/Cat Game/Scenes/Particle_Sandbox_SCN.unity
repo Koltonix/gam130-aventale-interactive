@@ -5991,7 +5991,7 @@ ParticleSystem:
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 0
-    donutRadius: 2
+    donutRadius: 1.8
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 90, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
@@ -6352,8 +6352,8 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-      cycleCount: 50
-      repeatInterval: 0.1
+      cycleCount: 35
+      repeatInterval: 0.13
       probability: 1
   SizeModule:
     enabled: 0
