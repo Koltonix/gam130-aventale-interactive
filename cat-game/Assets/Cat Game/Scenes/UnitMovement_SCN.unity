@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6369,6 +6369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 703943928}
   - component: {fileID: 703943929}
+  - component: {fileID: 703943930}
   m_Layer: 0
   m_Name: Board Manager
   m_TagString: Untagged
@@ -6404,8 +6405,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 873980193}
   tiles: []
-  boardWidth: 0
-  boardHeight: 0
+  boardWidth: 11
+  boardHeight: 21
+--- !u!114 &703943930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703943927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb648a42135bbb94ba4286468c99f8ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  start: {fileID: 0}
+  end: {fileID: 0}
+  boardGenerator: {fileID: 703943927}
+  userInput: {fileID: 941093009}
+  passableColour:
+    serializedVersion: 2
+    rgba: 4278255398
+  unpassableColour:
+    serializedVersion: 2
+    rgba: 4278190335
 --- !u!1001 &710642978
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8687,7 +8710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53a3f97fe3f71cf4ea2f125b72b4b024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 0
+  movementSpeed: 5
   availableTileColour:
     serializedVersion: 2
     rgba: 1842388
@@ -11592,11 +11615,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCamera3D_PRF
       objectReference: {fileID: 0}
-    - target: {fileID: 6717407300474709608, guid: b078d57f57397ec48952b0a7425e1a34,
-        type: 3}
-      propertyPath: orthographic
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7646546087402909047, guid: b078d57f57397ec48952b0a7425e1a34,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11655,6 +11673,11 @@ PrefabInstance:
     - target: {fileID: 1250377472, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
       propertyPath: camSprintSpeed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6717407300474709608, guid: b078d57f57397ec48952b0a7425e1a34,
+        type: 3}
+      propertyPath: orthographic
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
