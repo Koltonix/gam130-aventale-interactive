@@ -26,6 +26,10 @@ namespace CatGame.Units
         public float MovementModifier = 1;
         private Attacker attackType;
 
+        [Header("Model Renderer")]
+        [SerializeField]
+        private Renderer renderer;
+
         private void Start()
         {
             turnData = TurnManager.Instance;
@@ -33,7 +37,7 @@ namespace CatGame.Units
 
             attackType = gameObject.GetComponent<Attacker>();
 
-            this.GetComponent<Renderer>().material.color = owner.GetPlayerReference().colour;
+            renderer.material.color = owner.GetPlayerReference().colour;
             turnData.AddToListener += OnTurnEnd;
         }
 
