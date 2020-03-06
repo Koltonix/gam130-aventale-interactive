@@ -11592,6 +11592,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCamera3D_PRF
       objectReference: {fileID: 0}
+    - target: {fileID: 6717407300474709608, guid: b078d57f57397ec48952b0a7425e1a34,
+        type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7646546087402909047, guid: b078d57f57397ec48952b0a7425e1a34,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11650,11 +11655,6 @@ PrefabInstance:
     - target: {fileID: 1250377472, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
       propertyPath: camSprintSpeed
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6717407300474709608, guid: b078d57f57397ec48952b0a7425e1a34,
-        type: 3}
-      propertyPath: orthographic
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
