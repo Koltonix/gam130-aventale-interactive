@@ -41,6 +41,11 @@ namespace CatGame.Data
         public delegate void OnAP(int actionPoints);
         public event OnAP onAP;
 
+        public Player()
+        {
+            ActionPoints = defaultActionPoints;
+        }
+
         public void ActivateUnit(bool isEnabled)
         {
             ActionPoints = defaultActionPoints;

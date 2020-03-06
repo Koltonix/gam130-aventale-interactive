@@ -86,7 +86,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6032529358067426619}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 222635929488074304}
   - component: {fileID: 783003115091143275}
   - component: {fileID: 8186387018424228299}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,8 +261,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d683cc40bef867249bae8d16c7cbbaab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTilesAvailable: []
+  currentTile:
+    Position: {x: 0, y: 0, z: 0}
+    WorldReference: {fileID: 0}
+    DefaultColour:
+      serializedVersion: 2
+      rgba: 0
+    OccupiedUnit: {fileID: 0}
+    IsPassable: 0
+    boardX: 0
+    boardY: 0
+    hCost: 0
+    gCost: 0
+  availableTiles: []
   nearbyUnits: []
+  owner:
+    number: 0
+    isActive: 0
+    unitCap: 10
+    PlayerUnits: []
+    defaultActionPoints: 8
+    colour:
+      serializedVersion: 2
+      rgba: 0
   currentUnit: {fileID: 0}
 --- !u!114 &3662666720628452032
 MonoBehaviour:
@@ -276,7 +297,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f9546e8417ed342a18a4f33ae45666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  owner:
+    number: 0
+    isActive: 0
+    unitCap: 10
+    PlayerUnits: []
+    defaultActionPoints: 8
+    colour:
+      serializedVersion: 2
+      rgba: 0
   currentPlayer:
     number: 0
     isActive: 0
@@ -286,7 +315,8 @@ MonoBehaviour:
     colour:
       serializedVersion: 2
       rgba: 0
-  MovementModifier: 1
+  isEnabled: 0
+  name: 
   renderer: {fileID: 1640368968729180767}
 --- !u!114 &899322927159366496
 MonoBehaviour:
@@ -301,6 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  currentHealth: 0
   healthBarPrefab: {fileID: 889152434078798198, guid: d389fcb94443bd143bf1d0b3705d0f3f,
     type: 3}
   animator: {fileID: 0}

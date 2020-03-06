@@ -72,7 +72,7 @@ namespace CatGame.Units
         /// </summary>
         private void DetermineClick()
         {
-            if (currentInput.HasClicked() && movingCoroutine == null)
+            if (currentInput.IsMovementSelected() && movingCoroutine == null)
             {
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
 

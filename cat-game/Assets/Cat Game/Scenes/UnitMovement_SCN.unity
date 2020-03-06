@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -6404,6 +6404,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 873980193}
   tiles: []
+  boardWidth: 0
+  boardHeight: 0
 --- !u!1001 &710642978
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8685,6 +8687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53a3f97fe3f71cf4ea2f125b72b4b024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementSpeed: 0
   availableTileColour:
     serializedVersion: 2
     rgba: 1842388
@@ -11589,11 +11592,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCamera3D_PRF
       objectReference: {fileID: 0}
-    - target: {fileID: 6717407300474709608, guid: b078d57f57397ec48952b0a7425e1a34,
-        type: 3}
-      propertyPath: orthographic
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7646546087402909047, guid: b078d57f57397ec48952b0a7425e1a34,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11652,6 +11650,11 @@ PrefabInstance:
     - target: {fileID: 1250377472, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
       propertyPath: camSprintSpeed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6717407300474709608, guid: b078d57f57397ec48952b0a7425e1a34,
+        type: 3}
+      propertyPath: orthographic
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
