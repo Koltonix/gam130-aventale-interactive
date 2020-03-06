@@ -12,9 +12,9 @@ EditorBuildSettings:
     path: Assets/Cat Game/Scenes/UIScene_SCN.unity
     guid: fa05364cc0139cb4897c61dce8b00d82
   - enabled: 1
-    path: Assets/Cat Game/Scenes/Pathfinding_SCN.unity
-    guid: d1a6df506640b354a89169571e506f7f
-  - enabled: 1
     path: Assets/Cat Game/Scenes/UnitMovement_SCN.unity
     guid: d883c74daf7d6834887d7c1011deb429
+  - enabled: 1
+    path: Assets/Cat Game/Scenes/MovementPathfinding_SCN.unity
+    guid: bfa1569b1780b2b449468dc841e594fa
   m_configObjects: {}
