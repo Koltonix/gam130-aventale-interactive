@@ -11,12 +11,24 @@ public class SceneFading : MonoBehaviour
 
     private Coroutine fadingCoroutine;
 
+    [Header("Canvas Settings")]
+    private Canvas canvas;
+
     private void Start()
     {
-        if (fadingCoroutine == null) fadingCoroutine = StartCoroutine(FadeObject(fadingImage, fadingSpeed));
+        canvas = FindObjectOfType<Canvas>();
+        if (canvas == null) CreateCanvas();
+
+        if (fadingCoroutine == null) fadingCoroutine = StartCoroutine(FadeObject(fadingImage, fadingSpeed, 1f));
     }
 
-    private IEnumerator FadeObject(Image imageToFade, float speed)
+    private Canvas CreateCanvas()
+    {
+        GameObject canvasObject = new GameObject("Canvas");
+        return null;
+    }
+
+    private IEnumerator FadeObject(Image imageToFade, float speed, float targetFade)
     {
         float t = 0;
         while (t < 1)
@@ -24,7 +36,7 @@ public class SceneFading : MonoBehaviour
             t += speed * Time.deltaTime;
 
             Color currentFade = imageToFade.color;
-            float currentAlpha = Mathf.Lerp(currentFade.a, 1f, t);
+            float currentAlpha = Mathf.Lerp(currentFade.a, targetFade, t);
             currentFade.a = currentAlpha;
 
             imageToFade.color = currentFade;
