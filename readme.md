@@ -15,3 +15,11 @@ The Repository for Team 2 in the GAM130 assignment.
 |                               				     |             |Iestyn Young    |             |           |
 |                               				     |             |Lachezar Penchev|             |           |
 
+## Style Sheets
+### C# Naming Conventions
+[Microsoft Standard](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/general-naming-conventions?redirectedfrom=MSDN)
+
+### Unity Object Conventions
+|Type  |Prefab|Scene|Material|Image|Post Processing|Animation Clips|
+|------|------|-----|--------|-----|---------------|---------------|
+|Style |_PRF  |_SCN |_MAT    |_IMG |_PRO           |_ANIM          |
