@@ -22,7 +22,6 @@ namespace CatGame.UI
         private Player debugOwner;
 
         public int SpawnPoints;
-        public const int UnitCap = 10;
         
         [Space]
 
@@ -93,13 +92,14 @@ namespace CatGame.UI
 
         public void SpawnUnit(GameObject unit)
         {
-            if (selectedPad && SpawnPoints > 0)
+            if (selectedPad && SpawnPoints > 0 && (currentTurnPlayer.PlayerUnits.Count <= currentTurnPlayer.unitCap))
             {
                 SpawnPoints--;
                 GameObject newUnit = Instantiate(unit);
                 //newUnit.GetComponent<Unit>().owner = owner;
                 newUnit.transform.position = new Vector3(selectedPad.transform.position.x, selectedPad.transform.position.y + 0.7f, selectedPad.transform.position.z);
                 toggleBuildingUI();
+                currentTurnPlayer.PlayerUnits.Add(newUnit.GetComponent<Unit>());
             }
         }
 
@@ -120,10 +120,6 @@ namespace CatGame.UI
             }
         }
 
-        /// <summary>
-        /// This needs fixing when we get around to working on the turn-change system.
-        /// </summary>
-        /// <param name="newPlayer"></param>
         public void ChangePlayer(Player newPlayer)
         {
             currentTurnPlayer = newPlayer;

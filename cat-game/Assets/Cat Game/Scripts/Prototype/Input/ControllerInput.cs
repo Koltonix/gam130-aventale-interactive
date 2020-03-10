@@ -28,7 +28,7 @@ namespace CatGame.Controls
             RaycastFromCamera();
         }
 
-        public override bool HasClicked()
+        public override bool IsMovementSelected()
         {
             if (Input.GetButtonDown(enterButton.name)) return true;
             return false;
@@ -61,7 +61,7 @@ namespace CatGame.Controls
             verticalAxis.value = Input.GetAxis(verticalAxis.name);
             enterButton.value = Input.GetAxis(enterButton.name);
 
-            HasClicked();
+            IsMovementSelected();
         }
 
 

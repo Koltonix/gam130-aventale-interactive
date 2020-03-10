@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using CatGame.ControlScheme;
 
 namespace CatGame.Controls
 {
@@ -19,9 +20,15 @@ namespace CatGame.Controls
         /// <returns>
         /// Returns true if the player has clicked, otherwise  it is false
         /// </returns>
-        public override bool HasClicked()
+        public override bool IsMovementSelected()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0)) return true;
+            if (Input.GetKeyDown(Keybinds.KeybindsManager.movementSelect)) return true;
+            return false;
+        }
+
+        public override bool IsAttackSelected()
+        {
+            if (Input.GetKeyDown(Keybinds.KeybindsManager.attackSelect)) return true;
             return false;
         }
 
@@ -47,7 +54,7 @@ namespace CatGame.Controls
         /// </returns>
         public override RaycastHit GetRaycastHit()
         {
-            return cameraRaycastHit;
+            return cameraRaycastHit;    
         }
 
         /// <summary>

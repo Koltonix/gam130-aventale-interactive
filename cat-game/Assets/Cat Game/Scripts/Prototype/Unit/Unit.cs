@@ -9,11 +9,13 @@ namespace CatGame.Units
         [Header("Attributes")]
         [SerializeField]
         private new string name;
+        [SerializeField]
+        private new Renderer renderer;
 
         protected override void Awake()
         {
             base.Awake();
-            this.GetComponent<Renderer>().material.color = owner.colour;
+            renderer.material.color = owner.colour;
 
             if (name.Length == 0) name = "UNNAMED_UNIT";
         }
