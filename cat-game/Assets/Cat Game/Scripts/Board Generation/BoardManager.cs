@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using CatGame.Pathfinding;
 
@@ -26,12 +27,15 @@ namespace CatGame.Tiles
         [SerializeField]
         private int boardHeight;
         private Vector2 gridWorldSize;
+        [SerializeField]
+        private Vector2Int tileGap;
 
         public delegate void OnBoardUpdate(Tile[] boardTiles);
         public event OnBoardUpdate onBoardUpdate;
 
         private void Start()
         {
+            CheckForDuplicates(GetAllChildrenFromParent(board.transform));
             tiles = GetBoardTiles();
         }
 
@@ -66,7 +70,7 @@ namespace CatGame.Tiles
         
         public Vector2Int GetTilePositionFromWorld(Vector3 position)
         {
-            gridWorldSize = new Vector2(boardWidth * 1, boardHeight * 1);
+            gridWorldSize = new Vector2(boardWidth * tileGap.x, boardHeight * tileGap.y);
 
             float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x);
             float yPoint = ((position.z + gridWorldSize.y * .5f) / gridWorldSize.y);
@@ -74,26 +78,59 @@ namespace CatGame.Tiles
             xPoint = Mathf.Clamp01(xPoint);
             yPoint = Mathf.Clamp01(yPoint);
 
-            int x = Mathf.RoundToInt((gridWorldSize.x - 1) * xPoint);
-            int y = Mathf.RoundToInt((gridWorldSize.y - 1) * yPoint);
+            int x = Mathf.RoundToInt((gridWorldSize.x - 1) * xPoint) / tileGap.x;
+            int y = Mathf.RoundToInt((gridWorldSize.y - 1) * yPoint) / tileGap.y;
 
             return new Vector2Int(x, y);
         }
 
         public void CheckForDuplicates(Tile[] tiles)
         {
-            for (int x = 1; x < tiles.Length; x++)
+            for (int x = 0; x < tiles.Length; x++)
             {
                 for (int y = 0; y < tiles.Length; y++)
                 {
                     if (tiles[x].Position == tiles[y].Position && x != y)
                     {
                         Vector3 newPos = tiles[x].WorldReference.transform.position;
-                        newPos.y += 1f;
+                        newPos.y += 2f;
                         tiles[x].WorldReference.transform.position = newPos;
                     }
                 }  
             }
+        }
+
+        public void CheckForDuplicates(GameObject[] tiles)
+        {
+            Dictionary<Vector3, GameObject> nonDuplicateTiles = new Dictionary<Vector3, GameObject>();
+            List<GameObject> duplicates = new List<GameObject>();
+
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                //If no duplicates exist
+                if (!nonDuplicateTiles.ContainsKey(tiles[i].transform.position)) nonDuplicateTiles.Add(tiles[i].transform.position, tiles[i]);
+                else
+                {
+                    Vector3 newPos = tiles[i].transform.position;
+                    newPos.y += 2f;
+                    tiles[i].transform.position = newPos;
+
+                    duplicates.Add(tiles[i]);
+                }
+            }
+
+            if (duplicates.Count > 0) throw new Exception("THERE ARE " + duplicates.Count + " DUPLICATE TILES. THEY HAVE BEEN MOVED UP BY 2 UNITS");
+        }
+
+        private GameObject[] GetAllChildrenFromParent(Transform parent)
+        {
+            GameObject[] childObjects = new GameObject[parent.childCount];
+            for (int i = 0; i < childObjects.Length; i++)
+            {
+                childObjects[i] = parent.GetChild(i).gameObject;
+            }
+
+            return childObjects;
         }
 
         #region Contractual Obligations

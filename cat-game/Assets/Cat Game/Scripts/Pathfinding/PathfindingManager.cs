@@ -168,8 +168,10 @@ namespace CatGame.Pathfinding
                     Vector3 spawnPosition = tile.WorldReference.transform.position;
                     spawnPosition.y += drawHeight * .5f;
 
+                    Vector3 tileScale = tile.WorldReference.transform.localScale;
+
                     Gizmos.color = tile.IsPassable ? passableColour : unpassableColour;
-                    Gizmos.DrawWireCube(spawnPosition, new Vector3(1, 1 + drawHeight, 1));
+                    Gizmos.DrawWireCube(spawnPosition, new Vector3(tileScale.x, tileScale.y + drawHeight, tileScale.z));
                 }
             }
             
