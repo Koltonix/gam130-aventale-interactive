@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 039ce812fc0ed934fb6c24fcc5e8767e, type: 3}
-  m_Name: Generic Entry
+  m_Name: Hercules
   m_EditorClassIdentifier: 
-  name: 
-  image: {fileID: 0}
-  description: 
+  name: Hercules
+  sprite: {fileID: 0}
+  description: "Personality: Strong \r\n\r\nOwners: Jess & Gary \r\n\r\nLives in:
+    18 Norforest Court \r\n\r\nDescription: Spends most of his time exercising and
+    will only eat high-protein foods. "
