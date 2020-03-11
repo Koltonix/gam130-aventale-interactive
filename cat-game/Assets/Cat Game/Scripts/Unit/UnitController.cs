@@ -229,8 +229,8 @@ namespace CatGame.Units
                 yield return MoveToPosition(objectToMove, nextPosition, movementSpeed);
             }
 
-            //Remove this if you do not want it to reselect upon completion.
-            UnitClicked(_selectedUnit);
+            //Add this if you do not want it to reselect upon completion.
+            //UnitClicked(_selectedUnit);
             movingCoroutine = null;
         }
 

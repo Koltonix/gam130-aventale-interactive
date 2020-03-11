@@ -59,6 +59,11 @@ namespace CatGame.Tiles
                 GameObject tileChild = board.transform.GetChild(i).gameObject;
                 Vector2Int tilePosition = GetTilePositionFromWorld(tileChild.transform.position);
 
+                TileDebug tileDebug = tileChild.AddComponent<TileDebug>();
+                tileDebug.x = tilePosition.x;
+                tileDebug.y = tilePosition.y;
+                tileDebug.worldReference = tileChild;
+
                 Tile newTile = new Tile(tileChild.transform.position, tileChild, tilePosition.x, tilePosition.y);
                 boardTiles[i] = newTile;
                 gridTiles[tilePosition.x, tilePosition.y] = newTile;
@@ -66,22 +71,6 @@ namespace CatGame.Tiles
 
             if (onBoardUpdate != null) onBoardUpdate.Invoke(boardTiles);
             return boardTiles;
-        }
-        
-        public Vector2Int GetTilePositionFromWorld(Vector3 position)
-        {
-            gridWorldSize = new Vector2(boardWidth * tileGap.x, boardHeight * tileGap.y);
-
-            float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x);
-            float yPoint = ((position.z + gridWorldSize.y * .5f) / gridWorldSize.y);
-
-            xPoint = Mathf.Clamp01(xPoint);
-            yPoint = Mathf.Clamp01(yPoint);
-
-            int x = Mathf.RoundToInt((gridWorldSize.x - 1) * xPoint) / tileGap.x;
-            int y = Mathf.RoundToInt((gridWorldSize.y - 1) * yPoint) / tileGap.y;
-
-            return new Vector2Int(x, y);
         }
 
         public void CheckForDuplicates(Tile[] tiles)
@@ -140,11 +129,28 @@ namespace CatGame.Tiles
             return null;
         }
 
+        public Vector2Int GetTilePositionFromWorld(Vector3 position)
+        {
+            gridWorldSize = new Vector2(boardWidth * tileGap.x, boardHeight * tileGap.y);
+
+            float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x) / tileGap.x;
+            float yPoint = ((position.z + gridWorldSize.y * .5f) / gridWorldSize.y) / tileGap.y;
+
+            xPoint = Mathf.Clamp01(xPoint);
+            yPoint = Mathf.Clamp01(yPoint);
+
+            int x = Mathf.RoundToInt((gridWorldSize.x - tileGap.x) * xPoint);
+            int y = Mathf.RoundToInt((gridWorldSize.y - tileGap.y) * yPoint);
+
+            return new Vector2Int(x, y);
+        }
+
+        //CHANGE THIS AFTER TO REFLECT THE ONE ABOVE
         public Tile GetTileFromWorldPosition(Vector3 position)
         {
             if (gridTiles != null)
             {
-                gridWorldSize = new Vector2(boardWidth * 1, boardHeight * 1);
+                gridWorldSize = new Vector2(boardWidth * tileGap.x, boardHeight * tileGap.y);
 
                 float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x);
                 float yPoint = ((position.z + gridWorldSize.y * .5f) / gridWorldSize.y);
@@ -155,7 +161,7 @@ namespace CatGame.Tiles
                 int x = Mathf.RoundToInt((gridWorldSize.x - 1) * xPoint);
                 int y = Mathf.RoundToInt((gridWorldSize.y - 1) * yPoint);
 
-                return gridTiles[x, y];
+                return gridTiles[x / tileGap.x, y / tileGap.y];
             }
 
             return null;
@@ -170,7 +176,7 @@ namespace CatGame.Tiles
             int yCheck;
 
             //Right hand check
-            xCheck = tile.boardX + 1;
+            xCheck = tile.boardX + tileGap.x;
             yCheck = tile.boardY;
 
             checkingTile = CheckForNeighbour(xCheck, yCheck);
@@ -178,7 +184,7 @@ namespace CatGame.Tiles
 
 
             //Left hand check
-            xCheck = tile.boardX - 1;
+            xCheck = tile.boardX - tileGap.x;
             yCheck = tile.boardY;
 
             checkingTile = CheckForNeighbour(xCheck, yCheck);
@@ -186,14 +192,14 @@ namespace CatGame.Tiles
 
             //Upper hand check
             xCheck = tile.boardX;
-            yCheck = tile.boardY + 1;
+            yCheck = tile.boardY + tileGap.y;
 
             checkingTile = CheckForNeighbour(xCheck, yCheck);
             if (checkingTile != null) neighbouringTiles.Add(checkingTile);
 
             //Left hand check
             xCheck = tile.boardX;
-            yCheck = tile.boardY - 1;
+            yCheck = tile.boardY - tileGap.y;
 
             checkingTile = CheckForNeighbour(xCheck, yCheck);
             if (checkingTile != null) neighbouringTiles.Add(checkingTile);
