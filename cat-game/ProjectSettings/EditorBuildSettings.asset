@@ -8,19 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Cat Game/Scenes/MainMenu_SCN.unity
     guid: 5c272852ea17b8c4980a4d3929bed6ea
-  - enabled: 0
-    path: Assets/Cat Game/Scenes/UIScene_SCN.unity
-    guid: fa05364cc0139cb4897c61dce8b00d82
-  - enabled: 0
-    path: Assets/Cat Game/Scenes/UnitMovement_SCN.unity
-    guid: d883c74daf7d6834887d7c1011deb429
-  - enabled: 0
-    path: Assets/Cat Game/Scenes/MovementPathfinding_SCN.unity
-    guid: bfa1569b1780b2b449468dc841e594fa
   - enabled: 1
     path: Assets/Cat Game/Scenes/Options_SCN.unity
     guid: ec8cc05539b8044499a90f18dfbddf62
   - enabled: 1
     path: Assets/Cat Game/Scenes/Prototypes/UnitMovement_SCN.unity
     guid: f6c760d1961d7994bb3b1a638edd76d9
+  - enabled: 1
+    path: Assets/Cat Game/Scenes/MainGame_SCN.unity
+    guid: 4712886f9e6ac454db8871a4cfe63094
   m_configObjects: {}

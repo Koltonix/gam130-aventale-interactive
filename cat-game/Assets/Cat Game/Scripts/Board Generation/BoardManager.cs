@@ -59,11 +59,6 @@ namespace CatGame.Tiles
                 GameObject tileChild = board.transform.GetChild(i).gameObject;
                 Vector2Int tilePosition = GetTilePositionFromWorld(tileChild.transform.position);
 
-                TileDebug tileDebug = tileChild.AddComponent<TileDebug>();
-                tileDebug.x = tilePosition.x;
-                tileDebug.y = tilePosition.y;
-                tileDebug.worldReference = tileChild;
-
                 Tile newTile = new Tile(tileChild.transform.position, tileChild, tilePosition.x, tilePosition.y);
                 boardTiles[i] = newTile;
                 gridTiles[tilePosition.x, tilePosition.y] = newTile;

@@ -42,6 +42,8 @@ namespace CatGame.Units
         private Color32 availableTileColour;
         [SerializeField]
         private Color32 selectedTileColour;
+        [SerializeField]
+        private Color32 pathColour;
 
         #region Event System
         public delegate void OnSelected(bool isSelected);
@@ -158,7 +160,7 @@ namespace CatGame.Units
                 {
                     for (int i = 0; i < path.Length; i++)
                     {
-                        path[i].WorldReference.GetComponent<Renderer>().material.color = Color.blue;
+                        path[i].WorldReference.GetComponent<Renderer>().material.color = pathColour;
                     }
 
                     lastSelectedPath = path;
