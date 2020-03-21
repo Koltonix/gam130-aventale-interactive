@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CatGame.CameraMovement
 {
-    [Ser]
+    [Serializable]
     public struct CameraPoint
     {
         public Transform worldTransform;
