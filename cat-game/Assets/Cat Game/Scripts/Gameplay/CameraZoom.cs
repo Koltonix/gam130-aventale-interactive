@@ -15,20 +15,21 @@ namespace CatGame.CameraMovement
 
         [Header("Position")]
         private float linearPoint = 0.0f;
-        private Vector3 lastPosition;
+        private Vector3 originalPosition;
         private Vector3 maxTargetPosition;
 
         private void Start()
         {
             if (!mainCamera) mainCamera = Camera.main;
 
-            lastPosition = this.transform.position;
             maxTargetPosition = GetMaxPositionUsingZoom(maxZoom);
+            originalPosition = this.transform.position;
         }
 
         private void Update()
         {
-            transform.position = Vector3.Lerp(lastPosition, maxTargetPosition, linearPoint);
+            maxTargetPosition = GetMaxPositionUsingZoom(maxZoom);
+            transform.position = Vector3.Lerp(originalPosition, maxTargetPosition, linearPoint);
             ZoomCamera(Mathf.RoundToInt(Input.GetAxisRaw("SCROLL_WHEEL")));
         }
 
@@ -46,9 +47,15 @@ namespace CatGame.CameraMovement
             }
         }
 
-        private Vector3 GetMaxPositionUsingZoom(float maxZoom)
+        private Vector3 GetMaxPositionUsingZoom(float maxDistance)
         {
-            return transform.forward * maxZoom;
+            return transform.forward * maxDistance + transform.position;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(maxTargetPosition, 2.5f);
         }
     }
 }
