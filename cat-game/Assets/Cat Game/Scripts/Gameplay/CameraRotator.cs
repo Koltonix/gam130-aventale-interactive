@@ -35,8 +35,8 @@ namespace CatGame.CameraMovement
 
         private void Update()
         {
-            if (Input.GetKeyDown(positiveButton)) IterateThroughPoints(1);
-            else if (Input.GetKeyDown(negativeButton)) IterateThroughPoints(-1);
+            if (Input.GetKeyDown(positiveButton) && movementCoroutine == null) IterateThroughPoints(1);
+            else if (Input.GetKeyDown(negativeButton) && rotationCoroutine == null) IterateThroughPoints(-1);
         }
 
         private void IterateThroughPoints(int direction)
@@ -74,6 +74,7 @@ namespace CatGame.CameraMovement
                 yield return new WaitForEndOfFrame();
             }
 
+            movementCoroutine = null;
             yield return null;
         }
 
@@ -90,6 +91,7 @@ namespace CatGame.CameraMovement
                 yield return new WaitForEndOfFrame();
             }
 
+            rotationCoroutine = null;
             yield return null;
         }
 
