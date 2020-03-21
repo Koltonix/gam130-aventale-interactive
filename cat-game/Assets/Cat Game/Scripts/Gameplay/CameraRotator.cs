@@ -35,8 +35,8 @@ namespace CatGame.CameraMovement
 
         private void Update()
         {
-            if (Input.GetKeyDown(positiveButton) && movementCoroutine == null) IterateThroughPoints(1);
-            else if (Input.GetKeyDown(negativeButton) && rotationCoroutine == null) IterateThroughPoints(-1);
+            if (Input.GetKey(positiveButton) && movementCoroutine == null) IterateThroughPoints(1);
+            else if (Input.GetKey(negativeButton) && rotationCoroutine == null) IterateThroughPoints(-1);
         }
 
         private void IterateThroughPoints(int direction)
