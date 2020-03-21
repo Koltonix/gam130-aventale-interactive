@@ -41,15 +41,18 @@ namespace CatGame.CameraMovement
 
         private void IterateThroughPoints(int direction)
         {
-            //Sanity check to ensure it is either 1 or -1
-            int absDirection = Mathf.Abs(direction);
-            direction = direction / absDirection;
+            if (direction != 0)
+            {
+                //Sanity check to ensure it is either 1 or -1
+                int absDirection = Mathf.Abs(direction);
+                direction /= absDirection;
 
-            pointIndex += direction;
-            if (pointIndex > travelPoints.Length - 1) pointIndex = 0;
-            else if (pointIndex < 0) pointIndex = travelPoints.Length - 1;
+                pointIndex += direction;
+                if (pointIndex > travelPoints.Length - 1) pointIndex = 0;
+                else if (pointIndex < 0) pointIndex = travelPoints.Length - 1;
 
-            UpdateCamera(travelPoints[pointIndex]);
+                UpdateCamera(travelPoints[pointIndex]);
+            }
         }
 
         private void UpdateCamera(CameraPoint point)
