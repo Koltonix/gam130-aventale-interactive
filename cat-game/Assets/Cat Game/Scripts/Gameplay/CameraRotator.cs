@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CatGame.CameraMovement
 {
@@ -27,6 +28,11 @@ namespace CatGame.CameraMovement
         [Header("Coroutines")]
         private Coroutine movementCoroutine;
         private Coroutine rotationCoroutine;
+        [Space]
+
+        [Header("Event")]
+        [SerializeField]
+        private UnityEvent onCameraMove;
 
         private void Start()
         {
@@ -60,8 +66,10 @@ namespace CatGame.CameraMovement
             if (movementCoroutine != null) StopCoroutine(movementCoroutine);
             if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
 
-            movementCoroutine = StartCoroutine(MoveToPoint(point, moveSpeed));
-            rotationCoroutine = StartCoroutine(RotateToPoint(point, rotateSpeed));
+            //movementCoroutine = StartCoroutine(MoveToPoint(point, moveSpeed));
+            //rotationCoroutine = StartCoroutine(RotateToPoint(point, rotateSpeed));
+
+            onCameraMove?.Invoke();
         }
 
         private IEnumerator MoveToPoint(CameraPoint point, float moveSpeed)

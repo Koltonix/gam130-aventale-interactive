@@ -15,12 +15,14 @@ namespace CatGame.CameraMovement
 
         [Header("Position")]
         [SerializeField]
+        private float moveSpeed = 1.25f;
+        [SerializeField]
         private float scrollLerpSpeed = 1.25f;
         [SerializeField]
         [Range(0.0f, 1.0f)]
         private float scrollSpeed = 0.2f;
         private float linearPoint = 0.0f;
-        private float lerpingLinearPoint = 0.0f;
+        private float lerpingLinearPoint = 0.0f;        
 
         private Coroutine scrollCoroutine;
 
@@ -37,11 +39,11 @@ namespace CatGame.CameraMovement
 
         private void Update()
         {
-            transform.position = Vector3.Lerp(originalPosition, maxTargetPosition, lerpingLinearPoint);
-            ZoomCamera(Mathf.RoundToInt(Input.GetAxisRaw("SCROLL_WHEEL")));
+            
+            DetermineLinearPoint(Mathf.RoundToInt(Input.GetAxisRaw("SCROLL_WHEEL")));
         }
 
-        private void ZoomCamera(int direction)
+        private void DetermineLinearPoint(int direction)
         {
             if (direction != 0)
             {
@@ -55,16 +57,17 @@ namespace CatGame.CameraMovement
             }
 
             if (scrollCoroutine != null) StopCoroutine(scrollCoroutine);
-            scrollCoroutine = StartCoroutine(ScrollLerp(scrollLerpSpeed));
+            scrollCoroutine = StartCoroutine(ScrollLerp(originalPosition, maxTargetPosition, moveSpeed, scrollLerpSpeed));
         }
 
-        private IEnumerator ScrollLerp(float scrollSpeed)
+        private IEnumerator ScrollLerp(Vector3 startPosition, Vector3 endPosition, float moveSpeed, float scrollSpeed)
         {
             float t = 0.0f;
             while (t <= 1.0f)
             {
                 t += Time.deltaTime * scrollSpeed;
                 lerpingLinearPoint = Mathf.Lerp(lerpingLinearPoint, linearPoint, t);
+                transform.position = Vector3.Lerp(startPosition, endPosition, lerpingLinearPoint);
 
                 yield return new WaitForEndOfFrame();
             }
@@ -75,6 +78,14 @@ namespace CatGame.CameraMovement
         private Vector3 GetMaxPositionUsingZoom(float maxDistance)
         {
             return transform.forward * maxDistance + transform.position;
+        }
+
+        public void OnCameraMove()
+        {
+            linearPoint = 0.0f;
+
+            if (scrollCoroutine != null) StopCoroutine(scrollCoroutine);
+            scrollCoroutine = StartCoroutine(ScrollLerp(originalPosition, maxTargetPosition, moveSpeed, scrollLerpSpeed));
         }
 
         private void OnDrawGizmos()
