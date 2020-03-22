@@ -18,6 +18,7 @@ namespace CatGame.CameraMovement
         private Transform cameraTransform;
         [SerializeField]
         private CameraPoint[] travelPoints;
+        private CameraPoint latestPoint;
         [SerializeField]
         private float moveSpeed = 1.25f;
         [SerializeField]
@@ -30,13 +31,16 @@ namespace CatGame.CameraMovement
         private Coroutine rotationCoroutine;
         [Space]
 
-        [Header("Event")]
+        [Header("Events")]
         [SerializeField]
-        private UnityEvent onCameraMove;
+        private UnityEvent onCameraMoveStart;
+        [SerializeField]
+        private UnityEvent onCameraMoveEnd;
 
         private void Start()
         {
             if (!cameraTransform) cameraTransform = this.transform;
+            latestPoint = travelPoints[0];
         }
 
         private void Update()
@@ -63,13 +67,18 @@ namespace CatGame.CameraMovement
 
         private void UpdateCamera(CameraPoint point)
         {
+            latestPoint = point;
+            onCameraMoveStart?.Invoke();
+        }
+
+        public void OnZoomReset()
+        {
+            Debug.Log("MOVING");
             if (movementCoroutine != null) StopCoroutine(movementCoroutine);
             if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
 
-            //movementCoroutine = StartCoroutine(MoveToPoint(point, moveSpeed));
-            //rotationCoroutine = StartCoroutine(RotateToPoint(point, rotateSpeed));
-
-            onCameraMove?.Invoke();
+            movementCoroutine = StartCoroutine(MoveToPoint(latestPoint, moveSpeed));
+            rotationCoroutine = StartCoroutine(RotateToPoint(latestPoint, rotateSpeed));
         }
 
         private IEnumerator MoveToPoint(CameraPoint point, float moveSpeed)
@@ -86,6 +95,7 @@ namespace CatGame.CameraMovement
             }
 
             movementCoroutine = null;
+            onCameraMoveEnd?.Invoke();
             yield return null;
         }
 
