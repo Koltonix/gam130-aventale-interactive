@@ -17952,7 +17952,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
-  maxZoom: 2.5
+  maxZoom: 10
+  scrollLerpSpeed: 1.25
+  scrollSpeed: 0.2
 --- !u!4 &1250377473 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7646546087402909047, guid: b078d57f57397ec48952b0a7425e1a34,

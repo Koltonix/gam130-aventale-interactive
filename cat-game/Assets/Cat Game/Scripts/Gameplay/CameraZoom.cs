@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CatGame.CameraMovement
 {
-    [RequireComponent(typeof(Camera))]
+    [RequireComponent(typeof(Camera), typeof(CameraRotator))]
     public class CameraZoom : MonoBehaviour
     {
         [Header("Camera Attributes")]
@@ -14,7 +14,16 @@ namespace CatGame.CameraMovement
         [Space]
 
         [Header("Position")]
+        [SerializeField]
+        private float scrollLerpSpeed = 1.25f;
+        [SerializeField]
+        [Range(0.0f, 1.0f)]
+        private float scrollSpeed = 0.2f;
         private float linearPoint = 0.0f;
+        private float lerpingLinearPoint = 0.0f;
+
+        private Coroutine scrollCoroutine;
+
         private Vector3 originalPosition;
         private Vector3 maxTargetPosition;
 
@@ -28,8 +37,7 @@ namespace CatGame.CameraMovement
 
         private void Update()
         {
-            maxTargetPosition = GetMaxPositionUsingZoom(maxZoom);
-            transform.position = Vector3.Lerp(originalPosition, maxTargetPosition, linearPoint);
+            transform.position = Vector3.Lerp(originalPosition, maxTargetPosition, lerpingLinearPoint);
             ZoomCamera(Mathf.RoundToInt(Input.GetAxisRaw("SCROLL_WHEEL")));
         }
 
@@ -41,10 +49,27 @@ namespace CatGame.CameraMovement
                 int absDirection = Mathf.Abs(direction);
                 direction /= absDirection;
 
-                linearPoint += (direction * 0.1f);
+                linearPoint += (direction * scrollSpeed);
                 if (linearPoint > 1.0f) linearPoint = 1.0f;
                 else if (linearPoint <= 0) linearPoint = 0.0f;
             }
+
+            if (scrollCoroutine != null) StopCoroutine(scrollCoroutine);
+            scrollCoroutine = StartCoroutine(ScrollLerp(scrollLerpSpeed));
+        }
+
+        private IEnumerator ScrollLerp(float scrollSpeed)
+        {
+            float t = 0.0f;
+            while (t <= 1.0f)
+            {
+                t += Time.deltaTime * scrollSpeed;
+                lerpingLinearPoint = Mathf.Lerp(lerpingLinearPoint, linearPoint, t);
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            yield return null;
         }
 
         private Vector3 GetMaxPositionUsingZoom(float maxDistance)
