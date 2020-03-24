@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace CatGame.CameraMovement
 {
-    [RequireComponent(typeof(Camera))]
     public class CameraZoom : CameraState
     {
         [Header("Camera Attributes")]
@@ -85,7 +84,6 @@ namespace CatGame.CameraMovement
                 t += Time.deltaTime * scrollSpeed;
                 lerpingLinearPoint = Mathf.Lerp(lerpingLinearPoint, linearPoint, t);
                 transform.position = Vector3.Lerp(startPosition, endPosition, lerpingLinearPoint);
-                Debug.Log(t);
 
                 yield return new WaitForEndOfFrame();
             }

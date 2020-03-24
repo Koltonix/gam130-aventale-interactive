@@ -67,16 +67,9 @@ namespace CatGame.CameraMovement
         private void UpdateCamera(CameraPoint point)
         {
             latestPoint = point;
-        }
 
-        public void OnZoomReset()
-        {
-            Debug.Log("MOVING");
-            if (movementCoroutine != null) StopCoroutine(movementCoroutine);
-            if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
-
-            movementCoroutine = StartCoroutine(MoveToPoint(latestPoint, moveSpeed));
-            rotationCoroutine = StartCoroutine(RotateToPoint(latestPoint, rotateSpeed));
+            if (movementCoroutine == null) movementCoroutine = StartCoroutine(MoveToPoint(point, moveSpeed));
+            if (rotationCoroutine == null) rotationCoroutine = StartCoroutine(RotateToPoint(point, rotateSpeed));
         }
 
         private IEnumerator MoveToPoint(CameraPoint point, float moveSpeed)
