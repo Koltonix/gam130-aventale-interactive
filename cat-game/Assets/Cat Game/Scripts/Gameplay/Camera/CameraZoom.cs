@@ -34,6 +34,8 @@ namespace CatGame.CameraMovement
 
             maxTargetPosition = GetMaxPositionUsingZoom(maxZoom);
             originalPosition = this.transform.position;
+
+            coroutines = new Coroutine[1] { scrollCoroutine };
         }
 
         #region Abstract Parent Obligations
@@ -88,6 +90,7 @@ namespace CatGame.CameraMovement
                 yield return new WaitForEndOfFrame();
             }
 
+            scrollCoroutine = null;
             yield return null;
         }
 

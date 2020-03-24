@@ -33,6 +33,8 @@ namespace CatGame.CameraMovement
         {
             if (!cameraTransform) cameraTransform = this.transform;
             latestPoint = travelPoints[0];
+
+            coroutines = new Coroutine[2] { movementCoroutine, rotationCoroutine };
         }
 
         #region Abstract Parent Obligations
