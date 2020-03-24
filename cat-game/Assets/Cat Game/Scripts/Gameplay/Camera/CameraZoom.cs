@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace CatGame.CameraMovement
 {
-    [RequireComponent(typeof(Camera), typeof(CameraRotator))]
-    public class CameraZoom : MonoBehaviour
+    [RequireComponent(typeof(Camera))]
+    public class CameraZoom : CameraState
     {
         [Header("Camera Attributes")]
         [SerializeField]
@@ -30,10 +29,6 @@ namespace CatGame.CameraMovement
         private Vector3 originalPosition;
         private Vector3 maxTargetPosition;
 
-        [Header("Events")]
-        [SerializeField]
-        private UnityEvent onZoomReset;
-
         private void Start()
         {
             if (!mainCamera) mainCamera = Camera.main;
@@ -42,11 +37,28 @@ namespace CatGame.CameraMovement
             originalPosition = this.transform.position;
         }
 
-        private void Update()
+        #region Abstract Parent Obligations
+
+        public override void Update()
         {
-            
             DetermineLinearPoint(Mathf.RoundToInt(Input.GetAxisRaw("SCROLL_WHEEL")));
         }
+
+        public override void OnStateEnter()
+        {
+            originalPosition = this.transform.position;
+            maxTargetPosition = GetMaxPositionUsingZoom(maxZoom);
+        }
+
+        public override void OnStateExit()
+        {
+            linearPoint = 0.0f;
+
+            if (scrollCoroutine != null) StopCoroutine(scrollCoroutine);
+            scrollCoroutine = StartCoroutine(ScrollLerp(originalPosition, maxTargetPosition, moveSpeed, scrollLerpSpeed));
+        }
+
+        #endregion
 
         private void DetermineLinearPoint(int direction)
         {
@@ -78,28 +90,12 @@ namespace CatGame.CameraMovement
                 yield return new WaitForEndOfFrame();
             }
 
-            Debug.Log("RESETTING ZOOM");
-            onZoomReset?.Invoke();
             yield return null;
         }
 
         private Vector3 GetMaxPositionUsingZoom(float maxDistance)
         {
             return transform.forward * maxDistance + transform.position;
-        }
-
-        public void OnCameraMoveStart()
-        {
-            linearPoint = 0.0f;
-
-            if (scrollCoroutine != null) StopCoroutine(scrollCoroutine);
-            scrollCoroutine = StartCoroutine(ScrollLerp(originalPosition, maxTargetPosition, moveSpeed, scrollLerpSpeed));
-        }
-
-        public void OnCameraMoveEnd()
-        {
-            originalPosition = this.transform.position;
-            maxTargetPosition = GetMaxPositionUsingZoom(maxZoom);
         }
 
         private void OnDrawGizmos()

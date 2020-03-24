@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace CatGame.CameraMovement
 {
-    public class CameraRotator : MonoBehaviour
+    public class CameraRotator : CameraState
     {
         [Header("Input Settings")]
         [SerializeField]
@@ -29,25 +28,25 @@ namespace CatGame.CameraMovement
         [Header("Coroutines")]
         private Coroutine movementCoroutine;
         private Coroutine rotationCoroutine;
-        [Space]
-
-        [Header("Events")]
-        [SerializeField]
-        private UnityEvent onCameraMoveStart;
-        [SerializeField]
-        private UnityEvent onCameraMoveEnd;
-
+   
         private void Start()
         {
             if (!cameraTransform) cameraTransform = this.transform;
             latestPoint = travelPoints[0];
         }
 
-        private void Update()
+        #region Abstract Parent Obligations
+
+        public override void Update()
         {
             if (Input.GetKey(positiveButton) && movementCoroutine == null) IterateThroughPoints(1);
             else if (Input.GetKey(negativeButton) && rotationCoroutine == null) IterateThroughPoints(-1);
         }
+
+        public override void OnStateEnter(){ }
+        public override void OnStateExit() { }
+
+        #endregion
 
         private void IterateThroughPoints(int direction)
         {
@@ -68,7 +67,6 @@ namespace CatGame.CameraMovement
         private void UpdateCamera(CameraPoint point)
         {
             latestPoint = point;
-            onCameraMoveStart?.Invoke();
         }
 
         public void OnZoomReset()
@@ -95,7 +93,6 @@ namespace CatGame.CameraMovement
             }
 
             movementCoroutine = null;
-            onCameraMoveEnd?.Invoke();
             yield return null;
         }
 
