@@ -39,7 +39,7 @@ namespace CatGame.CameraMovement
 
         #region Abstract Parent Obligations
 
-        public override void Update()
+        public override void OnStateStay()
         {
             DetermineLinearPoint(Mathf.RoundToInt(Input.GetAxisRaw("SCROLL_WHEEL")));
         }

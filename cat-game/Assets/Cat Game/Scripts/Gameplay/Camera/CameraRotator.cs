@@ -37,7 +37,7 @@ namespace CatGame.CameraMovement
 
         #region Abstract Parent Obligations
 
-        public override void Update()
+        public override void OnStateStay()
         {
             if (Input.GetKey(positiveButton) && movementCoroutine == null) IterateThroughPoints(1);
             else if (Input.GetKey(negativeButton) && rotationCoroutine == null) IterateThroughPoints(-1);
