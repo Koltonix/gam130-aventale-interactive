@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace CatGame.CameraMovement
 {
@@ -10,52 +11,63 @@ namespace CatGame.CameraMovement
         private CameraState zooming;
         private CameraState currentState;
 
+        private Coroutine changingState;
+
         private void Start()
         {
             rotating = this.GetComponent<CameraRotator>();
             zooming = this.GetComponent<CameraZoom>();
 
-            ChangeState(rotating);
+            changingState = StartCoroutine(ChangeState(rotating));
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E)) ChangeState(rotating);
-            else if (Input.GetAxisRaw("SCROLL_WHEEL") != 0) ChangeState(zooming);
+            Debug.Log(changingState == null);
+            if (changingState == null)
+            {
+                if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E))
+                {
+                    changingState = StartCoroutine(ChangeState(rotating));
+                }
 
-            currentState.OnStateStay();
+                else if (Input.GetAxisRaw("SCROLL_WHEEL") != 0)
+                {
+                    changingState = StartCoroutine(ChangeState(zooming));
+                }
+            }
+
+            if (currentState) currentState.OnStateStay();
         }
 
-        private bool lastIsRunning;
-
-        private void ChangeState(CameraState newState)
+        private IEnumerator ChangeState(CameraState newState)
         {
-            //Not transitioning to the same state
+            
+           
+            
+            //Can't go from the same state to the same
             if (currentState != newState)
             {
-                //First will always be null
+                //First time will always be null
                 if (currentState)
                 {
                     currentState.OnStateExit();
 
-                    do
-                    {
-                        lastIsRunning = false;
-
-                        for (int i = 0; i < currentState.coroutines.Length; i++)
-                        {
-                            if (currentState.coroutines[i] != null) lastIsRunning = true;
-                            Debug.Log(currentState.coroutines[i]);
-                        }
-
-                    } while (lastIsRunning);
+                    //while (currentState.IsCurrentlyRunning())
+                    //{
+                    //    Debug.Log("WAITING");
+                    //    yield return new WaitForEndOfFrame();
+                    //}
                 }
 
                 //Run the new state
                 currentState = newState;
                 currentState.OnStateEnter();
-            }
-            
+
+            }      
+
+            changingState = null;
+            yield return null;
         }
 
     }

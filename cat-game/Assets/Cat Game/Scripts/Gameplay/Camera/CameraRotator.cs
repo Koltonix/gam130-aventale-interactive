@@ -33,8 +33,6 @@ namespace CatGame.CameraMovement
         {
             if (!cameraTransform) cameraTransform = this.transform;
             latestPoint = travelPoints[0];
-
-            coroutines = new Coroutine[2] { movementCoroutine, rotationCoroutine };
         }
 
         #region Abstract Parent Obligations
@@ -47,6 +45,12 @@ namespace CatGame.CameraMovement
 
         public override void OnStateEnter(){ }
         public override void OnStateExit() { }
+
+        public override bool IsCurrentlyRunning()
+        {
+            if (movementCoroutine == null && rotationCoroutine == null) return false;
+            else return true;
+        }
 
         #endregion
 

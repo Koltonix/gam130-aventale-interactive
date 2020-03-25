@@ -34,8 +34,6 @@ namespace CatGame.CameraMovement
 
             maxTargetPosition = GetMaxPositionUsingZoom(maxZoom);
             originalPosition = this.transform.position;
-
-            coroutines = new Coroutine[1] { scrollCoroutine };
         }
 
         #region Abstract Parent Obligations
@@ -57,6 +55,12 @@ namespace CatGame.CameraMovement
 
             if (scrollCoroutine != null) StopCoroutine(scrollCoroutine);
             scrollCoroutine = StartCoroutine(ScrollLerp(originalPosition, maxTargetPosition, moveSpeed, scrollLerpSpeed));
+        }
+
+        public override bool IsCurrentlyRunning()
+        {
+            if (scrollCoroutine == null) return false;
+            else return true;
         }
 
         #endregion
