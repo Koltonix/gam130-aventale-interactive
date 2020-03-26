@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace CatGame.CameraMovement
@@ -80,6 +81,7 @@ namespace CatGame.CameraMovement
 
         private IEnumerator MoveToPoint(CameraPoint point, float moveSpeed)
         {
+            if (point.worldTransform == null) throw new Exception("ASSIGN CAMERA POINTS IN THE INSPECTOR");
             Vector3 targetPoint = point.worldTransform.position;
 
             float t = 0.0f;
