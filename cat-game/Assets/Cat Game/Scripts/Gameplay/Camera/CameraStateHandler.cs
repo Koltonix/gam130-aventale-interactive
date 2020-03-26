@@ -11,41 +11,40 @@ namespace CatGame.CameraMovement
         private CameraState zooming;
         private CameraState currentState;
 
-        private Coroutine changingState;
+        private IEnumerator changingState;
 
         private void Start()
         {
             rotating = this.GetComponent<CameraRotator>();
             zooming = this.GetComponent<CameraZoom>();
 
-            changingState = StartCoroutine(ChangeState(rotating));
+            changingState = ChangeState(rotating);
+            StartCoroutine(changingState);
         }
 
         private void Update()
         {
-            Debug.Log(changingState == null);
+            if (currentState) currentState.OnStateStay();
+
             if (changingState == null)
             {
                 if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E))
                 {
-                    changingState = StartCoroutine(ChangeState(rotating));
+                    changingState = ChangeState(rotating);
+                    StartCoroutine(changingState);
                 }
 
                 else if (Input.GetAxisRaw("SCROLL_WHEEL") != 0)
                 {
-                    changingState = StartCoroutine(ChangeState(zooming));
+                    changingState = ChangeState(zooming);
+                    StartCoroutine(changingState);
                 }
             }
-
-            if (currentState) currentState.OnStateStay();
         }
 
         private IEnumerator ChangeState(CameraState newState)
         {
-            
-           
-            
-            //Can't go from the same state to the same
+           // Can't go from the same state to the same
             if (currentState != newState)
             {
                 //First time will always be null
@@ -53,18 +52,16 @@ namespace CatGame.CameraMovement
                 {
                     currentState.OnStateExit();
 
-                    //while (currentState.IsCurrentlyRunning())
-                    //{
-                    //    Debug.Log("WAITING");
-                    //    yield return new WaitForEndOfFrame();
-                    //}
+                    while (currentState.IsCurrentlyRunning())
+                    {
+                        yield return new WaitForEndOfFrame();
+                    }
                 }
 
                 //Run the new state
                 currentState = newState;
-                currentState.OnStateEnter();
-
-            }      
+                newState.OnStateEnter(); 
+            }
 
             changingState = null;
             yield return null;
