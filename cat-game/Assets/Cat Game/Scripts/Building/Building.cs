@@ -22,6 +22,8 @@ namespace CatGame.UI
         private Player debugOwner;
 
         public int SpawnPoints;
+        [SerializeField]
+        private float uiHeight = 5f;
         
         [Space]
 
@@ -106,7 +108,7 @@ namespace CatGame.UI
         private void MakeMenu()
         {
             buildMenu = Instantiate(BuildmenuPrefab, gameObject.transform);
-            buildMenu.transform.position = new Vector3(buildMenu.transform.position.x, buildMenu.transform.position.y + 3, buildMenu.transform.position.z);
+            buildMenu.transform.position = new Vector3(buildMenu.transform.position.x, buildMenu.transform.position.y + uiHeight, buildMenu.transform.position.z);
             BuildMenu buildMenuScript = buildMenu.GetComponent<BuildMenu>();
             buildMenuScript.GenerateButtons(units);
             for (int i = units.Length-1; i >= 0; i--)

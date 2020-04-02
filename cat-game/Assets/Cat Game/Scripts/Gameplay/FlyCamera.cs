@@ -14,8 +14,13 @@ namespace CatGame.UI
         [SerializeField][Range(0.1f, 10f)]
         float camSens = 3f; //How sensitive it with mouse
         float maxYAngle = 80f;
-        Vector2 currentRotation;
+        Vector3 currentRotation;
         private float totalRun = 1.0f;
+
+        private void Start()
+        {
+            currentRotation = this.transform.eulerAngles;
+        }
 
         void Update()
         {

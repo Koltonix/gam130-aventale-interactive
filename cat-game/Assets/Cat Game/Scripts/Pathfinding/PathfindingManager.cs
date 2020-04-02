@@ -35,13 +35,13 @@ namespace CatGame.Pathfinding
         [SerializeField]
         private Color32 passableColour;
         [SerializeField]
-        private Color32 unpassableColour;
+        private Color32 impassableColour;
         private float drawHeight = 0.25f;
 
         private void Start()
         {
             boardData = boardGenerator.GetComponent<IGetBoardData>();
-            clickData = userInput.GetComponent<IGetOnClick>();  
+            clickData = userInput.GetComponent<IGetOnClick>();
         }
 
         public List<Tile> GetPath(Vector3 startPosition, Vector3 endPosition)
@@ -165,11 +165,17 @@ namespace CatGame.Pathfinding
             {
                 foreach (Tile tile in boardData.GetTiles())
                 {
-                    Vector3 spawnPosition = tile.WorldReference.transform.position;
-                    spawnPosition.y += drawHeight * .5f;
+                    if (tile != null)
+                    {
+                        Vector3 spawnPosition = tile.WorldReference.transform.position;
+                        spawnPosition.y += drawHeight * .5f;
 
-                    Gizmos.color = tile.IsPassable ? passableColour : unpassableColour;
-                    Gizmos.DrawWireCube(spawnPosition, new Vector3(1, 1 + drawHeight, 1));
+                        Vector3 tileScale = tile.WorldReference.transform.localScale;
+
+                        Gizmos.color = tile.IsPassable ? passableColour : impassableColour;
+                        Gizmos.DrawWireCube(spawnPosition, new Vector3(tileScale.x, tileScale.y + drawHeight, tileScale.z));
+                    }
+                    
                 }
             }
             
