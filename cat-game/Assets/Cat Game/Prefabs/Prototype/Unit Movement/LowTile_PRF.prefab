@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2263864217131829365}
   - component: {fileID: 2263864217131829364}
   - component: {fileID: 2263864217131829367}
+  - component: {fileID: 6159027642453399825}
   m_Layer: 9
   m_Name: LowTile_PRF
   m_TagString: Untagged
@@ -91,3 +92,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6159027642453399825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2263864217131829366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24859a130dc6e9b44be05999c6457765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 0
+  y: 0
+  worldReference: {fileID: 0}

@@ -11,8 +11,7 @@ namespace CatGame.Units
     {
         [SerializeField]
         private int maxHealth;
-        [SerializeField]
-        private int currentHealth;
+        public int currentHealth;
 
         [SerializeField]
         private GameObject healthBarPrefab;
@@ -70,19 +69,16 @@ namespace CatGame.Units
             {
                 //if (animator != null)
                 //{
-                    //animator.Play();
+                //animator.Play();
                 //}
-                Delete();
+
+                Destroy(gameObject);
                 Attacker attacker = this.GetComponent<Attacker>();
                 if (attacker != null)
                 {
                     attacker.AttackerDeath();
                 }
             }
-        }
-        public void Delete()
-        {
-            Destroy(gameObject);
         }
     }
 }

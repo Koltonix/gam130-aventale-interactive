@@ -153,6 +153,12 @@ namespace CatGame.Units
             }
         }
 
+        private void OnDestroy()
+        {
+            BoardManager.Instance.onBoardUpdate -= DetermineTilesInSphere;
+            TurnManager.Instance.onPlayerCycle -= OnPlayerCycle;
+        }
+
         #endregion
 
         #region Event Listener

@@ -5,6 +5,7 @@ using CatGame.Units;
 using CatGame.Controls;
 using CatGame.ControlScheme;
 using CatGame.Data;
+using CatGame.Tiles;
 
 namespace CatGame.Combat
 {
@@ -61,10 +62,21 @@ namespace CatGame.Combat
                         if (mouseOver.collider.GetComponent<Health>() != null && mouseOver.collider.GetComponent<Unit>().owner != this.GetComponent<Unit>().owner)
                         {
                             arrow.GetComponentInChildren<Renderer>().material.color = canAttackColour;
-                            if (Input.GetKeyDown(Keybinds.KeybindsManager.movementSelect))
+
+                            if (Input.GetKeyDown(Keybinds.KeybindsManager.movementSelect) && this.GetComponent<Unit>().owner.GetPlayerReference().ActionPoints - AttackAP > 0)
                             {
-                                Debug.Log("Attack for " + Damage.ToString() + " damage.");
-                                mouseOver.collider.gameObject.GetComponent<Health>().Damage(Damage);
+                                //Debug.Log("Attack for " + Damage.ToString() + " damage.");
+                                Health enemyHealth =  mouseOver.collider.gameObject.GetComponent<Health>();
+
+                                //Have to check if it will be killed in advance otherwise it is deleted from reference
+                                if (enemyHealth.currentHealth - Damage <= 0)
+                                {
+                                    //Updates tiles for all Units
+                                    BoardManager.Instance.GetBoardTiles();
+                                }
+
+                                enemyHealth.Damage(Damage);
+
                                 this.GetComponent<Unit>().owner.GetPlayerReference().ActionPoints -= AttackAP;
                             }
                         }
@@ -86,6 +98,7 @@ namespace CatGame.Combat
             if (
                 Input.GetKeyDown(Keybinds.KeybindsManager.attackSelect) 
                 && mouseOver.collider.gameObject == this.gameObject 
+                && this.GetComponent<Unit>() != null
                 && this.GetComponent<Unit>().owner.GetPlayerReference().isActive
                 )
             {

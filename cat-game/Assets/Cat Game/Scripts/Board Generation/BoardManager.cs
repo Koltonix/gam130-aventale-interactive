@@ -62,6 +62,8 @@ namespace CatGame.Tiles
                 Tile newTile = new Tile(tileChild.transform.position, tileChild, tilePosition.x, tilePosition.y);
                 boardTiles[i] = newTile;
                 gridTiles[tilePosition.x, tilePosition.y] = newTile;
+
+                tileChild.GetComponent<TileDebug>().TileDebugSetup(tilePosition.x, tilePosition.y, tileChild);
             }
 
             if (onBoardUpdate != null) onBoardUpdate.Invoke(boardTiles);
