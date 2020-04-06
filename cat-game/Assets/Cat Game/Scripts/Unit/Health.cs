@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using CatGame.Combat;
 using CatGame.Data;
+using CatGame.Tiles;
 
 namespace CatGame.Units
 {
@@ -16,6 +17,8 @@ namespace CatGame.Units
         [SerializeField]
         private GameObject healthBarPrefab;
         private GameObject healthBar;
+        [SerializeField]
+        private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0);
         private Image healthBarImage;
         private bool healthBarIsActive;
 
@@ -27,7 +30,7 @@ namespace CatGame.Units
         {
             currentHealth = maxHealth;
             healthBar = Instantiate(healthBarPrefab, this.transform);
-            healthBar.transform.position += new Vector3(0,1.5f,0);
+            healthBar.transform.position += healthBarOffset;
             healthBar.SetActive(false);
             healthBarImage = healthBar.GetComponentInChildren<Image>();
         }
@@ -65,20 +68,27 @@ namespace CatGame.Units
         public void Damage(int damage)
         {
             currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
-            if (currentHealth == 0)
+            if (currentHealth <= 0)
             {
                 //if (animator != null)
                 //{
                 //animator.Play();
                 //}
 
-                Destroy(gameObject);
                 Attacker attacker = this.GetComponent<Attacker>();
                 if (attacker != null)
                 {
                     attacker.AttackerDeath();
                 }
+
+                Destroy(this.gameObject);
             }
+        }
+
+        private void OnDestroy()
+        {
+            //RESETS THE BOARD TILES
+            BoardManager.Instance.GetBoardTiles();
         }
     }
 }

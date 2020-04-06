@@ -58,7 +58,26 @@ namespace CatGame.Combat
                         arrow.SetActive(true);
                         arrow.transform.LookAt(enemy);
                         arrow.transform.localScale = new Vector3(arrow.transform.localScale.x, arrow.transform.localScale.y, Vector3.Distance(arrow.transform.position, enemy.transform.position));
-                        
+
+                        //It is the base currently being targeted.
+                        if (mouseOver.collider.GetComponent<Health>() != null && mouseOver.collider.GetComponent<Unit>() == null)
+                        {
+                            arrow.GetComponentInChildren<Renderer>().material.color = canAttackColour;
+
+                            if (Input.GetKeyDown(Keybinds.KeybindsManager.movementSelect) && this.GetComponent<Unit>().owner.GetPlayerReference().ActionPoints - AttackAP > 0)
+                            {
+                                //Debug.Log("Attack for " + Damage.ToString() + " damage.");
+                                Health enemyHealth = mouseOver.collider.gameObject.GetComponent<Health>();
+
+                                //if (enemyHealth.currentHealth - Damage <= 0)//END GAME
+                                enemyHealth.Damage(Damage);
+
+                                this.GetComponent<Unit>().owner.GetPlayerReference().ActionPoints -= AttackAP;
+                            }
+
+                            return;
+                        }
+
                         if (mouseOver.collider.GetComponent<Health>() != null && mouseOver.collider.GetComponent<Unit>().owner != this.GetComponent<Unit>().owner)
                         {
                             arrow.GetComponentInChildren<Renderer>().material.color = canAttackColour;
@@ -67,16 +86,10 @@ namespace CatGame.Combat
                             {
                                 //Debug.Log("Attack for " + Damage.ToString() + " damage.");
                                 Health enemyHealth =  mouseOver.collider.gameObject.GetComponent<Health>();
+                                int newUnitHealth = enemyHealth.currentHealth - Damage;
 
                                 //Have to check if it will be killed in advance otherwise it is deleted from reference
-                                if (enemyHealth.currentHealth - Damage <= 0)
-                                {
-                                    //Updates tiles for all Units
-                                    BoardManager.Instance.GetBoardTiles();
-                                }
-
                                 enemyHealth.Damage(Damage);
-
                                 this.GetComponent<Unit>().owner.GetPlayerReference().ActionPoints -= AttackAP;
                             }
                         }
