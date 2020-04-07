@@ -6654,6 +6654,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 417332113}
+  - component: {fileID: 417332115}
   - component: {fileID: 417332112}
   - component: {fileID: 417332114}
   m_Layer: 0
@@ -6681,6 +6682,7 @@ MonoBehaviour:
     unitCap: 10
     PlayerUnits: []
     defaultActionPoints: 200
+    currentBase: {fileID: 1785711244}
     colour:
       serializedVersion: 2
       rgba: 10440766
@@ -6689,6 +6691,7 @@ MonoBehaviour:
     unitCap: 10
     PlayerUnits: []
     defaultActionPoints: 200
+    currentBase: {fileID: 2018886536}
     colour:
       serializedVersion: 2
       rgba: 4080799
@@ -6704,7 +6707,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &417332114
 MonoBehaviour:
@@ -6719,6 +6722,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayerIndex: 0
+--- !u!114 &417332115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417332111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a724b06e4ab16ab4096d91a11d38b7d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &420259605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14301,6 +14316,7 @@ MonoBehaviour:
     unitCap: 0
     PlayerUnits: []
     defaultActionPoints: 8
+    currentBase: {fileID: 0}
     colour:
       serializedVersion: 2
       rgba: 0
@@ -14316,7 +14332,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &941093013
 MonoBehaviour:

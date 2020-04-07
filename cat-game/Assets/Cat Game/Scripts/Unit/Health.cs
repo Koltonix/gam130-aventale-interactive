@@ -25,7 +25,6 @@ namespace CatGame.Units
         [SerializeField]
         private Animator animator;
 
-
         void Start()
         {
             currentHealth = maxHealth;
@@ -88,6 +87,7 @@ namespace CatGame.Units
         private void OnDestroy()
         {
             //RESETS THE BOARD TILES
+            GameController.Instance.CheckIfWon();
             BoardManager.Instance.GetBoardTiles();
         }
     }
