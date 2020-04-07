@@ -6,7 +6,7 @@ namespace CatGame.CameraMovement
     [Serializable]
     public struct CameraPoint
     {
-        public Transform worldTransform;
+        public GameObject worldReference;
         public Vector3 rotation;
         public bool useObjectRotation;
     }

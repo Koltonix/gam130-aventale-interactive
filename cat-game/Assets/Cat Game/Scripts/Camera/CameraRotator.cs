@@ -81,8 +81,8 @@ namespace CatGame.CameraMovement
 
         private IEnumerator MoveToPoint(CameraPoint point, float moveSpeed)
         {
-            if (point.worldTransform == null) throw new Exception("ASSIGN CAMERA POINTS IN THE INSPECTOR");
-            Vector3 targetPoint = point.worldTransform.position;
+            if (point.worldReference == null) throw new Exception("ASSIGN CAMERA POINTS IN THE INSPECTOR");
+            Vector3 targetPoint = point.worldReference.transform.position;
 
             float t = 0.0f;
             while (t <= 1.0f)
@@ -116,8 +116,24 @@ namespace CatGame.CameraMovement
 
         private Quaternion GetRotationFromCameraPoint(CameraPoint point)
         {
-            if (point.useObjectRotation) return point.worldTransform.rotation;
+            if (point.useObjectRotation) return point.worldReference.transform.rotation;
             return Quaternion.Euler(point.rotation);
+        }
+
+        private void OnDrawGizmos()
+        {
+            for (int i = 0; i < travelPoints.Length; i++)
+            {
+                //Drawing the Points
+                Gizmos.color = new Color32(255, 113, 13, 255);
+                Gizmos.DrawSphere(travelPoints[i].worldReference.transform.position, .5f);
+
+                //Rendering the Lines
+                Gizmos.color = new Color32(255, 223, 13, 255);
+                if (i == travelPoints.Length - 1) Gizmos.DrawLine(travelPoints[i].worldReference.transform.position, travelPoints[0].worldReference.transform.position);
+                else Gizmos.DrawLine(travelPoints[i].worldReference.transform.position, travelPoints[i + 1].worldReference.transform.position);
+
+            }
         }
     }
 }
