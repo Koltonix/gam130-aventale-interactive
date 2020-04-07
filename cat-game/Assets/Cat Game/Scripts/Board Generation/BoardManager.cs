@@ -50,6 +50,7 @@ namespace CatGame.Tiles
         /// <returns></returns>
         public Tile[] GetBoardTiles()
         {
+            if (board == null) return null;
             int amountOfTiles = board.transform.childCount;
             Tile[] boardTiles = new Tile[amountOfTiles];
             gridTiles = new Tile[boardWidth, boardHeight];

@@ -22,6 +22,8 @@ namespace CatGame.Units
         private Image healthBarImage;
         private bool healthBarIsActive;
 
+        public bool isABase = false;
+
         [SerializeField]
         private Animator animator;
 
@@ -86,8 +88,9 @@ namespace CatGame.Units
 
         private void OnDestroy()
         {
+            //This is not ideal and I would have preferred inheritance, but due to time constraints it has to be done this way.
+            if (isABase) GameController.Instance.CheckIfWon();
             //RESETS THE BOARD TILES
-            GameController.Instance.CheckIfWon();
             BoardManager.Instance.GetBoardTiles();
         }
     }

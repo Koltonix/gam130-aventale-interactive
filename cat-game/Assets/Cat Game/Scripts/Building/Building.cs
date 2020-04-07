@@ -21,7 +21,7 @@ namespace CatGame.UI
         private Player currentTurnPlayer;
         private Player debugOwner;
 
-        public int SpawnPoints;
+        public int SpawnPoints = 2;
         [SerializeField]
         private float uiHeight = 5f;
         
@@ -47,7 +47,6 @@ namespace CatGame.UI
 
             currentTurnPlayer = PlayerManager.Instance.GetCurrentPlayer();
 
-            SpawnPoints = 2;
             this.GetComponent<Renderer>().material.color = owner.GetPlayerReference().colour;
             TurnManager.Instance.onPlayerCycle += ChangePlayer;
             MakeMenu();

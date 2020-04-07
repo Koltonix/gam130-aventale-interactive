@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using CatGame.Data;
 
 namespace CatGame
@@ -14,14 +15,17 @@ namespace CatGame
         }
         #endregion
 
+        public int mainMenuBuildIndex = 0;
+
         public void CheckIfWon()
         {
             Player winningPlayer = PlayerManager.Instance.GetCurrentPlayer();
-            if (winningPlayer == null) return;
 
             //DISABLE SCRIPTS
             //LOAD WIN SCREEN
+
             Debug.Log(winningPlayer.colour);
+            SceneController.Instance.LoadScene(mainMenuBuildIndex);
         }
     }
 }
