@@ -27,7 +27,11 @@ namespace CatGame.Units
 
         [Header("Movement Settings")]
         [SerializeField]
-        private float movementSpeed;
+        private float movementSpeed = 1.25f;
+        [SerializeField]
+        private float rotateSpeed = 1.25f;
+        [SerializeField]
+        private float minDistanceToCheck = 0.5f;
         private Coroutine movingCoroutine;
 
         [Header("Selection Information")]
@@ -240,21 +244,20 @@ namespace CatGame.Units
         {
             float t = 0.0f;
 
-            Vector3 direction = (target - objectToMove.position).normalized;
-            direction.y = 0;
-
-            while (t < 1.0f)
+            while (Vector3.Distance(objectToMove.position, target) > minDistanceToCheck)
             {
-                t += Time.deltaTime * 1.25f;
+                Vector3 direction = (target - objectToMove.position).normalized;
+                direction.y = 0;
 
-                objectToMove.position = Vector3.Lerp(objectToMove.position, target, t);
+                t += Time.deltaTime * rotateSpeed;
+
                 if (direction == Vector3.zero) continue;
-                objectToMove.transform.forward = Vector3.Lerp(objectToMove.forward, direction, t);
+
+                objectToMove.position += (objectToMove.forward * Time.deltaTime * movementSpeed);
+                objectToMove.forward = Vector3.Lerp(objectToMove.forward, direction, t);
 
                 yield return new WaitForEndOfFrame();
             }
-
-            objectToMove.position = target;
 
            yield return null;
         }

@@ -14336,7 +14336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53a3f97fe3f71cf4ea2f125b72b4b024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
+  movementSpeed: 3
+  rotateSpeed: 0.5
   availableTileColour:
     serializedVersion: 2
     rgba: 1255576
