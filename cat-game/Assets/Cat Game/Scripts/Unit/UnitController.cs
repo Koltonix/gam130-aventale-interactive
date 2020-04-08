@@ -227,7 +227,7 @@ namespace CatGame.Units
         {
             foreach (Tile tile in path)
             {
-                Vector3 nextPosition = new Vector3(tile.Position.x, objectToMove.position.y, tile.Position.z);
+                Vector3 nextPosition = new Vector3(tile.WorldReference.transform.position.x, objectToMove.position.y, tile.WorldReference.transform.position.z);
                 yield return MoveToPosition(objectToMove, nextPosition, movementSpeed);
             }
 
@@ -236,17 +236,27 @@ namespace CatGame.Units
             movingCoroutine = null;
         }
 
-        private IEnumerator MoveToPosition(Transform objectToMove, Vector3 targetPosition, float speed)
+        private IEnumerator MoveToPosition(Transform objectToMove, Vector3 target, float speed)
         {
-            float t = 0;
-            while (t < 1)
+            float t = 0.0f;
+
+            Vector3 direction = (target - objectToMove.position).normalized;
+            direction.y = 0;
+
+            while (t < 1.0f)
             {
-                t += Time.deltaTime * speed;
-                objectToMove.position = Vector3.Lerp(objectToMove.position, targetPosition, t);
+                t += Time.deltaTime * 1.25f;
+
+                objectToMove.position = Vector3.Lerp(objectToMove.position, target, t);
+                if (direction == Vector3.zero) continue;
+                objectToMove.transform.forward = Vector3.Lerp(objectToMove.forward, direction, t);
+
                 yield return new WaitForEndOfFrame();
             }
 
-            yield return null;
+            objectToMove.position = target;
+
+           yield return null;
         }
 
         public void ChangePlayer(Player newPlayer)
