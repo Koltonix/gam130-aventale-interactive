@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -14,12 +15,15 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private GameObject pauseUI;
 
+
+    [SerializeField]
+    private int mainMenu = 0;
+    private List<Transform> searchList = new List<Transform>();
+
     private void Start()
     {
         isPaused = false;
         if (!pauseUI) CreatePauseMenu();
-
-        DepthSearch(new Transform[1] { pauseUIPrefab.transform });
     }
 
     private void Update()
@@ -64,18 +68,31 @@ public class PauseMenu : MonoBehaviour
 
     private void AssignEventsToButton(Transform parent)
     {
-        
+        searchList = new List<Transform>();
+        DepthSearch(new Transform[1] { pauseUIPrefab.transform });
+
+        for (int i = 0; i < searchList.Count; i++)
+        {
+            Button button = searchList[i].GetComponent<Button>();
+            if (button)
+            {
+                string childText = button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
+                childText = childText.ToUpper();
+
+                if (childText == "RESUME") button.onClick.AddListener(delegate { PauseGame(); });
+                else if (childText == "MAIN MENU") button.onClick.AddListener(delegate { SceneController.Instance.LoadScene(mainMenu); });
+                else if (childText == "QUIT") button.onClick.AddListener(delegate { SceneController.Instance.QuitApplication(); });
+            }
+        }
     }
 
-    private List<GameObject> searchList = new List<GameObject>();
-
-    private GameObject[] DepthSearch(Transform[] paths)
+    private Transform[] DepthSearch(Transform[] paths)
     {
         foreach (Transform childPath in paths)
         {
             for (int i = 0; i < childPath.childCount; i++)
             {
-                searchList.Add(childPath.GetChild(i).gameObject);
+                searchList.Add(childPath.GetChild(i));
             }
 
             DepthSearch(GetAllChildObjects(childPath));
