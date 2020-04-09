@@ -230,11 +230,6 @@ namespace CatGame.Board
         }
 
         #endregion
-
-        private void OnDestroy()
-        {
-            DestroyBoard();
-        }
     }
 
 }

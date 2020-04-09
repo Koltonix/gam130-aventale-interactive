@@ -80,6 +80,7 @@ public class PauseMenu : MonoBehaviour
                 childText = childText.ToUpper();
 
                 if (childText == "RESUME") button.onClick.AddListener(delegate { PauseGame(); });
+                else if (childText == "RESTART") button.onClick.AddListener(delegate { SceneController.Instance.RestartScene(); });
                 else if (childText == "MAIN MENU") button.onClick.AddListener(delegate { SceneController.Instance.LoadScene(mainMenu); });
                 else if (childText == "QUIT") button.onClick.AddListener(delegate { SceneController.Instance.QuitApplication(); });
             }
@@ -110,5 +111,10 @@ public class PauseMenu : MonoBehaviour
         }
 
         return children;
+    }
+
+    private void OnDestroy()
+    {
+        Time.timeScale = 1.0f;
     }
 }

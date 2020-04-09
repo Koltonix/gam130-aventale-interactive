@@ -82,11 +82,12 @@ namespace CatGame.Units
                     attacker.AttackerDeath();
                 }
 
+                Destroyed();
                 Destroy(this.gameObject);
             }
         }
 
-        private void OnDestroy()
+        private void Destroyed()
         {
             //This is not ideal and I would have preferred inheritance, but due to time constraints it has to be done this way.
             if (isABase) GameController.Instance.CheckIfWon();

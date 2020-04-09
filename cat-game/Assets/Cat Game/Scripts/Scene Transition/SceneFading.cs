@@ -18,8 +18,6 @@ public class SceneFading : MonoBehaviour
     {
         canvas = FindObjectOfType<Canvas>();
         if (canvas == null) CreateCanvas();
-
-        if (fadingCoroutine == null) fadingCoroutine = StartCoroutine(FadeObject(fadingImage, fadingSpeed, 1f));
     }
 
     private Canvas CreateCanvas()

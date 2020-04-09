@@ -7,7 +7,7 @@ public class SceneController : MonoBehaviour
     public static SceneController Instance;
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (!Instance) Instance = this;
         else Destroy(this);
     }
     #endregion
@@ -20,6 +20,11 @@ public class SceneController : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitApplication()
