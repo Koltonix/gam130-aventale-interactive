@@ -237,8 +237,20 @@ namespace CatGame.Units
                 yield return MoveToPosition(objectToMove, nextPosition, movementSpeed);
             }
 
+            float t = 0.0f;
+            while (t < 1.0f)
+            {
+                t += Time.deltaTime * movementSpeed;
+
+                Tile finalTile = path[path.Length - 1];
+                Vector3 finalPosition = new Vector3(finalTile.WorldReference.transform.position.x, objectToMove.position.y, finalTile.WorldReference.transform.position.z);
+                objectToMove.position = Vector3.Lerp(objectToMove.position, finalPosition, t);
+                yield return new WaitForEndOfFrame();
+            }
+
             //Change this if you do not want it to reselect upon completion.
             //UnitClicked(_selectedUnit);
+
             movingCoroutine = null;
             TurnManager.Instance.objectIsMoving = false;
         }

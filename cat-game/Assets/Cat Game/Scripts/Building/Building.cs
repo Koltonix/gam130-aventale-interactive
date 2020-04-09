@@ -93,6 +93,9 @@ namespace CatGame.UI
 
         public void SpawnUnit(GameObject unit)
         {
+            //You cannot build a unit while one is moving
+            if (TurnManager.Instance.objectIsMoving) return;
+
             //Checking if there is a Unit above it.
             //Not ideal, but time constraints result in this.
             //Spherecast was done due to layermask still picking up default objects.
