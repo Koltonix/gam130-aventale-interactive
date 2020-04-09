@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -24,6 +23,7 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = false;
         if (!pauseUI) CreatePauseMenu();
+        AssignEventsToButton(pauseUI.transform);
     }
 
     private void Update()
@@ -69,7 +69,7 @@ public class PauseMenu : MonoBehaviour
     private void AssignEventsToButton(Transform parent)
     {
         searchList = new List<Transform>();
-        DepthSearch(new Transform[1] { pauseUIPrefab.transform });
+        DepthSearch(new Transform[1] { pauseUI.transform });
 
         for (int i = 0; i < searchList.Count; i++)
         {
