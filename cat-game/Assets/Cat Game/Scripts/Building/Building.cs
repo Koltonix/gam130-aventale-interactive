@@ -93,6 +93,15 @@ namespace CatGame.UI
 
         public void SpawnUnit(GameObject unit)
         {
+            //Checking if there is a Unit above it.
+            //Not ideal, but time constraints result in this.
+            //Spherecast was done due to layermask still picking up default objects.
+            Collider[] cols = Physics.OverlapSphere(selectedPad.transform.position, 1.0f);
+            foreach (Collider nearbyObject in cols)
+            {
+                if (nearbyObject.GetComponent<Unit>() != null) return;
+            }
+
             if (selectedPad && SpawnPoints > 0 && (currentTurnPlayer.PlayerUnits.Count <= currentTurnPlayer.unitCap))
             {
                 SpawnPoints--;
@@ -127,6 +136,12 @@ namespace CatGame.UI
 
             SpawnPoints = 2;
             setBuildingUI(false);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            if (selectedPad != null) Gizmos.DrawRay(selectedPad.transform.position, Vector3.up * 2.5f);
         }
     }  
 }
