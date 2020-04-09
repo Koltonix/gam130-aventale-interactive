@@ -24,7 +24,6 @@ namespace CatGame
             //DISABLE SCRIPTS
             //LOAD WIN SCREEN
 
-            Debug.Log(winningPlayer.colour);
             SceneController.Instance.LoadScene(mainMenuBuildIndex);
         }
     }
