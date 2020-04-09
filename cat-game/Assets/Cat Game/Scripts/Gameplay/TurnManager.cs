@@ -19,10 +19,10 @@ namespace CatGame.Data
 
         [Header("Current Turn")]
         public int currentPlayerIndex;
+        public bool objectIsMoving;
 
         [Header("Player Settings")]
         private IPlayerManager playerManagerData;
-
         public event OnPlayerCycle onPlayerCycle;
 
         private void Start()
@@ -32,7 +32,8 @@ namespace CatGame.Data
 
         public void EndTurn()
         {
-            currentPlayerIndex = GetNextPlayersTurn(currentPlayerIndex);
+            if (!objectIsMoving) currentPlayerIndex = GetNextPlayersTurn(currentPlayerIndex);
+            else Debug.Log("OBJECT IS MOVING STILL");
         }
 
         public int GetNextPlayersTurn(int playerIndex)

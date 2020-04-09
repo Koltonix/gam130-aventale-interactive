@@ -229,15 +229,18 @@ namespace CatGame.Units
 
         private IEnumerator PathfindObject(UnitMovement _selectedUnit, Tile[] path, Transform objectToMove)
         {
+            TurnManager.Instance.objectIsMoving = true;
+
             foreach (Tile tile in path)
             {
                 Vector3 nextPosition = new Vector3(tile.WorldReference.transform.position.x, objectToMove.position.y, tile.WorldReference.transform.position.z);
                 yield return MoveToPosition(objectToMove, nextPosition, movementSpeed);
             }
 
-            //Add this if you do not want it to reselect upon completion.
+            //Change this if you do not want it to reselect upon completion.
             //UnitClicked(_selectedUnit);
             movingCoroutine = null;
+            TurnManager.Instance.objectIsMoving = false;
         }
 
         private IEnumerator MoveToPosition(Transform objectToMove, Vector3 target, float speed)
