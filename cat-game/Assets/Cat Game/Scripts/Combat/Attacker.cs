@@ -6,6 +6,7 @@ using CatGame.Controls;
 using CatGame.ControlScheme;
 using CatGame.Data;
 using CatGame.Tiles;
+using CatGame.UI;
 
 namespace CatGame.Combat
 {
@@ -62,6 +63,12 @@ namespace CatGame.Combat
                         //It is the base currently being targeted.
                         if (mouseOver.collider.GetComponent<Health>() != null && mouseOver.collider.GetComponent<Unit>() == null)
                         {
+                            Building building = mouseOver.collider.GetComponent<Building>();
+                            if (building)
+                            {
+                                if (building.owner == PlayerManager.Instance.GetCurrentPlayer()) return;
+                            }
+
                             arrow.GetComponentInChildren<Renderer>().material.color = canAttackColour;
 
                             if (Input.GetKeyDown(Keybinds.KeybindsManager.movementSelect) && this.GetComponent<Unit>().owner.GetPlayerReference().ActionPoints - AttackAP > 0)

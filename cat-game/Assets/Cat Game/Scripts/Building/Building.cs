@@ -16,7 +16,7 @@ namespace CatGame.UI
         //can assign a reference to the class from there.
         [SerializeField]
         private int playerIndex;
-        private Player owner;
+        public Player owner;
 
         private Player currentTurnPlayer;
         private Player debugOwner;
