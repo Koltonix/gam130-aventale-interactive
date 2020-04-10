@@ -39,7 +39,7 @@ namespace CatGame.Units
         private UnitMovement selectedUnit;
         private Tile lastSelectedTile;
         private Tile[] lastSelectedPath;
-        private List<Tile> pathToDraw = new List<Tile>();
+        private Queue<Tile> pathToDraw = new Queue<Tile>();
         private SelectionProgress selectionProgress = SelectionProgress.UNSELECTED;    
         [Space]
 
@@ -166,7 +166,7 @@ namespace CatGame.Units
                 {
                     DrawPath(path, pathColour);
                     lastSelectedPath = path;
-                    pathToDraw = PathArrayToList(path);
+                    pathToDraw = PathArrayToQueue(path);
                 }
                 
                 return;
@@ -181,12 +181,12 @@ namespace CatGame.Units
             }
         }
 
-        private List<Tile> PathArrayToList(Tile[] paths)
+        private Queue<Tile> PathArrayToQueue(Tile[] paths)
         {
-            List<Tile> pathList = new List<Tile>(paths.Length);
+            Queue<Tile> pathList = new Queue<Tile>(paths.Length);
             foreach(Tile path in paths)
             {
-                pathList.Add(path);
+                pathList.Enqueue(path);
             }
 
             return pathList;
@@ -256,7 +256,7 @@ namespace CatGame.Units
                 yield return MoveToPosition(objectToMove, nextPosition, movementSpeed);
 
                 tile.WorldReference.GetComponent<Renderer>().material.color = tile.DefaultColour;
-                pathToDraw.RemoveAt(0);
+                pathToDraw.Dequeue();
             }
 
             float t = 0.0f;
