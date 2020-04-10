@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using CatGame.Controls;
 using CatGame.Tiles;
@@ -38,6 +39,7 @@ namespace CatGame.Units
         private UnitMovement selectedUnit;
         private Tile lastSelectedTile;
         private Tile[] lastSelectedPath;
+        private List<Tile> pathToDraw = new List<Tile>();
         private SelectionProgress selectionProgress = SelectionProgress.UNSELECTED;    
         [Space]
 
@@ -163,8 +165,8 @@ namespace CatGame.Units
                 if (path != null)
                 {
                     DrawPath(path, pathColour);
-
                     lastSelectedPath = path;
+                    pathToDraw = PathArrayToList(path);
                 }
                 
                 return;
@@ -177,6 +179,17 @@ namespace CatGame.Units
             {
                 if (path[i] != null) path[i].WorldReference.GetComponent<Renderer>().material.color = pathColour;
             }
+        }
+
+        private List<Tile> PathArrayToList(Tile[] paths)
+        {
+            List<Tile> pathList = new List<Tile>(paths.Length);
+            foreach(Tile path in paths)
+            {
+                pathList.Add(path);
+            }
+
+            return pathList;
         }
 
         
@@ -238,10 +251,12 @@ namespace CatGame.Units
 
             foreach (Tile tile in path)
             {
-                DrawPath(path, pathColour);
+                DrawPath(pathToDraw.ToArray(), pathColour);
                 Vector3 nextPosition = new Vector3(tile.WorldReference.transform.position.x, objectToMove.position.y, tile.WorldReference.transform.position.z);
                 yield return MoveToPosition(objectToMove, nextPosition, movementSpeed);
-                
+
+                tile.WorldReference.GetComponent<Renderer>().material.color = tile.DefaultColour;
+                pathToDraw.RemoveAt(0);
             }
 
             float t = 0.0f;
@@ -258,7 +273,6 @@ namespace CatGame.Units
             //Change this if you do not want it to reselect upon completion.
             //UnitClicked(_selectedUnit);
 
-            DrawPath(path, path[0].DefaultColour);
             movingCoroutine = null;
             TurnManager.Instance.objectIsMoving = false;
         }
