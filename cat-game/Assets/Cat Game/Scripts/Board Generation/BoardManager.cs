@@ -29,13 +29,24 @@ namespace CatGame.Tiles
         private Vector2 gridWorldSize;
         [SerializeField]
         private Vector2Int tileGap;
+        private bool hasInitialised = false;
+
+        [Header("Tile Settings")]
+        [SerializeField]
+        private GameObject passableTilePrefab;
+        [SerializeField]
+        private GameObject impassableTilePrefab;
+        [SerializeField]
+        private LayerMask impassableMask;
 
         public delegate void OnBoardUpdate(Tile[] boardTiles);
         public event OnBoardUpdate onBoardUpdate;
 
         private void Start()
         {
-            CheckForDuplicates(GetAllChildrenFromParent(board.transform));
+            GameObject[] allTiles = GetAllChildrenFromParent(board.transform);
+            CheckForDuplicates(allTiles);
+            
             tiles = GetBoardTiles();
         }
 
@@ -51,6 +62,7 @@ namespace CatGame.Tiles
         public Tile[] GetBoardTiles()
         {
             if (board == null) return null;
+
             int amountOfTiles = board.transform.childCount;
             Tile[] boardTiles = new Tile[amountOfTiles];
             gridTiles = new Tile[boardWidth, boardHeight];
@@ -59,16 +71,59 @@ namespace CatGame.Tiles
             {
                 GameObject tileChild = board.transform.GetChild(i).gameObject;
                 Vector2Int tilePosition = GetTilePositionFromWorld(tileChild.transform.position);
+                Vector3 spawnPosition = tileChild.transform.position;
 
+                if (!hasInitialised)
+                {
+                    Destroy(tileChild);
+                    tileChild = DetermineIfTileIsPassable(spawnPosition);
+                }
+                
                 Tile newTile = new Tile(tileChild.transform.position, tileChild, tilePosition.x, tilePosition.y);
                 boardTiles[i] = newTile;
                 gridTiles[tilePosition.x, tilePosition.y] = newTile;
 
-                tileChild.GetComponent<TileDebug>().TileDebugSetup(tilePosition.x, tilePosition.y, tileChild);
+                boardTiles[i].WorldReference.GetComponent<TileDebug>().TileDebugSetup(tilePosition.x, tilePosition.y, boardTiles[i].WorldReference);
             }
 
             if (onBoardUpdate != null) onBoardUpdate.Invoke(boardTiles);
+
+            hasInitialised = true;
             return boardTiles;
+        }
+
+        private GameObject DetermineIfTileIsPassable(Vector3 tilePosition)
+        {
+            Vector3 checkPosition = tilePosition;
+            checkPosition.y += 1.0f;
+
+            bool isPassable = !(Physics.CheckSphere(checkPosition, .75f, impassableMask));
+
+            if (isPassable)
+            {    
+                GameObject tileReference = Instantiate(passableTilePrefab, tilePosition, Quaternion.identity);
+
+                tileReference.layer = 9;
+                tileReference.transform.localScale = new Vector3(tileGap.x * tileReference.transform.localScale.x,
+                                                                 tileGap.y * tileReference.transform.localScale.y,
+                                                                 tileGap.y * tileReference.transform.localScale.z);
+
+                tileReference.transform.SetParent(board.transform);
+                return tileReference;
+            }
+
+            else
+            {
+                GameObject tileReference = Instantiate(impassableTilePrefab, tilePosition, Quaternion.identity);
+
+                tileReference.layer = 10;
+                tileReference.transform.localScale = new Vector3(tileGap.x * tileReference.transform.localScale.x,
+                                                                 tileGap.y * tileReference.transform.localScale.y,
+                                                                 tileGap.y * tileReference.transform.localScale.z);
+
+                tileReference.transform.SetParent(board.transform);
+                return tileReference;
+            }
         }
 
         public void CheckForDuplicates(Tile[] tiles)
