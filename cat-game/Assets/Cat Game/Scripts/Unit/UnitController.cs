@@ -162,15 +162,20 @@ namespace CatGame.Units
 
                 if (path != null)
                 {
-                    for (int i = 0; i < path.Length; i++)
-                    {
-                        path[i].WorldReference.GetComponent<Renderer>().material.color = pathColour;
-                    }
+                    DrawPath(path, pathColour);
 
                     lastSelectedPath = path;
                 }
                 
                 return;
+            }
+        }
+
+        private void DrawPath(Tile[] path, Color32 pathColour)
+        {
+            for (int i = 0; i < path.Length; i++)
+            {
+                if (path[i] != null) path[i].WorldReference.GetComponent<Renderer>().material.color = pathColour;
             }
         }
 
@@ -233,8 +238,10 @@ namespace CatGame.Units
 
             foreach (Tile tile in path)
             {
+                DrawPath(path, pathColour);
                 Vector3 nextPosition = new Vector3(tile.WorldReference.transform.position.x, objectToMove.position.y, tile.WorldReference.transform.position.z);
                 yield return MoveToPosition(objectToMove, nextPosition, movementSpeed);
+                
             }
 
             float t = 0.0f;
@@ -251,6 +258,7 @@ namespace CatGame.Units
             //Change this if you do not want it to reselect upon completion.
             //UnitClicked(_selectedUnit);
 
+            DrawPath(path, path[0].DefaultColour);
             movingCoroutine = null;
             TurnManager.Instance.objectIsMoving = false;
         }
