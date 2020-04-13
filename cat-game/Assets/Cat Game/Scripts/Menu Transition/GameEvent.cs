@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 namespace CatGame.Menu
 {
-    [CreateAssetMenu(fileName = "Game-Event", menuName = "Scriptable-Objects/Events")]
+    [CreateAssetMenu(fileName = "Game-Event", menuName = "Scriptable-Objects/Events/Game-Event")]
     public class GameEvent : ScriptableObject
     {
         private List<GameEventListener> listeners = new List<GameEventListener>();
