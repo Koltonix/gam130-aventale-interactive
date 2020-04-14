@@ -49,6 +49,8 @@ namespace CatGame.Units
         [SerializeField]
         private Color32 selectedTileColour;
         [SerializeField]
+        private Color32 enemyTileColour;
+        [SerializeField]
         private Color32 pathColour;
 
         #region Event System
@@ -57,6 +59,7 @@ namespace CatGame.Units
 
         public delegate void ChangeTileColours(Color32 colour);
         public event ChangeTileColours changeTileColours;
+        public event ChangeTileColours changeEnemyTileColours;
         #endregion
 
         public Player currentPlayer;
@@ -126,10 +129,12 @@ namespace CatGame.Units
             selectedUnit = unitMovement;
 
             onSelect = selectedUnit.SelectionListener;
-            changeTileColours = selectedUnit.ChangeAvailableTilesColour;
+            changeTileColours += selectedUnit.ChangeAvailableTilesColour;
+            changeEnemyTileColours += selectedUnit.ChangeEnemyTilesColour;
 
             onSelect?.Invoke(true);
             changeTileColours?.Invoke(availableTileColour);
+            changeEnemyTileColours?.Invoke(enemyTileColour);
         }
 
         /// <summary>
@@ -144,6 +149,7 @@ namespace CatGame.Units
 
                 onSelect -= selectedUnit.SelectionListener;
                 changeTileColours -= selectedUnit.ChangeAvailableTilesColour;
+                changeEnemyTileColours -= selectedUnit.ChangeEnemyTilesColour;
 
                 selectedUnit = null;
                 selectionProgress = SelectionProgress.UNSELECTED;
@@ -213,6 +219,7 @@ namespace CatGame.Units
                     if (gameObjectHit.collider.gameObject == tile.WorldReference)
                     {
                         changeTileColours(availableTileColour);
+                        changeEnemyTileColours(enemyTileColour);
                         tile.WorldReference.GetComponent<Renderer>().material.color = selectedTileColour;
                         return tile;
                     }

@@ -12,7 +12,7 @@ namespace CatGame.Units
         public Tile currentTile;
 
         public Tile[] availableTiles;
-        public Unit[] nearbyUnits;
+        public Tile[] nearbyUnits;
         public Dictionary<Tile, List<Tile>> tilePaths;
 
         [Header("Required Data")]
@@ -50,7 +50,7 @@ namespace CatGame.Units
             unitPosition.y = 0;
 
             List<Tile> accessibleTiles = new List<Tile>();
-            List<Unit> accessibleUnits = new List<Unit>();
+            List<Tile> accessibleUnits = new List<Tile>();
 
             foreach (Tile tile in allTiles)
             {
@@ -72,7 +72,7 @@ namespace CatGame.Units
                 //Change this later to be integrated with the pathfinding
                 if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
                 {
-                    accessibleUnits.Add(tile.OccupiedUnit);
+                    accessibleUnits.Add(tile);
                 }
             }
 
@@ -137,17 +137,25 @@ namespace CatGame.Units
             return false;
         }
 
-        public void ChangeAvailableTilesColour(Color32 color)
+        public void ChangeAvailableTilesColour(Color32 colour)
         {
             foreach (Tile tile in availableTiles)
             {
-                tile.WorldReference.GetComponent<Renderer>().material.color = color;
+                tile.WorldReference.GetComponent<Renderer>().material.color = colour;
             }
         }
 
-        public void ResetTileColours()
+        public void ChangeEnemyTilesColour(Color32 colour)
         {
-            foreach (Tile tile in availableTiles)
+            foreach (Tile tile in nearbyUnits)
+            {
+                tile.WorldReference.GetComponent<Renderer>().material.color = colour;
+            }
+        }
+
+        public void ResetTileColours(Tile[] tiles)
+        {
+            foreach (Tile tile in tiles)
             {
                 tile.WorldReference.GetComponent<Renderer>().material.color = tile.DefaultColour;
             }
@@ -171,7 +179,11 @@ namespace CatGame.Units
         public void SelectionListener(bool isSelected)
         {
             DetermineTilesInSphere(BoardManager.Instance.tiles);
-            if (!isSelected) ResetTileColours();
+            if (!isSelected)
+            {
+                ResetTileColours(availableTiles);
+                ResetTileColours(nearbyUnits);
+            }
         }
 
         private void OnPlayerCycle(Player player)

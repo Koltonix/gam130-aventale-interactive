@@ -14748,10 +14748,13 @@ MonoBehaviour:
   minDistanceToCheck: 0.5
   availableTileColour:
     serializedVersion: 2
-    rgba: 1255576
+    rgba: 1284183
   selectedTileColour:
     serializedVersion: 2
     rgba: 33023
+  enemyTileColour:
+    serializedVersion: 2
+    rgba: 1255576
   pathColour:
     serializedVersion: 2
     rgba: 13257007
