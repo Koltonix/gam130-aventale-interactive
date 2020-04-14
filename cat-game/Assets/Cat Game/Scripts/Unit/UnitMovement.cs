@@ -46,14 +46,11 @@ namespace CatGame.Units
         /// <returns></returns>
         public void DetermineTilesInSphere(Tile[] allTiles)
         {
-            Vector2Int boardGap = BoardManager.Instance.tileGap;
-            Vector3 unitPosition = this.transform.position;
-            unitPosition.y = 0;
-
             List<Tile> accessibleTiles = new List<Tile>();
             List<Tile> accessibleUnits = new List<Tile>();
 
             currentTile = BoardManager.Instance.GetTileFromWorldPosition(this.transform.position);
+            Vector2Int boardIndex = new Vector2Int(currentTile.boardX, currentTile.boardY);
 
             foreach (Tile tile in allTiles)
             {
@@ -61,16 +58,15 @@ namespace CatGame.Units
 
                 if (tile.IsPassable && tile.OccupiedUnit == null)
                 {
-                    float tileDistance = Vector3.Distance(new Vector3(tile.Position.x, 0, tile.Position.z), unitPosition);
-
-                    tileDistance = Mathf.RoundToInt(tileDistance);
-                    if (tileDistance <= owner.GetCurrentActionPoints() * boardGap.x & tileDistance > 0)
+                    if (Mathf.Abs(tile.boardX - currentTile.boardX) <= owner.GetCurrentActionPoints())
                     {
-                        accessibleTiles.Add(tile);
-                    }                    
+                        if (Mathf.Abs(tile.boardY - currentTile.boardY) <= owner.GetCurrentActionPoints())
+                        {
+                            accessibleTiles.Add(tile);
+                        }
+                    }                 
                 }
 
-                //Change this later to be integrated with the pathfinding
                 if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
                 {
                     accessibleUnits.Add(tile);
