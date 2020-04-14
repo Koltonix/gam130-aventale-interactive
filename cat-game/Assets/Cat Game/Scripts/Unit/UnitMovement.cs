@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using CatGame.Tiles;
 using CatGame.Data;
@@ -11,7 +12,7 @@ namespace CatGame.Units
         [Header("Movement Settings")]
         public Tile currentTile;
 
-        public List<Tile> availableTiles = new List<Tile>();
+        public List<Tile> availableTiles;
         public Tile[] nearbyUnits;
         public Dictionary<Tile, List<Tile>> tilePaths;
 
@@ -77,10 +78,11 @@ namespace CatGame.Units
             availableTiles = accessibleTiles;
             nearbyUnits = accessibleUnits.ToArray();
 
+
             tilePaths = PathfindAvailableTiles(availableTiles.ToArray());
+
             RemoveUnusedTiles();
         }
-
 
         //Returns the path using an end tile
         public Tile[] GetAvailableTilesFromPathfinding(Tile endTile)
@@ -200,9 +202,9 @@ namespace CatGame.Units
         /// </param>
         public void SelectionListener(bool isSelected)
         {
-            DetermineTilesInSphere(BoardManager.Instance.tiles);
             if (!isSelected)
             {
+                Debug.Log("RESETTING");
                 ResetTileColours(availableTiles.ToArray());
                 ResetTileColours(nearbyUnits);
             }

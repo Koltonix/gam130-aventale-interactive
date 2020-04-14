@@ -103,7 +103,7 @@ namespace CatGame.Units
                     if (unitHit && unitHit.owner != selectedUnit.owner)
                     {
                         Debug.Log("ATTACK THE ENEMY!");
-                        
+
                     }
 
                     return;
@@ -141,6 +141,7 @@ namespace CatGame.Units
             selectedUnit = unitMovement;
 
             onSelect = selectedUnit.SelectionListener;
+
             changeTileColours += selectedUnit.ChangeAvailableTilesColour;
             changeEnemyTileColours += selectedUnit.ChangeEnemyTilesColour;
 
@@ -157,14 +158,18 @@ namespace CatGame.Units
         {
             if (onSelect != null)
             {
+                selectionProgress = SelectionProgress.UNSELECTED;
+
                 onSelect.Invoke(false);
+                selectedUnit.ChangeAvailableTilesColour(BoardManager.Instance.GetBoardTiles()[0].DefaultColour);
 
                 onSelect -= selectedUnit.SelectionListener;
                 changeTileColours -= selectedUnit.ChangeAvailableTilesColour;
                 changeEnemyTileColours -= selectedUnit.ChangeEnemyTilesColour;
 
+                
+
                 selectedUnit = null;
-                selectionProgress = SelectionProgress.UNSELECTED;
             }
         }
 
