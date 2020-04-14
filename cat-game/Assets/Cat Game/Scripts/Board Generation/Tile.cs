@@ -24,6 +24,8 @@ namespace CatGame.Tiles
 
         public Tile parent;
 
+        public bool isUsedInPathfinding;
+
         public Tile(Vector3 Position, GameObject GameObject, int x, int y)
         {
             this.Position = Position;
@@ -35,6 +37,8 @@ namespace CatGame.Tiles
 
             IsPassable = GameObject.layer == 9 ? true : false;
             DefaultColour = GameObject.GetComponent<Renderer>().material.color;
+
+            isUsedInPathfinding = false;
         }
 
         public Unit CheckForUnit()

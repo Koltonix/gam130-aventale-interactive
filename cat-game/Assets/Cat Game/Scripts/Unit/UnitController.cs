@@ -230,8 +230,9 @@ namespace CatGame.Units
                 {
                     if (gameObjectHit.collider.gameObject == tile.WorldReference)
                     {
-                        changeTileColours(availableTileColour);
-                        changeEnemyTileColours(enemyTileColour);
+                        changeTileColours?.Invoke(availableTileColour);
+                        changeEnemyTileColours?.Invoke(enemyTileColour);
+
                         tile.WorldReference.GetComponent<Renderer>().material.color = selectedTileColour;
                         return tile;
                     }

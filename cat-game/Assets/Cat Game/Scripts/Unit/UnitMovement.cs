@@ -11,7 +11,7 @@ namespace CatGame.Units
         [Header("Movement Settings")]
         public Tile currentTile;
 
-        public Tile[] availableTiles;
+        public List<Tile> availableTiles = new List<Tile>();
         public Tile[] nearbyUnits;
         public Dictionary<Tile, List<Tile>> tilePaths;
 
@@ -55,6 +55,7 @@ namespace CatGame.Units
             foreach (Tile tile in allTiles)
             {
                 tile.CheckForUnit();
+                tile.isUsedInPathfinding = false;
 
                 if (tile.IsPassable && tile.OccupiedUnit == null)
                 {
@@ -73,12 +74,15 @@ namespace CatGame.Units
                 }
             }
 
-            availableTiles = accessibleTiles.ToArray();
+            availableTiles = accessibleTiles;
             nearbyUnits = accessibleUnits.ToArray();
 
-            tilePaths = PathfindAvailableTiles(availableTiles);
+            tilePaths = PathfindAvailableTiles(availableTiles.ToArray());
+            RemoveUnusedTiles();
         }
 
+
+        //Returns the path using an end tile
         public Tile[] GetAvailableTilesFromPathfinding(Tile endTile)
         {
             if (tilePaths != null && endTile != null)
@@ -103,10 +107,31 @@ namespace CatGame.Units
             foreach (Tile endTile in nearbyTiles)
             {
                 List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position);
-                allPaths.Add(endTile, finalPath);
-            }
 
+                //If there are only x tiles or less in the path
+                if (finalPath.Count - 1 <= owner.GetCurrentActionPoints())
+                {
+                    allPaths.Add(endTile, finalPath);
+                    SetTilesUsingPathfinding(finalPath.ToArray(), true);
+                }
+            }
             return allPaths;
+        }
+        
+        private void SetTilesUsingPathfinding(Tile[] tiles, bool areUsed)
+        {
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                tiles[i].isUsedInPathfinding = areUsed;
+            }
+        }
+
+        private void RemoveUnusedTiles()
+        {
+            for (int i = availableTiles.Count - 1; i >= 0; i--)
+            {
+                if (!availableTiles[i].isUsedInPathfinding) availableTiles.RemoveAt(i);
+            }
         }
 
         /// <summary>
@@ -178,7 +203,7 @@ namespace CatGame.Units
             DetermineTilesInSphere(BoardManager.Instance.tiles);
             if (!isSelected)
             {
-                ResetTileColours(availableTiles);
+                ResetTileColours(availableTiles.ToArray());
                 ResetTileColours(nearbyUnits);
             }
         }
