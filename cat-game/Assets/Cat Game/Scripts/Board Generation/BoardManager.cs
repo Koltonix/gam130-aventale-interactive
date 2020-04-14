@@ -28,7 +28,7 @@ namespace CatGame.Tiles
         private int boardHeight;
         private Vector2 gridWorldSize;
         [SerializeField]
-        private Vector2Int tileGap;
+        public Vector2Int tileGap;
         private bool hasInitialised = false;
 
         [Header("Tile Settings")]

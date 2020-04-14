@@ -46,24 +46,25 @@ namespace CatGame.Units
         /// <returns></returns>
         public void DetermineTilesInSphere(Tile[] allTiles)
         {
+            Vector2Int boardGap = BoardManager.Instance.tileGap;
             Vector3 unitPosition = this.transform.position;
             unitPosition.y = 0;
 
             List<Tile> accessibleTiles = new List<Tile>();
             List<Tile> accessibleUnits = new List<Tile>();
 
+            currentTile = BoardManager.Instance.GetTileFromWorldPosition(this.transform.position);
+
             foreach (Tile tile in allTiles)
             {
                 tile.CheckForUnit();
-
-                if (unitPosition == tile.Position) currentTile = tile;
 
                 if (tile.IsPassable && tile.OccupiedUnit == null)
                 {
                     float tileDistance = Vector3.Distance(new Vector3(tile.Position.x, 0, tile.Position.z), unitPosition);
 
                     tileDistance = Mathf.RoundToInt(tileDistance);
-                    if (tileDistance <= owner.GetCurrentActionPoints() & tileDistance > 0)
+                    if (tileDistance <= owner.GetCurrentActionPoints() * boardGap.x & tileDistance > 0)
                     {
                         accessibleTiles.Add(tile);
                     }                    
