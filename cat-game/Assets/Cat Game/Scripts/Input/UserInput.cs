@@ -8,6 +8,7 @@ namespace CatGame.Controls
         public Camera mainCamera;
 
         [Header("Raycast")]
+        public LayerMask layerMask;
         public Ray cameraRay;
         public RaycastHit cameraRaycastHit;
 

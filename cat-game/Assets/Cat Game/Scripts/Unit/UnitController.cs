@@ -86,7 +86,6 @@ namespace CatGame.Units
             if (currentInput.IsMovementSelected() && movingCoroutine == null)
             {
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
-
                 //Makes every Unit check its own tiles again
                 BoardManager.Instance.GetBoardTiles();
 
@@ -94,6 +93,19 @@ namespace CatGame.Units
                 if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedTile.OccupiedUnit == null)
                 {
                     MoveToTile();
+                    return;
+                }
+
+                //ATTACKING
+                if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider)
+                {
+                    Unit unitHit = gameObjectHit.collider.GetComponent<Unit>();
+                    if (unitHit && unitHit.owner != selectedUnit.owner)
+                    {
+                        Debug.Log("ATTACK THE ENEMY!");
+                        
+                    }
+
                     return;
                 }
 

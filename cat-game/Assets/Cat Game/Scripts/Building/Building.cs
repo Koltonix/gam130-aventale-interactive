@@ -99,6 +99,7 @@ namespace CatGame.UI
             //Checking if there is a Unit above it.
             //Not ideal, but time constraints result in this.
             //Spherecast was done due to layermask still picking up default objects.
+            if (selectedPad == null) return;
             Collider[] cols = Physics.OverlapSphere(selectedPad.transform.position, 1.0f);
             foreach (Collider nearbyObject in cols)
             {
