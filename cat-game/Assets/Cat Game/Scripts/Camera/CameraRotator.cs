@@ -33,7 +33,7 @@ namespace CatGame.CameraMovement
         private void Start()
         {
             if (!cameraTransform) cameraTransform = this.transform;
-            latestPoint = travelPoints[0];
+            if (travelPoints.Length > 0) latestPoint = travelPoints[0];
         }
 
         #region Abstract Parent Obligations
@@ -71,18 +71,27 @@ namespace CatGame.CameraMovement
             }
         }
 
-        private void UpdateCamera(CameraPoint point)
+        public void UpdateCamera(CameraPoint point)
         {
             latestPoint = point;
 
-            if (movementCoroutine == null) movementCoroutine = StartCoroutine(MoveToPoint(point, moveSpeed));
-            if (rotationCoroutine == null) rotationCoroutine = StartCoroutine(RotateToPoint(point, rotateSpeed));
+            if (movementCoroutine == null) movementCoroutine = StartCoroutine(MoveToPoint(point.worldReference.transform, moveSpeed));
+            if (rotationCoroutine == null) rotationCoroutine = StartCoroutine(RotateToPoint(point.worldReference.transform, rotateSpeed));
         }
 
-        private IEnumerator MoveToPoint(CameraPoint point, float moveSpeed)
+        public void UpdateCamera(Transform point)
         {
-            if (point.worldReference == null) throw new Exception("ASSIGN CAMERA POINTS IN THE INSPECTOR");
-            Vector3 targetPoint = point.worldReference.transform.position;
+            if (movementCoroutine != null) StopCoroutine(movementCoroutine);
+            if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
+
+            movementCoroutine = StartCoroutine(MoveToPoint(point.transform, moveSpeed));
+            rotationCoroutine = StartCoroutine(RotateToPoint(point.transform, rotateSpeed));
+        }
+
+        private IEnumerator MoveToPoint(Transform point, float moveSpeed)
+        {
+            if (point == null) throw new Exception("ASSIGN CAMERA POINTS IN THE INSPECTOR");
+            Vector3 targetPoint = point.position;
 
             float t = 0.0f;
             while (t <= 1.0f)
@@ -97,27 +106,19 @@ namespace CatGame.CameraMovement
             yield return null;
         }
 
-        private IEnumerator RotateToPoint(CameraPoint point, float rotateSpeed)
+        private IEnumerator RotateToPoint(Transform point, float rotateSpeed)
         {
-            Quaternion targetRotation = GetRotationFromCameraPoint(point);
-
             float t = 0.0f;
             while (t <= 1.0f)
             {
                 t += Time.deltaTime * rotateSpeed;
-                cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, targetRotation, t);
+                cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, point.rotation, t);
 
                 yield return new WaitForEndOfFrame();
             }
 
             rotationCoroutine = null;
             yield return null;
-        }
-
-        private Quaternion GetRotationFromCameraPoint(CameraPoint point)
-        {
-            if (point.useObjectRotation) return point.worldReference.transform.rotation;
-            return Quaternion.Euler(point.rotation);
         }
 
         private void OnDrawGizmos()
