@@ -54,6 +54,8 @@ namespace CatGame.Units
         public void DetermineTilesInSphere(Tile[] allTiles)
         {
             List<Tile> accessibleTiles = new List<Tile>();
+            List<Tile> availableUnits = new List<Tile>();
+
             currentTile = BoardManager.Instance.GetTileFromWorldPosition(this.transform.position);
 
             foreach (Tile tile in allTiles)
@@ -68,12 +70,19 @@ namespace CatGame.Units
                         if (Mathf.Abs(tile.boardY - currentTile.boardY) <= owner.GetCurrentActionPoints())
                         {
                             accessibleTiles.Add(tile);
+
+                            if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
+                            {
+                                Debug.Log("UNIT IS HERE");
+                                availableUnits.Add(tile);
+                            }
                         }
                     }                 
                 }
             }
 
             availableTiles = accessibleTiles;
+            this.nearbyUnits = availableUnits.ToArray();
             tilePaths = PathfindAvailableTiles(accessibleTiles.ToArray());
 
             RemoveUnusedTiles();
@@ -118,20 +127,10 @@ namespace CatGame.Units
         
         private void SetTilesUsingPathfinding(Tile[] tiles, bool areUsed)
         {
-            List<Tile> nearbyUnits = new List<Tile>();
-
             for (int i = 0; i < tiles.Length; i++)
             {
                 tiles[i].isUsedInPathfinding = areUsed;
-
-                if (tiles[i].OccupiedUnit != null)
-                {
-                    Debug.Log("UNIT IS HERE");
-                    nearbyUnits.Add(tiles[i]);
-                }
             }
-
-            this.nearbyUnits = nearbyUnits.ToArray();
         }
 
         private void RemoveUnusedTiles()
