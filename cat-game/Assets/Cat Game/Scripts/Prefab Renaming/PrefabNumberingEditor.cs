@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
+/// <summary>
+/// Created by Christopher Robertson
+/// </summary>
 [CustomEditor(typeof(PrefabNumbering))]
 public class PrefabNumberingEditor : Editor
 {

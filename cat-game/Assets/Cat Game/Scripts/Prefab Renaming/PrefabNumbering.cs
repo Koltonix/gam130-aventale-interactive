@@ -1,6 +1,9 @@
 ﻿using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Created by Christopher Robertson
+/// </summary>
 [ExecuteInEditMode]
 public class PrefabNumbering : MonoBehaviour
 {
