@@ -79,7 +79,7 @@ namespace CatGame.Units
             nearbyUnits = accessibleUnits.ToArray();
 
 
-            tilePaths = PathfindAvailableTiles(availableTiles.ToArray());
+            tilePaths = PathfindAvailableTiles(accessibleTiles.ToArray());
 
             RemoveUnusedTiles();
         }
@@ -204,7 +204,6 @@ namespace CatGame.Units
         {
             if (!isSelected)
             {
-                Debug.Log("RESETTING");
                 ResetTileColours(availableTiles.ToArray());
                 ResetTileColours(nearbyUnits);
             }

@@ -161,7 +161,10 @@ namespace CatGame.Units
                 selectionProgress = SelectionProgress.UNSELECTED;
 
                 onSelect.Invoke(false);
-                selectedUnit.ChangeAvailableTilesColour(BoardManager.Instance.GetBoardTiles()[0].DefaultColour);
+                //Required after the recent addition of the removal of unused tiles in pathfinding...
+                //Not ideal, but is necessary.
+                selectedUnit.ResetTileColours(BoardManager.Instance.tiles);
+                //selectedUnit.ChangeAvailableTilesColour(BoardManager.Instance.GetBoardTiles()[0].DefaultColour);
 
                 onSelect -= selectedUnit.SelectionListener;
                 changeTileColours -= selectedUnit.ChangeAvailableTilesColour;
