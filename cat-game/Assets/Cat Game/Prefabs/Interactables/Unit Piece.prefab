@@ -213,6 +213,7 @@ MonoBehaviour:
     boardY: 0
     hCost: 0
     gCost: 0
+    isUsedInPathfinding: 0
   availableTiles: []
   nearbyUnits: []
   owner:
@@ -225,6 +226,18 @@ MonoBehaviour:
       serializedVersion: 2
       rgba: 0
   currentUnit: {fileID: 0}
+  availableTileColour:
+    serializedVersion: 2
+    rgba: 42579
+  selectedTileColour:
+    serializedVersion: 2
+    rgba: 29350
+  enemyTileColour:
+    serializedVersion: 2
+    rgba: 166
+  pathColour:
+    serializedVersion: 2
+    rgba: 10887680
 --- !u!114 &3662666720628452032
 MonoBehaviour:
   m_ObjectHideFlags: 0

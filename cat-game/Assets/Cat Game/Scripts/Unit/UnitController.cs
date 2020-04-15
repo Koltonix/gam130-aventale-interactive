@@ -41,25 +41,10 @@ namespace CatGame.Units
         private Tile[] lastSelectedPath;
         private Queue<Tile> pathToDraw = new Queue<Tile>();
         private SelectionProgress selectionProgress = SelectionProgress.UNSELECTED;    
-        [Space]
-
-        [Header("Tile Colours")]
-        [SerializeField]
-        private Color32 availableTileColour;
-        [SerializeField]
-        private Color32 selectedTileColour;
-        [SerializeField]
-        private Color32 enemyTileColour;
-        [SerializeField]
-        private Color32 pathColour;
 
         #region Event System
         public delegate void OnSelected(bool isSelected);
         public event OnSelected onSelect;
-
-        public delegate void ChangeTileColours(Color32 colour);
-        public event ChangeTileColours changeTileColours;
-        public event ChangeTileColours changeEnemyTileColours;
         #endregion
 
         public Player currentPlayer;
@@ -142,12 +127,12 @@ namespace CatGame.Units
 
             onSelect = selectedUnit.SelectionListener;
 
-            changeTileColours += selectedUnit.ChangeAvailableTilesColour;
-            changeEnemyTileColours += selectedUnit.ChangeEnemyTilesColour;
+            //changeTileColours += selectedUnit.ChangeAvailableTilesColour;
+            //changeEnemyTileColours += selectedUnit.ChangeEnemyTilesColour;
 
             onSelect?.Invoke(true);
-            changeTileColours?.Invoke(availableTileColour);
-            changeEnemyTileColours?.Invoke(enemyTileColour);
+            //changeTileColours?.Invoke(availableTileColour);
+            //changeEnemyTileColours?.Invoke(enemyTileColour);
         }
 
         /// <summary>
@@ -159,18 +144,11 @@ namespace CatGame.Units
             if (onSelect != null)
             {
                 selectionProgress = SelectionProgress.UNSELECTED;
-
                 onSelect.Invoke(false);
                 //Required after the recent addition of the removal of unused tiles in pathfinding...
                 //Not ideal, but is necessary.
                 selectedUnit.ResetTileColours(BoardManager.Instance.tiles);
-                //selectedUnit.ChangeAvailableTilesColour(BoardManager.Instance.GetBoardTiles()[0].DefaultColour);
-
                 onSelect -= selectedUnit.SelectionListener;
-                changeTileColours -= selectedUnit.ChangeAvailableTilesColour;
-                changeEnemyTileColours -= selectedUnit.ChangeEnemyTilesColour;
-
-                
 
                 selectedUnit = null;
             }
@@ -190,7 +168,7 @@ namespace CatGame.Units
 
                 if (path != null)
                 {
-                    DrawPath(path, pathColour);
+                    DrawPath(path, selectedUnit.pathColour);
                     lastSelectedPath = path;
                     pathToDraw = PathArrayToQueue(path);
                 }
@@ -238,14 +216,14 @@ namespace CatGame.Units
                 {
                     if (gameObjectHit.collider.gameObject == tile.WorldReference)
                     {
-                        changeTileColours?.Invoke(availableTileColour);
-                        changeEnemyTileColours?.Invoke(enemyTileColour);
+                        onSelect?.Invoke(false);
+                        onSelect?.Invoke(true);
 
-                        tile.WorldReference.GetComponent<Renderer>().material.color = selectedTileColour;
+                        tile.WorldReference.GetComponent<Renderer>().material.color = selectedUnit.selectedTileColour;
                         return tile;
                     }
 
-                    else tile.WorldReference.GetComponent<Renderer>().material.color = availableTileColour;
+                    else tile.WorldReference.GetComponent<Renderer>().material.color = selectedUnit.availableTileColour;
                 }
             }
            
@@ -276,27 +254,32 @@ namespace CatGame.Units
         private IEnumerator PathfindObject(UnitMovement _selectedUnit, Tile[] path, Transform objectToMove)
         {
             TurnManager.Instance.objectIsMoving = true;
-
-            foreach (Tile tile in path)
+            if (path != null)
             {
-                DrawPath(pathToDraw.ToArray(), pathColour);
-                Vector3 nextPosition = new Vector3(tile.WorldReference.transform.position.x, objectToMove.position.y, tile.WorldReference.transform.position.z);
-                yield return MoveToPosition(objectToMove, nextPosition, movementSpeed);
+                foreach (Tile tile in path)
+                {
+                    DrawPath(pathToDraw.ToArray(), _selectedUnit.pathColour);
+                    Vector3 nextPosition = new Vector3(tile.WorldReference.transform.position.x, objectToMove.position.y, tile.WorldReference.transform.position.z);
+                    yield return MoveToPosition(objectToMove, nextPosition, movementSpeed);
 
-                tile.WorldReference.GetComponent<Renderer>().material.color = tile.DefaultColour;
-                pathToDraw.Dequeue();
-            }
+                    tile.WorldReference.GetComponent<Renderer>().material.color = tile.DefaultColour;
+                    pathToDraw.Dequeue();
 
-            float t = 0.0f;
-            while (t < 1.0f)
-            {
-                t += Time.deltaTime * movementSpeed;
+                    onSelect?.Invoke(false);
+                    onSelect?.Invoke(true);
+                }
 
-                Tile finalTile = path[path.Length - 1];
-                Vector3 finalPosition = new Vector3(finalTile.WorldReference.transform.position.x, objectToMove.position.y, finalTile.WorldReference.transform.position.z);
-                objectToMove.position = Vector3.Lerp(objectToMove.position, finalPosition, t);
-                yield return new WaitForEndOfFrame();
-            }
+                float t = 0.0f;
+                while (t < 1.0f)
+                {
+                    t += Time.deltaTime * movementSpeed;
+
+                    Tile finalTile = path[path.Length - 1];
+                    Vector3 finalPosition = new Vector3(finalTile.WorldReference.transform.position.x, objectToMove.position.y, finalTile.WorldReference.transform.position.z);
+                    objectToMove.position = Vector3.Lerp(objectToMove.position, finalPosition, t);
+                    yield return new WaitForEndOfFrame();
+                }
+            }     
 
             //Change this if you do not want it to reselect upon completion.
             //UnitClicked(_selectedUnit);

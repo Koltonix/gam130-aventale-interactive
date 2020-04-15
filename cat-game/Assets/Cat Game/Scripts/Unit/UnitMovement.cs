@@ -20,6 +20,12 @@ namespace CatGame.Units
         public Player owner;
         public Unit currentUnit;
 
+        [Header("Movement Colour")]
+        public Color32 availableTileColour;
+        public Color32 selectedTileColour;
+        public Color32 enemyTileColour;
+        public Color32 pathColour;
+
         private void Start()
         {
             currentUnit = this.GetComponent<Unit>();
@@ -48,10 +54,7 @@ namespace CatGame.Units
         public void DetermineTilesInSphere(Tile[] allTiles)
         {
             List<Tile> accessibleTiles = new List<Tile>();
-            List<Tile> accessibleUnits = new List<Tile>();
-
             currentTile = BoardManager.Instance.GetTileFromWorldPosition(this.transform.position);
-            Vector2Int boardIndex = new Vector2Int(currentTile.boardX, currentTile.boardY);
 
             foreach (Tile tile in allTiles)
             {
@@ -68,17 +71,9 @@ namespace CatGame.Units
                         }
                     }                 
                 }
-
-                if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
-                {
-                    accessibleUnits.Add(tile);
-                }
             }
 
             availableTiles = accessibleTiles;
-            nearbyUnits = accessibleUnits.ToArray();
-
-
             tilePaths = PathfindAvailableTiles(accessibleTiles.ToArray());
 
             RemoveUnusedTiles();
@@ -109,7 +104,7 @@ namespace CatGame.Units
             foreach (Tile endTile in nearbyTiles)
             {
                 List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position);
-
+                if (finalPath == null) continue;
                 //If there are only x tiles or less in the path
                 if (finalPath.Count - 1 <= owner.GetCurrentActionPoints())
                 {
@@ -117,15 +112,26 @@ namespace CatGame.Units
                     SetTilesUsingPathfinding(finalPath.ToArray(), true);
                 }
             }
+
             return allPaths;
         }
         
         private void SetTilesUsingPathfinding(Tile[] tiles, bool areUsed)
         {
+            List<Tile> nearbyUnits = new List<Tile>();
+
             for (int i = 0; i < tiles.Length; i++)
             {
                 tiles[i].isUsedInPathfinding = areUsed;
+
+                if (tiles[i].OccupiedUnit != null)
+                {
+                    Debug.Log("UNIT IS HERE");
+                    nearbyUnits.Add(tiles[i]);
+                }
             }
+
+            this.nearbyUnits = nearbyUnits.ToArray();
         }
 
         private void RemoveUnusedTiles()
@@ -177,6 +183,14 @@ namespace CatGame.Units
             }
         }
 
+        public void ChangeTileColours(Tile[] tiles, Color32 colour)
+        {
+            foreach (Tile tile in tiles)
+            {
+                tile.WorldReference.GetComponent<Renderer>().material.color = colour;
+            }
+        }
+
         public void ResetTileColours(Tile[] tiles)
         {
             foreach (Tile tile in tiles)
@@ -206,6 +220,12 @@ namespace CatGame.Units
             {
                 ResetTileColours(availableTiles.ToArray());
                 ResetTileColours(nearbyUnits);
+            }
+
+            else
+            {
+                ChangeTileColours(availableTiles.ToArray(), availableTileColour);
+                ChangeTileColours(nearbyUnits, enemyTileColour);
             }
         }
 

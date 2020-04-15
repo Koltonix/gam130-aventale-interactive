@@ -43,10 +43,10 @@ namespace CatGame.Tiles
 
         public Unit CheckForUnit()
         {
-            RaycastHit hit;
-            if (Physics.Raycast(Position, Vector3.up, out hit))
-            { 
-                Unit unit = hit.collider.GetComponent<Unit>();         
+            Collider[] cols = Physics.OverlapSphere(Position, 1.5f);
+            foreach (Collider nearbyObject in cols)
+            {
+                Unit unit = nearbyObject.GetComponent<Unit>();
                 if (unit != null)
                 {
                     OccupiedUnit = unit;
