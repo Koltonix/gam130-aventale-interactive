@@ -14,6 +14,7 @@ namespace CatGame.Units
 
         public List<Tile> availableTiles;
         public Tile[] nearbyUnits;
+        public Tile[] nearbyFriendlyUnits;
         public Dictionary<Tile, List<Tile>> tilePaths;
 
         [Header("Required Data")]
@@ -71,13 +72,13 @@ namespace CatGame.Units
                         {
                             accessibleTiles.Add(tile);
 
-                            if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
-                            {
-                                Debug.Log("UNIT IS HERE");
-                                availableUnits.Add(tile);
-                            }
                         }
                     }                 
+                }
+
+                else if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
+                {
+                    availableUnits.Add(tile);
                 }
             }
 

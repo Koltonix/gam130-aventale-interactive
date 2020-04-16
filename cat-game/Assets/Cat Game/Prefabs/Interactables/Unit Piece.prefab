@@ -215,7 +215,8 @@ MonoBehaviour:
     gCost: 0
     isUsedInPathfinding: 0
   availableTiles: []
-  nearbyUnits: []
+  nearbyEnemyUnits: []
+  nearbyFriendlyUnits: []
   owner:
     number: 0
     isActive: 0
@@ -235,6 +236,9 @@ MonoBehaviour:
   enemyTileColour:
     serializedVersion: 2
     rgba: 166
+  friendlyTileColour:
+    serializedVersion: 2
+    rgba: 4278243689
   pathColour:
     serializedVersion: 2
     rgba: 10887680

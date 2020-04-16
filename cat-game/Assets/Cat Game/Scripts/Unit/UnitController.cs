@@ -266,7 +266,6 @@ namespace CatGame.Units
                     pathToDraw.Dequeue();
 
                     onSelect?.Invoke(false);
-                    onSelect?.Invoke(true);
                 }
 
                 float t = 0.0f;
