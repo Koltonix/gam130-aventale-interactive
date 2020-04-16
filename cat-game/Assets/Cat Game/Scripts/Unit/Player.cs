@@ -30,7 +30,7 @@ namespace CatGame.Data
             }
         }
 
-        public int defaultActionPoints = 200;
+        public int defaultActionPoints = 8;
 
         [Header("Aesthetic")]
         public Color32 colour;

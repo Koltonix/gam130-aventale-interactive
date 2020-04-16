@@ -240,12 +240,7 @@ namespace CatGame.Units
             UnitMovement _selectedUnit = selectedUnit;
             DeselectUnit();
 
-            #region Movement Deduction
-            _selectedUnit.owner.GetPlayerReference().ActionPoints -= Mathf.RoundToInt(Vector3.Distance(
-                                                         new Vector3(_selectedUnit.transform.position.x, 0, _selectedUnit.transform.position.z),
-                                                         new Vector3(lastSelectedTile.Position.x, 0, lastSelectedTile.Position.z)));
-            #endregion
-            
+            _selectedUnit.owner.GetPlayerReference().ActionPoints -= lastSelectedPath.Length - 1;         
             movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, lastSelectedPath, _selectedUnit.transform)); ;
 
             return;
