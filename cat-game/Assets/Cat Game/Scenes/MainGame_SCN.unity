@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 169a1b8f06c17c84e8de491f2bfef986, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1355559554}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.30310947, g: 0.1291926, b: 0.34287655, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -17862,10 +17862,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1250377472, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
-      propertyPath: camSprintSpeed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6717407300474709608, guid: b078d57f57397ec48952b0a7425e1a34,
         type: 3}
       propertyPath: orthographic
@@ -17885,6 +17881,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BackGroundColor.b
       value: 0.5377358
+      objectReference: {fileID: 0}
+    - target: {fileID: 6717407300474709608, guid: b078d57f57397ec48952b0a7425e1a34,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1250377471, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
       propertyPath: m_Enabled
@@ -17922,6 +17923,10 @@ PrefabInstance:
       propertyPath: travelPoints.Array.data[3].worldReference
       value: 
       objectReference: {fileID: 507270144}
+    - target: {fileID: 1250377472, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
+      propertyPath: camSprintSpeed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
 --- !u!1001 &1254142806
