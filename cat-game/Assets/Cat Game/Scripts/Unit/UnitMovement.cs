@@ -13,7 +13,7 @@ namespace CatGame.Units
         public Tile currentTile;
 
         public List<Tile> availableTiles;
-        public Tile[] nearbyUnits;
+        public Tile[] nearbyEnemyUnits;
         public Tile[] nearbyFriendlyUnits;
         public Dictionary<Tile, List<Tile>> tilePaths;
 
@@ -25,6 +25,7 @@ namespace CatGame.Units
         public Color32 availableTileColour;
         public Color32 selectedTileColour;
         public Color32 enemyTileColour;
+        public Color32 friendlyTileColour;
         public Color32 pathColour;
 
         private void Start()
@@ -55,7 +56,9 @@ namespace CatGame.Units
         public void DetermineTilesInSphere(Tile[] allTiles)
         {
             List<Tile> accessibleTiles = new List<Tile>();
-            List<Tile> availableUnits = new List<Tile>();
+
+            List<Tile> friendlyUnits = new List<Tile>();
+            List<Tile> enemyUnits = new List<Tile>();
 
             currentTile = BoardManager.Instance.GetTileFromWorldPosition(this.transform.position);
 
@@ -78,14 +81,16 @@ namespace CatGame.Units
 
                 else if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
                 {
-                    availableUnits.Add(tile);
+                    if (tile.OccupiedUnit.owner == owner) friendlyUnits.Add(tile);
+                    else enemyUnits.Add(tile);
                 }
             }
 
             availableTiles = accessibleTiles;
-            this.nearbyUnits = availableUnits.ToArray();
-            tilePaths = PathfindAvailableTiles(accessibleTiles.ToArray());
+            nearbyFriendlyUnits = friendlyUnits.ToArray();
+            nearbyEnemyUnits = enemyUnits.ToArray();
 
+            tilePaths = PathfindAvailableTiles(accessibleTiles.ToArray());
             RemoveUnusedTiles();
         }
 
@@ -167,22 +172,6 @@ namespace CatGame.Units
             return false;
         }
 
-        public void ChangeAvailableTilesColour(Color32 colour)
-        {
-            foreach (Tile tile in availableTiles)
-            {
-                tile.WorldReference.GetComponent<Renderer>().material.color = colour;
-            }
-        }
-
-        public void ChangeEnemyTilesColour(Color32 colour)
-        {
-            foreach (Tile tile in nearbyUnits)
-            {
-                tile.WorldReference.GetComponent<Renderer>().material.color = colour;
-            }
-        }
-
         public void ChangeTileColours(Tile[] tiles, Color32 colour)
         {
             foreach (Tile tile in tiles)
@@ -219,13 +208,15 @@ namespace CatGame.Units
             if (!isSelected)
             {
                 ResetTileColours(availableTiles.ToArray());
-                ResetTileColours(nearbyUnits);
+                ResetTileColours(nearbyEnemyUnits);
+                ResetTileColours(nearbyFriendlyUnits);
             }
 
             else
             {
                 ChangeTileColours(availableTiles.ToArray(), availableTileColour);
-                ChangeTileColours(nearbyUnits, enemyTileColour);
+                ChangeTileColours(nearbyEnemyUnits, enemyTileColour);
+                ChangeTileColours(nearbyFriendlyUnits, friendlyTileColour);
             }
         }
 

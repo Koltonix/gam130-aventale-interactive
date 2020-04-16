@@ -229,19 +229,19 @@ MonoBehaviour:
   currentUnit: {fileID: 0}
   availableTileColour:
     serializedVersion: 2
-    rgba: 42579
+    rgba: 4278232659
   selectedTileColour:
     serializedVersion: 2
-    rgba: 29350
+    rgba: 4278219430
   enemyTileColour:
     serializedVersion: 2
-    rgba: 166
+    rgba: 4278190246
   friendlyTileColour:
     serializedVersion: 2
-    rgba: 4278243689
+    rgba: 4278244971
   pathColour:
     serializedVersion: 2
-    rgba: 10887680
+    rgba: 4289077760
 --- !u!114 &3662666720628452032
 MonoBehaviour:
   m_ObjectHideFlags: 0
