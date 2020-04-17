@@ -1,6 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// Stores the GameObject World Reference as well as the rotation
+/// and whether to use it or not.
+/// </summary>
 namespace CatGame.CameraMovement
 {
     [Serializable]

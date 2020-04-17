@@ -2,6 +2,9 @@
 
 namespace CatGame.CameraMovement
 {
+    /// <summary>
+    /// Base Template to be used by a State Handler.
+    /// </summary>
     public abstract class CameraState : MonoBehaviour
     {
         public virtual void OnStateStay() { }
