@@ -5,6 +5,10 @@ using CatGame.Tiles;
 
 namespace CatGame.Pathfinding
 {
+    /// <summary>
+    /// Pathfinds in a Grid Format using the A* Algorithm.
+    /// Reference Video: https://youtu.be/AKKpPmxx07w
+    /// </summary>
     public class PathfindingManager : MonoBehaviour
     {
         #region Singleton
@@ -44,6 +48,10 @@ namespace CatGame.Pathfinding
             clickData = userInput.GetComponent<IGetOnClick>();
         }
 
+        /// <summary>Gets the Tile Path using the Pathfinding Algorithm.</summary>
+        /// <param name="startPosition">Start Tile World Positon.</param>
+        /// <param name="endPosition">End Tile World Position.</param>
+        /// <returns>A list of the Tiles of the Path.</returns>
         public List<Tile> GetPath(Vector3 startPosition, Vector3 endPosition)
         {
             FindPath(new Vector3(startPosition.x, boardData.GetBoardCentre().y, startPosition.z),
@@ -52,16 +60,12 @@ namespace CatGame.Pathfinding
             return finalPath;
         }
 
-        /// <summary>
-        /// Finds the closest path for the object to take from a start to and end point
-        /// </summary>
-        /// <param name="startPosition"></param>
-        /// <param name="endPosition"></param>
-        /// <remarks>
-        /// Sourced from with alternations: https://youtu.be/AKKpPmxx07w
-        /// </remarks>
+        /// <summary>Finds the closest path for the object to take from a start to and end point.</summary>
+        /// <param name="startPosition">Start Tile World Position.</param>
+        /// <param name="endPosition">End Tile World Position.</param>
         private void FindPath(Vector3 startPosition, Vector3 endPosition)
         {
+            //Gets the Start Tile and End Tile.
             Tile startTile = boardData.GetTileFromWorldPosition(startPosition);
             Tile endTile = boardData.GetTileFromWorldPosition(endPosition);
 
@@ -90,6 +94,7 @@ namespace CatGame.Pathfinding
                     break;
                 }
 
+                //Checks each Neightbouring tile to see if it is passable, or not
                 foreach (Tile tile in boardData.GetNeighbouringTiles(currentTile))
                 {
                     if (!tile.IsPassable|| tile.OccupiedUnit != null || closedList.Contains(tile))
@@ -97,8 +102,10 @@ namespace CatGame.Pathfinding
                         continue;
                     }
 
+                    //Gets the cost of moving to the next tile
                     int moveCost = currentTile.gCost + GetManhattenDistance(currentTile, tile);
 
+                    //Sets the new costs of the tile
                     if (!openList.Contains(tile) || moveCost < tile.FCost)
                     {
                         tile.gCost = moveCost;
@@ -114,6 +121,9 @@ namespace CatGame.Pathfinding
             }
         }
 
+        /// <summary>Gets the final path using the start Tile and end Tile.</summary>
+        /// <param name="startTile">Starting Tile in the Path.</param>
+        /// <param name="endTile">End Tile in the Path.</param>
         private void GetFinalPath(Tile startTile, Tile endTile)
         {
             List<Tile> finalPath = new List<Tile>();
@@ -131,6 +141,13 @@ namespace CatGame.Pathfinding
             this.finalPath = finalPath;
         }
 
+        /// <summary>
+        /// Returns the Distance of the Tiles in terms of the boat, not the
+        /// World Position distance.
+        /// </summary>
+        /// <param name="firstTile">First Tile in the Path.</param>
+        /// <param name="secondTile">Last Tile in the Path.</param>
+        /// <returns></returns>
         private int GetManhattenDistance(Tile firstTile, Tile secondTile)
         {
             int iX = Mathf.Abs(firstTile.boardX - secondTile.boardX);
@@ -139,6 +156,10 @@ namespace CatGame.Pathfinding
             return iX + iY;
         }
 
+        /// <summary>
+        /// Renders the Tile Path for debugging. This is obsolete and is
+        /// now done in the UnitMovement script.
+        /// </summary>
         private void DrawPath()
         {
             if (finalPath != null)
@@ -151,6 +172,10 @@ namespace CatGame.Pathfinding
             }
         }
 
+        /// <summary>
+        /// Resets the Tile colours of all of the board. This is obsolete and
+        /// is now done in the UnitMovement script.
+        /// </summary>
         private void ResetTileColours()
         {
             foreach (Tile tile in boardData.GetTiles())
@@ -163,6 +188,8 @@ namespace CatGame.Pathfinding
         {
             if (boardData != null && boardData.GetTiles() != null)
             {
+                //Renders all of the cubes in the Pathfinding as wireframe of either
+                //red or green depending on if they are impassable, or not.
                 foreach (Tile tile in boardData.GetTiles())
                 {
                     if (tile != null)
