@@ -4,6 +4,11 @@ using CatGame.Units;
 
 namespace CatGame.Tiles
 {
+    /// <summary>
+    /// Stores the Tile Data of the Board. It stores the position both in the 
+    /// board and the world position. It also stores values to be used in the
+    /// Pathfinding too.
+    /// </summary>
     [Serializable]
     public class Tile
     {
@@ -26,6 +31,13 @@ namespace CatGame.Tiles
 
         public bool isUsedInPathfinding;
 
+        /// <summary>
+        /// Constructor for the Tile.
+        /// </summary>
+        /// <param name="Position">World Position</param>
+        /// <param name="GameObject">World GameObject Reference.</param>
+        /// <param name="x">X Board Position.</param>
+        /// <param name="y">Y Board Position.</param>
         public Tile(Vector3 Position, GameObject GameObject, int x, int y)
         {
             this.Position = Position;
@@ -41,6 +53,9 @@ namespace CatGame.Tiles
             isUsedInPathfinding = false;
         }
 
+        /// <summary>Checks above the tile to see if there is a Unit currently on top of it.</summary>
+        /// <returns>A Unit Class of what is standing above.</returns>
+        /// <remarks>This is a nullable return type.</remarks>
         public Unit CheckForUnit()
         {
             Collider[] cols = Physics.OverlapSphere(Position, 1.5f);
