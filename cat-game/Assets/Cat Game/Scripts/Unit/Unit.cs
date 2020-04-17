@@ -3,6 +3,7 @@ using CatGame.Data;
 
 namespace CatGame.Units
 {
+    /// <summary>Stores the extra metadata of the Unit.</summary>
     [RequireComponent(typeof(UnitMovement))]
     public class Unit : Entity, IUnitData
     {

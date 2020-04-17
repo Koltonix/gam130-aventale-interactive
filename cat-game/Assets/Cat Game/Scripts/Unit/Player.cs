@@ -46,6 +46,8 @@ namespace CatGame.Data
             ActionPoints = defaultActionPoints;
         }
 
+        /// <summary>Enables the Unit</summary>
+        /// <param name="isEnabled">Unit's current state</param>
         public void ActivateUnit(bool isEnabled)
         {
             ActionPoints = defaultActionPoints;
@@ -54,6 +56,8 @@ namespace CatGame.Data
             onActive?.Invoke();
         }
 
+        /// <summary>Resets the Action Points of the Player.</summary>
+        /// <param name="player">Current Player's Turn.</param>
         public void ResetActionPoints(Player player)
         {
             if (player == this) ActionPoints = defaultActionPoints;
