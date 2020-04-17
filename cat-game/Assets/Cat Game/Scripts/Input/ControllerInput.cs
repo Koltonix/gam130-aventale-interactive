@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 namespace CatGame.Controls
 {
+    /// <summary>
+    /// Input from a traditional Xbox Controller.
+    /// </summary>
     public class ControllerInput : UserInput
     {
         [Header("Controller Axis")]
@@ -28,6 +31,8 @@ namespace CatGame.Controls
             RaycastFromCamera();
         }
 
+        /// <summary>Checks to see if the movement button has been clicked.</summary>
+        /// <returns>Returns true if the button has been pressed.</returns>
         public override bool IsMovementSelected()
         {
             if (Input.GetButtonDown(enterButton.name)) return true;
@@ -45,6 +50,10 @@ namespace CatGame.Controls
             return cameraRaycastHit;
         }
 
+        /// <summary>
+        /// Raycasts from the Main Camera using the position of the Controller Icon which is moved
+        /// using the thumbsticks.
+        /// </summary>
         public override void RaycastFromCamera()
         {
             controllerIcon.transform.position = new Vector3(controllerIcon.transform.position.x + (horizontalAxis.value * axisSensitivity),
@@ -55,6 +64,7 @@ namespace CatGame.Controls
             Physics.Raycast(cameraRay, out cameraRaycastHit);
         }
 
+        /// <summary>Retrieves all of the Controller Input Values from the Input Manager.</summary>
         private void AccessInputData()
         {
             horizontalAxis.value = Input.GetAxis(horizontalAxis.name);
