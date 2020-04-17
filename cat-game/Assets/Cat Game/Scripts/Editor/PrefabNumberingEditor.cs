@@ -2,7 +2,9 @@
 using UnityEditor;
 
 /// <summary>
-/// Created by Christopher Robertson
+/// Christopher Robertson 2020
+/// Provides Editor GUI Buttons on the Inspect for the 
+/// PrefabNumbering class.
 /// </summary>
 [CustomEditor(typeof(PrefabNumbering))]
 public class PrefabNumberingEditor : Editor

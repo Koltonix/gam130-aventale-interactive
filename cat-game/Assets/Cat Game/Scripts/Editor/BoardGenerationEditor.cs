@@ -3,6 +3,9 @@ using UnityEditor;
 
 namespace CatGame.Board
 {
+    /// <summary>
+    /// Editor GUI Buttons fpr the Procedural Board Generation.
+    /// </summary>
     [CustomEditor(typeof(BoardGeneration))]
     public class BoardGenerationEditor : Editor
     {

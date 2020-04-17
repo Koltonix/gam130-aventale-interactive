@@ -3,6 +3,9 @@ using UnityEditor;
 
 namespace CatGame.Pathfinding
 {
+    /// <summary>
+    /// Editor GUI Buttons for the GenerateDebugBoard script.
+    /// </summary>
     [CustomEditor(typeof(GenerateDebugBoard))]
     public class GenerateDebugBoardEditor : Editor
     {
