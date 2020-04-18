@@ -46,8 +46,8 @@ namespace CatGame.CameraMovement
             else if (Input.GetKey(negativeButton) && rotationCoroutine == null) IterateThroughPoints(-1);
         }
 
-        public override void OnStateEnter(){ }
-        public override void OnStateExit() { }
+        public override void OnStateEnter(){}
+        public override void OnStateExit(){}
 
         /// <summary>Checks if the current mechanic is in progress.</summary>
         /// <returns>Returns true if it is currently running.</returns>
@@ -85,8 +85,11 @@ namespace CatGame.CameraMovement
         {
             latestPoint = point;
 
-            if (movementCoroutine == null) movementCoroutine = StartCoroutine(MoveToPoint(point.worldReference.transform, moveSpeed));
-            if (rotationCoroutine == null) rotationCoroutine = StartCoroutine(RotateToPoint(point.worldReference.transform, rotateSpeed));
+            if (movementCoroutine != null) StopCoroutine(movementCoroutine);
+            if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
+
+            movementCoroutine = StartCoroutine(MoveToPoint(point.worldReference.transform, moveSpeed));
+            rotationCoroutine = StartCoroutine(RotateToPoint(point.worldReference.transform, rotateSpeed));
         }
 
         /// <summary>Moves the Camera to the new position using a transform.</summary>

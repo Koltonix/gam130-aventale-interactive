@@ -19,6 +19,8 @@ namespace CatGame.CameraMovement
         [SerializeField]
         private float scrollLerpSpeed = 1.25f;
         [SerializeField]
+        private float zoomingOutLerpSpeed = 2.5f;
+        [SerializeField]
         [Range(0.0f, 1.0f)]
         private float scrollSpeed = 0.2f;
         private float linearPoint = 0.0f;
@@ -62,7 +64,7 @@ namespace CatGame.CameraMovement
             linearPoint = 0.0f;
 
             if (scrollCoroutine != null) StopCoroutine(scrollCoroutine);
-            scrollCoroutine = StartCoroutine(ScrollLerp(originalPosition, maxTargetPosition, scrollLerpSpeed));
+            scrollCoroutine = StartCoroutine(ScrollLerp(originalPosition, maxTargetPosition, zoomingOutLerpSpeed));
         }
 
         /// <summary>Checks if the Zooming Camera coroutine is running.</summary>

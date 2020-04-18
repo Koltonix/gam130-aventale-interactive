@@ -34,13 +34,13 @@ namespace CatGame.CameraMovement
             //Checks to see what next state to go to.
             if (changingState == null)
             {
-                if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E) && changingState == null)
                 {
                     changingState = ChangeState(rotating);
                     StartCoroutine(changingState);
                 }
 
-                else if (Input.GetAxisRaw("SCROLL_WHEEL") != 0)
+                else if (Input.GetAxisRaw("SCROLL_WHEEL") != 0 && changingState == null)
                 {
                     changingState = ChangeState(zooming);
                     StartCoroutine(changingState);
