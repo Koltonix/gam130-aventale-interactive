@@ -7,6 +7,10 @@ using CatGame.Pathfinding;
 
 namespace CatGame.Units
 {
+    /// <summary>
+    /// Handles the calculation of tiles available by using the Pathfinding.
+    /// It also handles the colouring of the Tiles depending on their state.
+    /// </summary>
     public class UnitMovement : MonoBehaviour
     {
         [Header("Movement Settings")]
@@ -40,19 +44,9 @@ namespace CatGame.Units
         }
 
         #region Tile Prediction
-        /// <summary>
-        /// A function that returns all of the tiles that the unit
-        /// can move to given the amount of movement points available.
-        /// </summary>
-        /// <param name="allTiles">
-        /// An array including all of the tiles in the scene.
-        /// </param>
-        /// <remarks>
-        /// **NOTE** This current does not incorporate any 
-        /// A* pathfinding yet, but will do during the stages after 
-        /// the prototype.
-        /// </remarks>
-        /// <returns></returns>
+
+        /// <summary>Determines all of the total tiles within a radius of the maximum AP.</summary>
+        /// <param name="allTiles">All of the Tiles in the Scene.</param>
         public void DetermineTilesInSphere(Tile[] allTiles)
         {
             List<Tile> accessibleTiles = new List<Tile>();
@@ -64,11 +58,14 @@ namespace CatGame.Units
 
             foreach (Tile tile in allTiles)
             {
+                //Making each Tile do a check to see if there is a Unit above it.
                 tile.CheckForUnit();
                 tile.isUsedInPathfinding = false;
 
+                //No Unit is occupying it and it is passable
                 if (tile.IsPassable && tile.OccupiedUnit == null)
                 {
+                    //Within the AP Distance
                     if (Mathf.Abs(tile.boardX - currentTile.boardX) <= owner.GetCurrentActionPoints())
                     {
                         if (Mathf.Abs(tile.boardY - currentTile.boardY) <= owner.GetCurrentActionPoints())
@@ -79,6 +76,7 @@ namespace CatGame.Units
                     }                 
                 }
 
+                //There is a Unit occupying it that is not itself
                 else if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
                 {
                     if (tile.OccupiedUnit.owner == owner) friendlyUnits.Add(tile);
@@ -94,9 +92,12 @@ namespace CatGame.Units
             RemoveUnusedTiles();
         }
 
-        //Returns the path using an end tile
+        /// <summary>Gets the A* path to the End Tile.</summary>
+        /// <param name="endTile">The Tile which you wish to get the path for.</param>
+        /// <returns>All of the Tiles in the path in order.</returns>
         public Tile[] GetAvailableTilesFromPathfinding(Tile endTile)
         {
+            //Sanity Checks
             if (tilePaths != null && endTile != null)
             {
                 foreach (var tile in tilePaths)
@@ -111,6 +112,12 @@ namespace CatGame.Units
             return null;
         }
 
+        /// <summary>
+        /// Stores all of the possible paths that can be taken and is accessed using
+        /// the final Tile.
+        /// </summary>
+        /// <param name="nearbyTiles">All of the Tiles within the AP distance.</param>
+        /// <returns></returns>
         public Dictionary<Tile, List<Tile>> PathfindAvailableTiles(Tile[] nearbyTiles)
         {
             //Stores the pathfinding for every tile available using the final Tile as the unique identifier
@@ -131,6 +138,13 @@ namespace CatGame.Units
             return allPaths;
         }
         
+        /// <summary>Sets the Tile to state that the Pathfinding is being used by it.</summary>
+        /// <param name="tiles"></param>
+        /// <param name="areUsed"></param>
+        /// <remarks>
+        /// The reason for this is that it is more efficient to check if it is possible
+        /// to reach this Tile within the actual AP Distance rather than a sphere cast.
+        /// </remarks>
         private void SetTilesUsingPathfinding(Tile[] tiles, bool areUsed)
         {
             for (int i = 0; i < tiles.Length; i++)
@@ -139,6 +153,7 @@ namespace CatGame.Units
             }
         }
 
+        /// <summary>Removes the Tiles not used in the pathfinding and there aren't accessible</summary>
         private void RemoveUnusedTiles()
         {
             for (int i = availableTiles.Count - 1; i >= 0; i--)
@@ -151,14 +166,8 @@ namespace CatGame.Units
         /// A check to see if the tile that has been provided is a 
         /// tile that is currently available to move to.
         /// </summary>
-        /// <param name="tileToMoveTo">
-        /// The tile that is to be checked against all of the 
-        /// available tiles.
-        /// </param>
-        /// <returns>
-        /// Returns true if the tile provided is a tile that is
-        /// available to move to.
-        /// </returns>
+        /// <param name="tileToMoveTo">The tile that is to be checked against all of the available tiles.</param>
+        /// <returns>Returns true if the tile provided is a tile that is available to move to.</returns>
         public bool CanMoveToTile(Tile tileToMoveTo)
         {
             foreach (Tile tile in availableTiles)
@@ -172,6 +181,9 @@ namespace CatGame.Units
             return false;
         }
 
+        /// <summary>Changes the Tile Rendering Colour.</summary>
+        /// <param name="tiles">Tiles to change.</param>
+        /// <param name="colour">Colour to change the Tiles.</param>
         public void ChangeTileColours(Tile[] tiles, Color32 colour)
         {
             foreach (Tile tile in tiles)
@@ -180,6 +192,8 @@ namespace CatGame.Units
             }
         }
 
+        /// <summary>Resets the Tiles Renderer to their default colour</summary>
+        /// <param name="tiles">Tiles to change.</param>
         public void ResetTileColours(Tile[] tiles)
         {
             foreach (Tile tile in tiles)
@@ -197,12 +211,8 @@ namespace CatGame.Units
         #endregion
 
         #region Event Listener
-        /// <summary>
-        /// Used as a listener to invoke other functions
-        /// </summary>
-        /// <param name="isSelected">
-        /// Determines whether the unit has been selected or deselected
-        /// </param>
+        /// <summary>Used as a listener to invoke other functions.</summary>
+        /// <param name="isSelected">Determines whether the unit has been selected or deselected.</param>
         public void SelectionListener(bool isSelected)
         {
             if (!isSelected)

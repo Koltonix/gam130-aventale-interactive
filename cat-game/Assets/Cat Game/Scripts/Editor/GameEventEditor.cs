@@ -2,6 +2,7 @@
 using UnityEditor;
 
 /// <summary>
+/// Editor GUI Buttons for the GameEvents to trigger them..
 /// Sourced: https://www.youtube.com/watch?v=dtRwpcegzuc
 /// </summary>
 namespace CatGame.Menu

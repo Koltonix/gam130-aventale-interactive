@@ -3,6 +3,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Automatically Instantiates the PauseMenu prefab if it is not referenced.
+/// It also automatically assigns UnityEvents to the SceneController using the
+/// text of the button.
+/// </summary>
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField]
@@ -31,6 +36,7 @@ public class PauseMenu : MonoBehaviour
         if (Input.GetKeyDown(pauseButton)) PauseGame();
     }
 
+    /// <summary>Spawns the PauseMenu prefab at the centre of the screen.</summary>
     private void CreatePauseMenu()
     {
         pauseUI = Instantiate(pauseUIPrefab, Vector3.zero, Quaternion.identity);
@@ -47,6 +53,8 @@ public class PauseMenu : MonoBehaviour
         rect.sizeDelta = Vector3.zero;
     }
 
+    /// <summary>Pauses the Game.</summary>
+    /// <remarks>Be sure to reset the time back to 1.0f on a new scene</remarks>
     public void PauseGame()
     {
         isPaused = !isPaused;
@@ -56,7 +64,9 @@ public class PauseMenu : MonoBehaviour
         else Time.timeScale = 1.0f;
     }
 
-    //Manual Override just in case
+    /// <summary>Pauses the Game with a manual override</summary>
+    /// <param name="pauseState">Overriding Pause Setting</param>
+    /// <remarks>Be sure to reset the time back to 1.0f on a new scene</remarks>
     public void PauseGame(bool pauseState)
     {
         isPaused = pauseState;
@@ -66,6 +76,11 @@ public class PauseMenu : MonoBehaviour
         else Time.timeScale = 1.0f;
     }
 
+    /// <summary>
+    /// Automatically assigns an event to the button's UnityEvent based on 
+    /// the text of the button.
+    /// </summary>
+    /// <param name="parent">Root Transform</param>
     private void AssignEventsToButton(Transform parent)
     {
         searchList = new List<Transform>();
@@ -87,6 +102,13 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// A depth search that searches through all of the child objects of every object
+    /// in the root transform.
+    /// </summary>
+    /// <param name="paths">The directories of all of the objects in the current root.</param>
+    /// <returns>An array of path directories.</returns>
     private Transform[] DepthSearch(Transform[] paths)
     {
         foreach (Transform childPath in paths)
@@ -102,6 +124,10 @@ public class PauseMenu : MonoBehaviour
         return searchList.ToArray();
     }
 
+    /// <summary>Gets all of the Child Objects of a root component.</summary>
+    /// <param name="parent">Root Tranform.</param>
+    /// <returns>All of the Child Transforms in the Root.</returns>
+    /// <remarks>This only gets the Transforms of just the root component's children.</remarks>
     private Transform[] GetAllChildObjects(Transform parent)
     {
         Transform[] children = new Transform[parent.childCount];

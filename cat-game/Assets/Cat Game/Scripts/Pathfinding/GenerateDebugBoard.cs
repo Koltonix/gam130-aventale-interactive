@@ -4,6 +4,11 @@ using CatGame.Tiles;
 
 namespace CatGame.Pathfinding
 {
+    /// <summary>
+    /// A quick class I made to produce a procedural grid randomly for testing. This
+    /// is now heavily obsolete please use the BoardManager and set up the Tiles in
+    /// that way instead.
+    /// </summary>
     public class GenerateDebugBoard : MonoBehaviour, IGetBoardData
     {
 
@@ -35,6 +40,10 @@ namespace CatGame.Pathfinding
         [SerializeField]
         private GameObject tilePrefab;
 
+        /// <summary>
+        /// Generates a board of Tiles in the World as well as keeping their reference in a 
+        /// multi-dimensional array.
+        /// </summary>
         public void GenerateBoard()
         {
             board = new Tile[width, height];
@@ -42,6 +51,7 @@ namespace CatGame.Pathfinding
 
             gridWorldSize = new Vector3(width * tileGap.x, 0, height * tileGap.z);
 
+            //Iterate through the width and height
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -63,6 +73,7 @@ namespace CatGame.Pathfinding
             }
         }
 
+        /// <summary>Destroys the current board world Tiles and resets the data.</summary>
         public void DeleteBoard()
         {
             for (int i = tileHolder.childCount - 1; i >= 0; i--)

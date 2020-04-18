@@ -2,7 +2,9 @@
 using UnityEngine;
 
 /// <summary>
-/// Created by Christopher Robertson
+/// Christopher Robertson 2020
+/// Used to manually number new assets when dragged into a scene.
+/// A prefab must be assigned to the Inspector for this to work.
 /// </summary>
 [ExecuteInEditMode]
 public class PrefabNumbering : MonoBehaviour
@@ -22,6 +24,7 @@ public class PrefabNumbering : MonoBehaviour
         {
             worldCount = FindObjectsOfType<GameObject>().Length;
 
+            //A change from the previous amount of GameObjects in the scene.
             if (previousWorldCount != worldCount)
             {
                 CheckNewItem();
@@ -29,6 +32,11 @@ public class PrefabNumbering : MonoBehaviour
         } 
     }
 
+    /// <summary>Checks the latest GameObject and ensures it doesn't exist already.</summary>
+    /// <remarks>
+    /// The newest GameObject in a scene will always be the 0th element
+    /// when using FindObjectOfType<>().
+    /// </remarks>
     private void CheckNewItem()
     {
         allPrefabs = GameObject.FindObjectsOfType<GameObject>().Where(obj => UnityEditor.PrefabUtility.GetPrefabParent(obj) == prefab).ToArray();
@@ -43,12 +51,21 @@ public class PrefabNumbering : MonoBehaviour
                 }
             }
 
+            //Renames the latest GameObject
             allPrefabs[0].name += extraText + allPrefabs.Length;
         }
 
+        //Caching the previous GameObjects
         previousPrefabs = allPrefabs;
     }
-
+    
+    /// <summary>
+    /// Renames all of the GameObjects of the Prefabs in order.
+    /// </summary>
+    /// <remarks>
+    /// This does it so that 0 is the newest. To change this use a regular
+    /// for loop rather than a reverse for loop.
+    /// </remarks>
     public void RenameAllGameObjects()
     {
         GameObject[] allObjects = allPrefabs = GameObject.FindObjectsOfType<GameObject>().Where(obj => UnityEditor.PrefabUtility.GetPrefabParent(obj) == prefab).ToArray();

@@ -2,6 +2,7 @@
 using UnityEngine;
 
 /// <summary>
+/// A Scriptable Object that stores all of the GameEventListeners that are subscribed to it.
 /// Following the Unity Architecture: https://unity.com/how-to/architect-game-code-scriptable-objects
 /// </summary>
 namespace CatGame.Menu
