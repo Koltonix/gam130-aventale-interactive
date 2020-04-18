@@ -5,7 +5,7 @@ The Repository for Team 2 in the GAM130 assignment.
 ## Information
 - This project will be using Unity Version 2018.4.2f1 
 
-![Roomba Cat](https://gamesgit.falmouth.ac.uk/users/cr230727/repos/aventale-interactive-gam130/raw/Images/Publishable%20pieces/roomba_cat.png?at=refs%2Fheads%2Fmaster)
+![Banner](https://gamesgit.falmouth.ac.uk/users/cr230727/repos/aventale-interactive-gam130/raw/Images/Publishable%20pieces/cat_banner.png?at=refs%2Fheads%2Fdevelopment)
 
 ### Team Members
 |Programmer                                          |Artist       |Designer       |Animator     |Writer
@@ -17,7 +17,11 @@ The Repository for Team 2 in the GAM130 assignment.
 
 ## Style Sheets
 ### C# Naming Conventions
-[Microsoft Standard](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/general-naming-conventions?redirectedfrom=MSDN)
+
+|C# Standards                                                                                                                              |Comment Style                   |
+|------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------|
+|[Microsoft C# Standard](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/general-naming-conventions?redirectedfrom=MSDN)|[Microsoft XML Standard](https://docs.microsoft.com/en-us/dotnet/csharp/codedoc)|
+
 
 ### Unity Object Conventions
 |Type  |Prefab|Scene|Material|Image|Post Processing|Animation Clips|Models|Textures|
