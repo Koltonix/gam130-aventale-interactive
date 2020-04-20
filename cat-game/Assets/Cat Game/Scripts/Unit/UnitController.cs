@@ -147,9 +147,10 @@ namespace CatGame.Units
                 {
                     selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
                     health.Damage(unitAttack.Damage);
-                    DeselectUnit();
                 }
             }
+
+            DeselectUnit();
         }
 
         /// <summary>Assigns the current Unit Data and triggers the listener in the UnitMovement</summary>
