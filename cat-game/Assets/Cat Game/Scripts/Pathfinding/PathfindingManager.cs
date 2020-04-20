@@ -52,10 +52,10 @@ namespace CatGame.Pathfinding
         /// <param name="startPosition">Start Tile World Positon.</param>
         /// <param name="endPosition">End Tile World Position.</param>
         /// <returns>A list of the Tiles of the Path.</returns>
-        public List<Tile> GetPath(Vector3 startPosition, Vector3 endPosition)
+        public List<Tile> GetPath(Vector3 startPosition, Vector3 endPosition, bool checkForUnit)
         {
             FindPath(new Vector3(startPosition.x, boardData.GetBoardCentre().y, startPosition.z),
-                         new Vector3(endPosition.x, boardData.GetBoardCentre().y, endPosition.z));
+                         new Vector3(endPosition.x, boardData.GetBoardCentre().y, endPosition.z), checkForUnit);
 
             return finalPath;
         }
@@ -63,7 +63,7 @@ namespace CatGame.Pathfinding
         /// <summary>Finds the closest path for the object to take from a start to and end point.</summary>
         /// <param name="startPosition">Start Tile World Position.</param>
         /// <param name="endPosition">End Tile World Position.</param>
-        private void FindPath(Vector3 startPosition, Vector3 endPosition)
+        private void FindPath(Vector3 startPosition, Vector3 endPosition, bool checkForUnit)
         {
             //Gets the Start Tile and End Tile.
             Tile startTile = boardData.GetTileFromWorldPosition(startPosition);
@@ -97,8 +97,8 @@ namespace CatGame.Pathfinding
                 //Checks each Neightbouring tile to see if it is passable, or not
                 foreach (Tile tile in boardData.GetNeighbouringTiles(currentTile))
                 {
-                    if (!tile.IsPassable|| tile.OccupiedUnit != null || closedList.Contains(tile))
-                    { 
+                    if (!tile.IsPassable || (tile.OccupiedUnit != null && checkForUnit) || closedList.Contains(tile))
+                    {
                         continue;
                     }
 

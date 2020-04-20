@@ -87,12 +87,12 @@ namespace CatGame.Units
                     else
                     {
                         //Will only add the Unit if it is within the move distance and can also attack.
-                        if (xBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints)
+                        if (xBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
                         {
-                            if (yBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints)
+                            if (yBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
                             {
-                                Debug.Log("X Distance: " + xBoardDistance + " || Total Range: " + (owner.GetPlayerReference().ActionPoints + unitAttack.AttackRange));
-                                Debug.Log("Y Distance: " + yBoardDistance + " || Total Range: " + (owner.GetPlayerReference().ActionPoints + unitAttack.AttackRange));
+                                //Debug.Log("X Distance: " + xBoardDistance + " || Total Range: " + (owner.GetPlayerReference().ActionPoints + unitAttack.AttackRange));
+                                //Debug.Log("Y Distance: " + yBoardDistance + " || Total Range: " + (owner.GetPlayerReference().ActionPoints + unitAttack.AttackRange));
                                 enemyUnits.Add(tile);
                             }
                         }
@@ -105,6 +105,7 @@ namespace CatGame.Units
             nearbyEnemyUnits = enemyUnits;
 
             tilePaths = PathfindAvailableTiles(accessibleTiles.ToArray());
+
             RemoveUnusedTiles();
         }
 
@@ -141,7 +142,7 @@ namespace CatGame.Units
 
             foreach (Tile endTile in nearbyTiles)
             {
-                List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position);
+                List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position, true);
                 if (finalPath == null) continue;
                 //If there are only x tiles or less in the path
                 if (finalPath.Count - 1 <= owner.GetCurrentActionPoints())
@@ -172,9 +173,25 @@ namespace CatGame.Units
         /// <summary>Removes the Tiles not used in the pathfinding and there aren't accessible</summary>
         private void RemoveUnusedTiles()
         {
+            Attacker unitAttack = this.GetComponent<Attacker>();
+
             for (int i = availableTiles.Count - 1; i >= 0; i--)
             {
                 if (!availableTiles[i].isUsedInPathfinding) availableTiles.RemoveAt(i);
+            }
+
+            for (int i = nearbyEnemyUnits.Count - 1; i >= 0; i--)
+            {
+                List<Tile> enemyPath = PathfindingManager.Instance.GetPath(currentTile.Position, nearbyEnemyUnits[i].Position, false);
+                //Size reduced by two to negate the end tile and also the diagonal factor
+                int enemyPathDistance = enemyPath.Count - 2;
+                Debug.Log(enemyPathDistance + " || " + (unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP));
+
+                if (enemyPathDistance > unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
+                {
+                    nearbyEnemyUnits.RemoveAt(i);
+                    Debug.Log("REMOVING ENEMY");
+                }
             }
         }
 
