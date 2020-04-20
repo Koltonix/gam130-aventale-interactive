@@ -97,7 +97,7 @@ namespace CatGame.Pathfinding
                 //Checks each Neightbouring tile to see if it is passable, or not
                 foreach (Tile tile in boardData.GetNeighbouringTiles(currentTile))
                 {
-                    if (!tile.IsPassable || (tile.OccupiedUnit != null && checkForUnit) || closedList.Contains(tile))
+                    if (!tile.IsPassable || (tile.OccupiedEntity != null && checkForUnit) || closedList.Contains(tile))
                     {
                         continue;
                     }

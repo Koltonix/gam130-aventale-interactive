@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using CatGame.Units;
+using CatGame.Data;
 
 namespace CatGame.Tiles
 {
@@ -16,7 +17,7 @@ namespace CatGame.Tiles
         public GameObject WorldReference;
         public Color32 DefaultColour;
 
-        public Unit OccupiedUnit;
+        public Entity OccupiedEntity;
 
         public bool IsPassable;
 
@@ -42,7 +43,7 @@ namespace CatGame.Tiles
         {
             this.Position = Position;
             this.WorldReference = GameObject;
-            this.OccupiedUnit = null;
+            this.OccupiedEntity = null;
 
             boardX = x;
             boardY = y;
@@ -56,20 +57,20 @@ namespace CatGame.Tiles
         /// <summary>Checks above the tile to see if there is a Unit currently on top of it.</summary>
         /// <returns>A Unit Class of what is standing above.</returns>
         /// <remarks>This is a nullable return type.</remarks>
-        public Unit CheckForUnit()
+        public Entity CheckForEntity()
         {
             Collider[] cols = Physics.OverlapSphere(Position, 1.5f);
             foreach (Collider nearbyObject in cols)
             {
-                Unit unit = nearbyObject.GetComponent<Unit>();
+                Entity unit = nearbyObject.GetComponent<Entity>();
                 if (unit != null)
                 {
-                    OccupiedUnit = unit;
+                    OccupiedEntity = unit;
                     return unit;
                 }
             }
 
-            OccupiedUnit = null;
+            OccupiedEntity = null;
             return null;
         }
     }

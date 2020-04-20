@@ -70,7 +70,7 @@ namespace CatGame.Units
                 BoardManager.Instance.GetBoardTiles();
 
                 //Acceping the tile to move to
-                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedTile.OccupiedUnit == null)
+                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedTile.OccupiedEntity == null)
                 {
                     MoveToTile();
                     return;
@@ -109,7 +109,6 @@ namespace CatGame.Units
         {
             Unit unitHit = hitObject.GetComponent<Unit>();
             Health enemyHealth = hitObject.GetComponent<Health>();
-            
 
             if (unitHit && unitHit.owner != selectedUnit.owner) DamageObject(enemyHealth);
 

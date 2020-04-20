@@ -13,6 +13,7 @@ namespace CatGame.Data
     public class Player : IPlayerData
     {
         [Header("Information")]
+        public int hash;
         public int number;
         public bool isActive;
 
@@ -44,6 +45,7 @@ namespace CatGame.Data
         public Player()
         {
             ActionPoints = defaultActionPoints;
+            hash = this.GetHashCode();
         }
 
         /// <summary>Enables the Unit</summary>

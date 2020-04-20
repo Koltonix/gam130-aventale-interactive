@@ -12,7 +12,7 @@ namespace CatGame.Data
         public Player currentPlayer;
         public bool isEnabled;
 
-        protected virtual void Awake()
+        protected virtual void Start()
         {
             //Subscribes to the OnPlayerCycle event.
             TurnManager.Instance.onPlayerCycle += OnTurnEnd;

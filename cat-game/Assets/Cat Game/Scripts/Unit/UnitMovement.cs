@@ -36,7 +36,7 @@ namespace CatGame.Units
         private void Start()
         {
             currentUnit = this.GetComponent<Unit>();
-            owner = currentUnit.owner;
+            owner = PlayerManager.Instance.GetCurrentPlayer();
 
             owner.GetPlayerReference().onActive += SetIsActive;
 
@@ -63,11 +63,11 @@ namespace CatGame.Units
                 float yBoardDistance = Mathf.Abs(tile.boardY - currentTile.boardY);
 
                 //Making each Tile do a check to see if there is a Unit above it.
-                tile.CheckForUnit();
+                tile.CheckForEntity();
                 tile.isUsedInPathfinding = false;
 
                 //No Unit is occupying it and it is passable
-                if (tile.IsPassable && tile.OccupiedUnit == null)
+                if (tile.IsPassable && tile.OccupiedEntity == null)
                 {
                     //Within the AP Distance
                     if (xBoardDistance <= owner.GetCurrentActionPoints())
@@ -80,21 +80,16 @@ namespace CatGame.Units
                 }
 
                 //There is a Unit occupying it that is not itself
-                else if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
+                else if (tile.OccupiedEntity != null && tile.OccupiedEntity != currentUnit)
                 {
                     Attacker unitAttack = this.GetComponent<Attacker>();
-                    if (tile.OccupiedUnit.owner == owner) friendlyUnits.Add(tile);
+                    if (tile.OccupiedEntity.owner == owner) friendlyUnits.Add(tile);
                     else
                     {
                         //Will only add the Unit if it is within the move distance and can also attack.
                         if (xBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
                         {
-                            if (yBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
-                            {
-                                //Debug.Log("X Distance: " + xBoardDistance + " || Total Range: " + (owner.GetPlayerReference().ActionPoints + unitAttack.AttackRange));
-                                //Debug.Log("Y Distance: " + yBoardDistance + " || Total Range: " + (owner.GetPlayerReference().ActionPoints + unitAttack.AttackRange));
-                                enemyUnits.Add(tile);
-                            }
+                            if (yBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP) enemyUnits.Add(tile);
                         }
                     }
                 }
@@ -185,12 +180,10 @@ namespace CatGame.Units
                 List<Tile> enemyPath = PathfindingManager.Instance.GetPath(currentTile.Position, nearbyEnemyUnits[i].Position, false);
                 //Size reduced by two to negate the end tile and also the diagonal factor
                 int enemyPathDistance = enemyPath.Count - 2;
-                Debug.Log(enemyPathDistance + " || " + (unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP));
 
                 if (enemyPathDistance > unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
                 {
                     nearbyEnemyUnits.RemoveAt(i);
-                    Debug.Log("REMOVING ENEMY");
                 }
             }
         }
