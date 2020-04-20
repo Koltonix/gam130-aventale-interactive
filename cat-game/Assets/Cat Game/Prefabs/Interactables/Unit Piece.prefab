@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 1
-  AttackRange: 10
+  AttackRange: 1
   AttackAP: 2
   arrow: {fileID: 473175656672742059}
   enemy: {fileID: 0}

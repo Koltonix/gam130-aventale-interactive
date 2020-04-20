@@ -4,6 +4,8 @@ using UnityEngine;
 using CatGame.Controls;
 using CatGame.Tiles;
 using CatGame.Data;
+using CatGame.Combat;
+using CatGame.UI;
 
 namespace CatGame.Units
 {
@@ -75,15 +77,9 @@ namespace CatGame.Units
                 }
 
                 //ATTACKING
-                if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider)
+                if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider && gameObjectHit.collider.GetComponent<Health>())
                 {
-                    Unit unitHit = gameObjectHit.collider.GetComponent<Unit>();
-                    if (unitHit && unitHit.owner != selectedUnit.owner)
-                    {
-                        Debug.Log("ATTACK THE ENEMY!");
-
-                    }
-
+                    CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
                     return;
                 }
 
@@ -99,13 +95,61 @@ namespace CatGame.Units
                     }
                 }
 
-                else DeselectUnit();
+                DeselectUnit();
             }
 
             //If a unit has been selected then it is the Tile picking phase
             if (selectionProgress == SelectionProgress.SELECTED)
             {
                 SelectTile();
+            }
+        }
+
+        private void CheckIfObjectIsDamageable(GameObject hitObject)
+        {
+            Unit unitHit = hitObject.GetComponent<Unit>();
+            Health enemyHealth = hitObject.GetComponent<Health>();
+            
+
+            if (unitHit && unitHit.owner != selectedUnit.owner) DamageObject(enemyHealth);
+
+            //Building
+            else if (!unitHit && enemyHealth)
+            {
+                Building building = hitObject.GetComponent<Building>();
+                if (building)
+                {
+                    //Checking to see if it's an enemy building, or friendly one
+                    if (building.owner == PlayerManager.Instance.GetCurrentPlayer())
+                    {
+                        DeselectUnit();
+                        return;
+                    }
+
+                    DamageObject(enemyHealth);
+                }
+            }
+        }
+
+        private void DamageObject(Health health)
+        {
+            Attacker unitAttack = selectedUnit.GetComponent<Attacker>();
+
+            Tile enemyTile = BoardManager.Instance.GetTileFromWorldPosition(health.transform.position);
+            Tile unitTile = selectedUnit.currentTile;
+
+            //If it is within attack distance
+            float xBoardDistance = Mathf.Abs(enemyTile.boardX - unitTile.boardX);
+            float yBoardDistance = Mathf.Abs(enemyTile.boardY - unitTile.boardY);
+
+            if (xBoardDistance <= selectedUnit.owner.GetPlayerReference().ActionPoints && xBoardDistance <= unitAttack.AttackRange)
+            {
+                if (yBoardDistance <= selectedUnit.owner.GetPlayerReference().ActionPoints && yBoardDistance <= unitAttack.AttackRange)
+                {
+                    selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
+                    health.Damage(unitAttack.Damage);
+                    DeselectUnit();
+                }
             }
         }
 
@@ -239,8 +283,6 @@ namespace CatGame.Units
 
                     tile.WorldReference.GetComponent<Renderer>().material.color = tile.DefaultColour;
                     pathToDraw.Dequeue();
-
-                    onSelect?.Invoke(false);
                 }
 
                 //Re-centres the Unit on the final tile so that it doesn't offset itself

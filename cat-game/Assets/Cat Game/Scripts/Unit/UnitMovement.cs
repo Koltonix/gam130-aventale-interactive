@@ -4,6 +4,7 @@ using UnityEngine;
 using CatGame.Tiles;
 using CatGame.Data;
 using CatGame.Pathfinding;
+using CatGame.Combat;
 
 namespace CatGame.Units
 {
@@ -17,7 +18,7 @@ namespace CatGame.Units
         public Tile currentTile;
 
         public List<Tile> availableTiles;
-        public Tile[] nearbyEnemyUnits;
+        public List<Tile> nearbyEnemyUnits;
         public Tile[] nearbyFriendlyUnits;
         public Dictionary<Tile, List<Tile>> tilePaths;
 
@@ -58,6 +59,9 @@ namespace CatGame.Units
 
             foreach (Tile tile in allTiles)
             {
+                float xBoardDistance = Mathf.Abs(tile.boardX - currentTile.boardX);
+                float yBoardDistance = Mathf.Abs(tile.boardY - currentTile.boardY);
+
                 //Making each Tile do a check to see if there is a Unit above it.
                 tile.CheckForUnit();
                 tile.isUsedInPathfinding = false;
@@ -66,12 +70,11 @@ namespace CatGame.Units
                 if (tile.IsPassable && tile.OccupiedUnit == null)
                 {
                     //Within the AP Distance
-                    if (Mathf.Abs(tile.boardX - currentTile.boardX) <= owner.GetCurrentActionPoints())
+                    if (xBoardDistance <= owner.GetCurrentActionPoints())
                     {
-                        if (Mathf.Abs(tile.boardY - currentTile.boardY) <= owner.GetCurrentActionPoints())
+                        if (yBoardDistance <= owner.GetCurrentActionPoints())
                         {
                             accessibleTiles.Add(tile);
-
                         }
                     }                 
                 }
@@ -79,14 +82,27 @@ namespace CatGame.Units
                 //There is a Unit occupying it that is not itself
                 else if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
                 {
+                    Attacker unitAttack = this.GetComponent<Attacker>();
                     if (tile.OccupiedUnit.owner == owner) friendlyUnits.Add(tile);
-                    else enemyUnits.Add(tile);
+                    else
+                    {
+                        //Will only add the Unit if it is within the move distance and can also attack.
+                        if (xBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints)
+                        {
+                            if (yBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints)
+                            {
+                                Debug.Log("X Distance: " + xBoardDistance + " || Total Range: " + (owner.GetPlayerReference().ActionPoints + unitAttack.AttackRange));
+                                Debug.Log("Y Distance: " + yBoardDistance + " || Total Range: " + (owner.GetPlayerReference().ActionPoints + unitAttack.AttackRange));
+                                enemyUnits.Add(tile);
+                            }
+                        }
+                    }
                 }
             }
 
             availableTiles = accessibleTiles;
             nearbyFriendlyUnits = friendlyUnits.ToArray();
-            nearbyEnemyUnits = enemyUnits.ToArray();
+            nearbyEnemyUnits = enemyUnits;
 
             tilePaths = PathfindAvailableTiles(accessibleTiles.ToArray());
             RemoveUnusedTiles();
@@ -218,14 +234,14 @@ namespace CatGame.Units
             if (!isSelected)
             {
                 ResetTileColours(availableTiles.ToArray());
-                ResetTileColours(nearbyEnemyUnits);
+                ResetTileColours(nearbyEnemyUnits.ToArray());
                 ResetTileColours(nearbyFriendlyUnits);
             }
 
             else
             {
                 ChangeTileColours(availableTiles.ToArray(), availableTileColour);
-                ChangeTileColours(nearbyEnemyUnits, enemyTileColour);
+                ChangeTileColours(nearbyEnemyUnits.ToArray(), enemyTileColour);
                 ChangeTileColours(nearbyFriendlyUnits, friendlyTileColour);
             }
         }

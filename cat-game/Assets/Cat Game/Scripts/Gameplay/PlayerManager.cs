@@ -35,6 +35,7 @@ namespace CatGame.Data
             for (int i = 0; i < players.Length; i++)
             {
                 players[i].number = i;
+                players[i].ActionPoints = players[i].defaultActionPoints;
                 if (allPlayers[TurnManager.Instance.GetCurrentPlayerIndex()] == players[i]) players[i].isActive = true;
             }
         }
