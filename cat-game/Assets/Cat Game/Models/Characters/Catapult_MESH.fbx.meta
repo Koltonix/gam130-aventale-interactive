@@ -1,22 +1,16 @@
 fileFormatVersion: 2
-guid: d61f5d8ed4906d6468a6f044b1c70db2
+guid: a4632913e9e08e9489dd4dc9c911ef10
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: archercat:polySurface19
-    100004: initialShadingGroup_archercat:polySurface19
+    100002: polySurface40
     400000: //RootNode
-    400002: archercat:polySurface19
-    400004: initialShadingGroup_archercat:polySurface19
-    2100000: archercat_polySurface19Mat
-    2100002: initialShadingGroup_archercat_polySurface19Mat
-    2300000: archercat:polySurface19
-    2300002: initialShadingGroup_archercat:polySurface19
-    3300000: archercat:polySurface19
-    3300002: initialShadingGroup_archercat:polySurface19
-    4300000: archercat:polySurface19
-    4300002: initialShadingGroup_archercat:polySurface19
+    400002: polySurface40
+    2100000: lambert1
+    2300000: polySurface40
+    3300000: polySurface40
+    4300000: polySurface40
   externalObjects: {}
   materials:
     importMaterials: 1
