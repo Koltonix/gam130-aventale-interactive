@@ -7,9 +7,10 @@ using CatGame.Tiles;
 namespace CatGame.Board
 {
     /// <summary>
-    /// A class that deals with the spawning of the game board using
-    /// a perlin noise data structure.
-    /// </summary>
+    /// Produces a randomly generated board in the world using a Perlin Noise class 
+    /// as the data container.
+    /// Implements 
+    /// </summary
     public class BoardGeneration : MonoBehaviour, IGetBoardData
     {
         [Header("Perlin Noise Data")]
@@ -40,17 +41,12 @@ namespace CatGame.Board
         }
 
         /// <summary>
-        /// A coroutine that deals with spawning the board as a whole and allows for the rows
-        /// to be loaded individually to provide an aesthetically appealing effect when in 
-        /// conjunction with the raising coroutine for the individual tiles.
+        /// Generates the board in the world.
         /// </summary>
-        /// <param name="noiseData"></param>
-        /// <returns>
-        /// Intermittently spawns the rows of tiles every fixed frame rather than based on frame
-        /// rate.
-        /// </returns>
+        /// <param name="noiseData">Perlin Noise Data.</param>
         public void GenerateBoard(PerlinNoise noiseData)
         {
+            //Removes the previous instance of the board.
             DestroyImmediate(boardHolder);
 
             board = new Tile[noiseData.width, noiseData.height];
@@ -59,17 +55,21 @@ namespace CatGame.Board
             boardHolder = new GameObject("Board");
             gridWorldSize = new Vector3(currentNoiseData.width * tileGap.x, 0, currentNoiseData.height * tileGap.z);
 
+            //Going through the total width and height of the board.
             for (int x = 0; x < noiseData.width; x++)
             {
                 for (int y = 0; y < noiseData.height; y++)
                 {
+                    //Using some math to centre the board rather than it being in a corner.
                     Vector3 spawnPosition = new Vector3(x * tileGap.x - ((noiseData.width - 1) * tileGap.x * .5f),
                                                         tileGap.y,
                                                         y * tileGap.z - ((noiseData.height - 1) * tileGap.z * .5f));
 
                     boardHolder.transform.position = boardSpawnPosition;
 
+                    //Determining if the space is white or black which determines if it is passable or not.
                     float heightValue = noiseData.Texture.GetPixel(x, y).grayscale;
+                    //It  is white and therefore passable.
                     if (heightValue > .5f)
                     {
                         Tile tile = SpawnTile(x, y, loweredTile, spawnPosition, false);
@@ -77,7 +77,7 @@ namespace CatGame.Board
                         debugBoard.Add(tile);
                     }
 
-
+                    //It  is black and therefore impassable.
                     else
                     {
                         Tile tile = SpawnTile(x, y, risenTile, spawnPosition, true);
@@ -89,14 +89,17 @@ namespace CatGame.Board
         }
 
         /// <summary>
-        /// Spawns the tile and automatically assigns it to the empty board parent object to
-        /// ensure the scene is clean.
+        /// Spawns a Tile Clone in the world.
         /// </summary>
-        /// <param name="worldReference"></param>
-        /// <param name="spawnPosition"></param>
-        public Tile SpawnTile(int x, int y, GameObject worldReference, Vector3 spawnPosition, bool isPassable)
+        /// <param name="x">X Board Position.</param>
+        /// <param name="y">Y Board Position.</param>
+        /// <param name="prefab">Prefab of the Tile.</param>
+        /// <param name="spawnPosition">World Position to spawn the Tile Prefab.</param>
+        /// <param name="isPassable">Whether the tile is passable, or impassable.</param>
+        /// <returns></returns>
+        public Tile SpawnTile(int x, int y, GameObject prefab, Vector3 spawnPosition, bool isPassable)
         {
-            GameObject clonedTile = Instantiate(worldReference, spawnPosition, Quaternion.identity);
+            GameObject clonedTile = Instantiate(prefab, spawnPosition, Quaternion.identity);
             clonedTile.transform.SetParent(boardHolder.transform);
 
             Tile tile = new Tile(spawnPosition, clonedTile, x, y);
@@ -107,7 +110,7 @@ namespace CatGame.Board
 
         #region Board Initialisers
         /// <summary>
-        /// Generates a Perlin noise and assigns a raw image the texture of the perlin noise.
+        /// Generates a new Perlin Noise.
         /// </summary>
         public void CreatePerlinNoise()
         {
@@ -115,10 +118,8 @@ namespace CatGame.Board
         }
 
         /// <summary>
-        /// Starts the spawning of the board coroutine since I need to keep a reference of 
-        /// the coroutine in this script rather than the editor.
+        /// Creates the Perlin Noise Data and then creates the Board.
         /// </summary>
-        /// <param name="noiseData"></param>
         public void CreateBoard()
         {
             CreatePerlinNoise();
@@ -129,6 +130,9 @@ namespace CatGame.Board
             GenerateBoard(currentNoiseData);
         }
 
+        /// <summary>
+        /// Destroys the board.
+        /// </summary>
         public void DestroyBoard()
         {
             DestroyImmediate(boardHolder);

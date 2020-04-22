@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace CatGame.Data
 {
-    public delegate void OnPlayerCycle(Player player);
-   
+    /// <summary>
+    /// Deals with ending the turn of the current player and ensuring it can
+    /// only be done when no other actions are currently occuring.
+    /// </summary>
     public class TurnManager : MonoBehaviour
     {
         #region Singleton
@@ -23,6 +25,7 @@ namespace CatGame.Data
 
         [Header("Player Settings")]
         private IPlayerManager playerManagerData;
+        public delegate void OnPlayerCycle(Player player);
         public event OnPlayerCycle onPlayerCycle;
 
         private void Start()
@@ -30,12 +33,17 @@ namespace CatGame.Data
             playerManagerData = PlayerManager.Instance;
         }
 
+        /// <summary>Ends the current turn.</summary>
+        /// <remarks>Only ends the turn once all plays have ceased.</remarks>
         public void EndTurn()
         {
             if (!objectIsMoving) currentPlayerIndex = GetNextPlayersTurn(currentPlayerIndex);
             else Debug.Log("OBJECT IS MOVING STILL");
         }
 
+        /// <summary>Cycles through the players in the game and disables everything of theirs.</summary>
+        /// <param name="playerIndex">Current Player's index.</param>
+        /// <returns>The next player's index.</returns>
         public int GetNextPlayersTurn(int playerIndex)
         {
             playerManagerData.GetAllPlayers()[playerIndex].ActivateUnit(false);

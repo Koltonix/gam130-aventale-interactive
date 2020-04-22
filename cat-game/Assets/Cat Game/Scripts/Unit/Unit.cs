@@ -3,6 +3,7 @@ using CatGame.Data;
 
 namespace CatGame.Units
 {
+    /// <summary>Stores the extra metadata of the Unit.</summary>
     [RequireComponent(typeof(UnitMovement))]
     public class Unit : Entity, IUnitData
     {
@@ -12,9 +13,9 @@ namespace CatGame.Units
         [SerializeField]
         private new Renderer renderer;
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
             renderer.material.color = owner.colour;
 
             if (name.Length == 0) name = "UNNAMED_UNIT";

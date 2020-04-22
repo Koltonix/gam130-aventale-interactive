@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace CatGame.Data
 {
+    /// <summary>
+    /// Assigns all of the players their indexes as well as storing
+    /// all of the Player References to be used in checks.
+    /// </summary>
     public class PlayerManager : MonoBehaviour, IPlayerManager
     {
         #region Singleton
@@ -24,11 +28,14 @@ namespace CatGame.Data
             AssignPlayerNumbers(allPlayers);
         }
 
+        /// <summary>Assigns each Player an Index ID</summary>
+        /// <param name="players">All the Players that exist.</param>
         private void AssignPlayerNumbers(Player[] players)
         {
             for (int i = 0; i < players.Length; i++)
             {
                 players[i].number = i;
+                players[i].ActionPoints = players[i].defaultActionPoints;
                 if (allPlayers[TurnManager.Instance.GetCurrentPlayerIndex()] == players[i]) players[i].isActive = true;
             }
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CatGame.UI
+namespace CatGame.Data
 {
     public class SpawnPad : MonoBehaviour
     {

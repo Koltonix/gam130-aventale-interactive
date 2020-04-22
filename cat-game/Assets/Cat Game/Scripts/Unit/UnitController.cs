@@ -4,9 +4,12 @@ using UnityEngine;
 using CatGame.Controls;
 using CatGame.Tiles;
 using CatGame.Data;
+using CatGame.Combat;
+using CatGame.UI;
 
 namespace CatGame.Units
 {
+    /// <summary>Selection State.</summary>
     public enum SelectionProgress
     {
         UNSELECTED = 0,
@@ -14,11 +17,7 @@ namespace CatGame.Units
         MOVING = 2
     }
 
-    /// <summary>
-    /// Deals with controlling the Units using a UserInput input type. This allows the units to be move
-    /// depending on the available tiles to them and updates the colours appropriately to indicate to the
-    /// player.
-    /// </summary>
+    /// <summary>State Handler for the Unit Input, Movement and Combat</summary>
     [RequireComponent(typeof(UserInput))]
     public class UnitController : MonoBehaviour
     { 
@@ -60,12 +59,8 @@ namespace CatGame.Units
             DetermineClick();
         }
 
-        /// <summary>
-        /// Used to determine what the click is to do depending on where the player
-        /// has clicked on the screen. It can either move to a tile, select a unit
-        /// (or a new one) and also deselect itself. It also will constantly update
-        /// which tile is being hovered over if a unit has been selected.
-        /// </summary>
+
+        /// <summary>Determines the Click depending on the current state of the Unit.</summary>
         private void DetermineClick()
         {
             if (currentInput.IsMovementSelected() && movingCoroutine == null)
@@ -75,22 +70,16 @@ namespace CatGame.Units
                 BoardManager.Instance.GetBoardTiles();
 
                 //Acceping the tile to move to
-                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedTile.OccupiedUnit == null)
+                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedTile.OccupiedEntity == null)
                 {
                     MoveToTile();
                     return;
                 }
 
                 //ATTACKING
-                if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider)
+                if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider && gameObjectHit.collider.GetComponent<Health>())
                 {
-                    Unit unitHit = gameObjectHit.collider.GetComponent<Unit>();
-                    if (unitHit && unitHit.owner != selectedUnit.owner)
-                    {
-                        Debug.Log("ATTACK THE ENEMY!");
-
-                    }
-
+                    CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
                     return;
                 }
 
@@ -106,39 +95,75 @@ namespace CatGame.Units
                     }
                 }
 
-                else DeselectUnit();
+                DeselectUnit();
             }
 
-            //If a unit has been selected. The tile picking phase
+            //If a unit has been selected then it is the Tile picking phase
             if (selectionProgress == SelectionProgress.SELECTED)
             {
                 SelectTile();
             }
         }
 
-        /// <summary>
-        /// Selects the unit from the data input from the UserInput parent class
-        /// </summary>
+        private void CheckIfObjectIsDamageable(GameObject hitObject)
+        {
+            Unit unitHit = hitObject.GetComponent<Unit>();
+            Health enemyHealth = hitObject.GetComponent<Health>();
+
+            if (unitHit && unitHit.owner != selectedUnit.owner) DamageObject(enemyHealth);
+
+            //Building
+            else if (!unitHit && enemyHealth)
+            {
+                Building building = hitObject.GetComponent<Building>();
+                if (building)
+                {
+                    //Checking to see if it's an enemy building, or friendly one
+                    if (building.owner == PlayerManager.Instance.GetCurrentPlayer())
+                    {
+                        DeselectUnit();
+                        return;
+                    }
+
+                    DamageObject(enemyHealth);
+                }
+            }
+        }
+
+        private void DamageObject(Health health)
+        {
+            Attacker unitAttack = selectedUnit.GetComponent<Attacker>();
+
+            Tile enemyTile = BoardManager.Instance.GetTileFromWorldPosition(health.transform.position);
+            Tile unitTile = selectedUnit.currentTile;
+
+            //If it is within attack distance
+            float xBoardDistance = Mathf.Abs(enemyTile.boardX - unitTile.boardX);
+            float yBoardDistance = Mathf.Abs(enemyTile.boardY - unitTile.boardY);
+
+            if (xBoardDistance <= selectedUnit.owner.GetPlayerReference().ActionPoints && xBoardDistance <= unitAttack.AttackRange)
+            {
+                if (yBoardDistance <= selectedUnit.owner.GetPlayerReference().ActionPoints && yBoardDistance <= unitAttack.AttackRange)
+                {
+                    selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
+                    health.Damage(unitAttack.Damage);
+                    DeselectUnit();
+                }
+            }
+        }
+
+        /// <summary>Assigns the current Unit Data and triggers the listener in the UnitMovement</summary>
+        /// <param name="unitMovement">A Unit's UnitMovement</param>
         private void UnitClicked(UnitMovement unitMovement)
         {            
             selectionProgress = SelectionProgress.SELECTED;
-
             selectedUnit = unitMovement;
 
             onSelect = selectedUnit.SelectionListener;
-
-            //changeTileColours += selectedUnit.ChangeAvailableTilesColour;
-            //changeEnemyTileColours += selectedUnit.ChangeEnemyTilesColour;
-
             onSelect?.Invoke(true);
-            //changeTileColours?.Invoke(availableTileColour);
-            //changeEnemyTileColours?.Invoke(enemyTileColour);
         }
 
-        /// <summary>
-        /// Deselects the unit that has been currently selected and removes them from the
-        /// caller since it no longer needs to listen.
-        /// </summary>
+        /// <summary>Removes selection from the Unit and triggers the listener to disable</summary>
         private void DeselectUnit()
         {
             if (onSelect != null)
@@ -154,13 +179,11 @@ namespace CatGame.Units
             }
         }
 
-        /// <summary>
-        /// Used to select the current tile that is beinh hovered over currently.
-        /// </summary>
+        /// <summary>Selects the current tile that is being hovered over.</summary>
         private void SelectTile()
         {
             RaycastHit gameObjectHit = currentInput.GetRaycastHit();
-
+            
             if (gameObjectHit.collider != null)
             {
                 lastSelectedTile = GetSelectedTile(gameObjectHit);
@@ -177,6 +200,9 @@ namespace CatGame.Units
             }
         }
 
+        /// <summary>Draws the path provided.</summary>
+        /// <param name="path">The Tiles that create the path.</param>
+        /// <param name="pathColour">The colour of the path</param>
         private void DrawPath(Tile[] path, Color32 pathColour)
         {
             for (int i = 0; i < path.Length; i++)
@@ -185,6 +211,9 @@ namespace CatGame.Units
             }
         }
 
+        /// <summary>Converts an array of Tiles to a Queue.</summary>
+        /// <param name="paths">The Tiles in order to make a path.</param>
+        /// <returns>A queue path.</returns>
         private Queue<Tile> PathArrayToQueue(Tile[] paths)
         {
             Queue<Tile> pathList = new Queue<Tile>(paths.Length);
@@ -197,17 +226,9 @@ namespace CatGame.Units
         }
 
         
-        /// <summary>
-        /// Shows the tile that the player is currently hovering over to be used
-        /// in the selection progress later to move the unit.
-        /// </summary>
-        /// <param name="gameObjectHit">
-        /// A RaycastHit that provides the data of what gameobject the player has
-        /// currently selected to see if it is a tile and a selectable one at that.
-        /// </param>
-        /// <returns>
-        /// Returns the tile that the player is hovering over
-        /// </returns>
+        /// <summary>Gets the tile that the player is currently hovering over.</summary>
+        /// <param name="gameObjectHit">The input raycast.</param>
+        /// <returns>Returns the tile that the player is hovering over.</returns>
         private Tile GetSelectedTile(RaycastHit gameObjectHit)
         {
             if (gameObjectHit.collider != null)
@@ -230,11 +251,7 @@ namespace CatGame.Units
             return null;
         }
 
-        /// <summary>
-        /// Moves the unit to the new tile and deselects and activates it since the functions reset
-        /// the new tiles that the unit can move to which is more preferable than repeating the two
-        /// functions in here separately.
-        /// </summary>
+        /// <summary>Starts the movement coroutone of the Unit to the Tile and then deselects it.</summary
         private void MoveToTile()
         {
             UnitMovement _selectedUnit = selectedUnit;
@@ -246,11 +263,17 @@ namespace CatGame.Units
             return;
         }
 
+        /// <summary>Invokes the Tile by Tile movement. Also centres the Unit on the final Tile.</summary>
+        /// <param name="_selectedUnit">Unit last selected</param>
+        /// <param name="path">Tile Path to take in order.</param>
+        /// <param name="objectToMove">The GameObject to move in world space.</param>
+        /// <returns>NULL</returns>
         private IEnumerator PathfindObject(UnitMovement _selectedUnit, Tile[] path, Transform objectToMove)
         {
             TurnManager.Instance.objectIsMoving = true;
             if (path != null)
             {
+                //Move to each tile one by one
                 foreach (Tile tile in path)
                 {
                     DrawPath(pathToDraw.ToArray(), _selectedUnit.pathColour);
@@ -259,10 +282,9 @@ namespace CatGame.Units
 
                     tile.WorldReference.GetComponent<Renderer>().material.color = tile.DefaultColour;
                     pathToDraw.Dequeue();
-
-                    onSelect?.Invoke(false);
                 }
 
+                //Re-centres the Unit on the final tile so that it doesn't offset itself
                 float t = 0.0f;
                 while (t < 1.0f)
                 {
@@ -282,6 +304,11 @@ namespace CatGame.Units
             TurnManager.Instance.objectIsMoving = false;
         }
 
+        /// <summary>Linearly moves the Unit from its current position to the target.</summary>
+        /// <param name="objectToMove">The GameObject to move in world space.</param>
+        /// <param name="target">The point at which to move to.</param>
+        /// <param name="speed">Speed it linearly moves at.</param>
+        /// <returns>NULL</returns>
         private IEnumerator MoveToPosition(Transform objectToMove, Vector3 target, float speed)
         {
             float t = 0.0f;
@@ -304,6 +331,8 @@ namespace CatGame.Units
            yield return null;
         }
 
+        /// <summary>Informs the State of the new player.</summary>
+        /// <param name="newPlayer">Current Player's turn.</param>
         public void ChangePlayer(Player newPlayer)
         {
             DeselectUnit();

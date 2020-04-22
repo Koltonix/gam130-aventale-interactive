@@ -6,9 +6,9 @@ using UnityEngine.UI;
 using CatGame.Data;
 using CatGame.Units;
 
-namespace CatGame.UI
+namespace CatGame.Data
 {
-    public class Building : MonoBehaviour
+    public class Building : Entity
     {
         [Header("Attributes")]
         //This index is currently needed to get reference to the correct instance of the Player class, not created
@@ -16,7 +16,6 @@ namespace CatGame.UI
         //can assign a reference to the class from there.
         [SerializeField]
         private int playerIndex;
-        public Player owner;
 
         private Player currentTurnPlayer;
         private Player debugOwner;
@@ -40,8 +39,9 @@ namespace CatGame.UI
         private SpawnPad selectedPad;
         private bool uIState;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             owner = PlayerManager.Instance.GetPlayerFromIndex(playerIndex);
             debugOwner = owner.GetPlayerReference();
 

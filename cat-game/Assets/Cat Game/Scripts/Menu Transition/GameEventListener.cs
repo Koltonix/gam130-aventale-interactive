@@ -2,6 +2,7 @@
 using UnityEngine.Events;
 
 /// <summary>
+/// An event listener that triggers the provided Game Event Scriptable Object.
 /// Following the Unity Architecture: https://unity.com/how-to/architect-game-code-scriptable-objects
 /// </summary>
 namespace CatGame.Menu

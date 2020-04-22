@@ -4,16 +4,21 @@ using UnityEngine;
 using CatGame.Tiles;
 using CatGame.Data;
 using CatGame.Pathfinding;
+using CatGame.Combat;
 
 namespace CatGame.Units
 {
+    /// <summary>
+    /// Handles the calculation of tiles available by using the Pathfinding.
+    /// It also handles the colouring of the Tiles depending on their state.
+    /// </summary>
     public class UnitMovement : MonoBehaviour
     {
         [Header("Movement Settings")]
         public Tile currentTile;
 
         public List<Tile> availableTiles;
-        public Tile[] nearbyEnemyUnits;
+        public List<Tile> nearbyEnemyUnits;
         public Tile[] nearbyFriendlyUnits;
         public Dictionary<Tile, List<Tile>> tilePaths;
 
@@ -31,7 +36,7 @@ namespace CatGame.Units
         private void Start()
         {
             currentUnit = this.GetComponent<Unit>();
-            owner = currentUnit.owner;
+            owner = PlayerManager.Instance.GetCurrentPlayer();
 
             owner.GetPlayerReference().onActive += SetIsActive;
 
@@ -40,19 +45,9 @@ namespace CatGame.Units
         }
 
         #region Tile Prediction
-        /// <summary>
-        /// A function that returns all of the tiles that the unit
-        /// can move to given the amount of movement points available.
-        /// </summary>
-        /// <param name="allTiles">
-        /// An array including all of the tiles in the scene.
-        /// </param>
-        /// <remarks>
-        /// **NOTE** This current does not incorporate any 
-        /// A* pathfinding yet, but will do during the stages after 
-        /// the prototype.
-        /// </remarks>
-        /// <returns></returns>
+
+        /// <summary>Determines all of the total tiles within a radius of the maximum AP.</summary>
+        /// <param name="allTiles">All of the Tiles in the Scene.</param>
         public void DetermineTilesInSphere(Tile[] allTiles)
         {
             List<Tile> accessibleTiles = new List<Tile>();
@@ -64,39 +59,57 @@ namespace CatGame.Units
 
             foreach (Tile tile in allTiles)
             {
-                tile.CheckForUnit();
+                float xBoardDistance = Mathf.Abs(tile.boardX - currentTile.boardX);
+                float yBoardDistance = Mathf.Abs(tile.boardY - currentTile.boardY);
+
+                //Making each Tile do a check to see if there is a Unit above it.
+                tile.CheckForEntity();
                 tile.isUsedInPathfinding = false;
 
-                if (tile.IsPassable && tile.OccupiedUnit == null)
+                //No Unit is occupying it and it is passable
+                if (tile.IsPassable && tile.OccupiedEntity == null)
                 {
-                    if (Mathf.Abs(tile.boardX - currentTile.boardX) <= owner.GetCurrentActionPoints())
+                    //Within the AP Distance
+                    if (xBoardDistance <= owner.GetCurrentActionPoints())
                     {
-                        if (Mathf.Abs(tile.boardY - currentTile.boardY) <= owner.GetCurrentActionPoints())
+                        if (yBoardDistance <= owner.GetCurrentActionPoints())
                         {
                             accessibleTiles.Add(tile);
-
                         }
                     }                 
                 }
 
-                else if (tile.OccupiedUnit != null && tile.OccupiedUnit != currentUnit)
+                //There is a Unit occupying it that is not itself
+                else if (tile.OccupiedEntity != null && tile.OccupiedEntity != currentUnit)
                 {
-                    if (tile.OccupiedUnit.owner == owner) friendlyUnits.Add(tile);
-                    else enemyUnits.Add(tile);
+                    Attacker unitAttack = this.GetComponent<Attacker>();
+                    if (tile.OccupiedEntity.owner == owner) friendlyUnits.Add(tile);
+                    else
+                    {
+                        //Will only add the Unit if it is within the move distance and can also attack.
+                        if (xBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
+                        {
+                            if (yBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP) enemyUnits.Add(tile);
+                        }
+                    }
                 }
             }
 
             availableTiles = accessibleTiles;
             nearbyFriendlyUnits = friendlyUnits.ToArray();
-            nearbyEnemyUnits = enemyUnits.ToArray();
+            nearbyEnemyUnits = enemyUnits;
 
             tilePaths = PathfindAvailableTiles(accessibleTiles.ToArray());
+
             RemoveUnusedTiles();
         }
 
-        //Returns the path using an end tile
+        /// <summary>Gets the A* path to the End Tile.</summary>
+        /// <param name="endTile">The Tile which you wish to get the path for.</param>
+        /// <returns>All of the Tiles in the path in order.</returns>
         public Tile[] GetAvailableTilesFromPathfinding(Tile endTile)
         {
+            //Sanity Checks
             if (tilePaths != null && endTile != null)
             {
                 foreach (var tile in tilePaths)
@@ -111,6 +124,12 @@ namespace CatGame.Units
             return null;
         }
 
+        /// <summary>
+        /// Stores all of the possible paths that can be taken and is accessed using
+        /// the final Tile.
+        /// </summary>
+        /// <param name="nearbyTiles">All of the Tiles within the AP distance.</param>
+        /// <returns></returns>
         public Dictionary<Tile, List<Tile>> PathfindAvailableTiles(Tile[] nearbyTiles)
         {
             //Stores the pathfinding for every tile available using the final Tile as the unique identifier
@@ -118,7 +137,7 @@ namespace CatGame.Units
 
             foreach (Tile endTile in nearbyTiles)
             {
-                List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position);
+                List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position, true);
                 if (finalPath == null) continue;
                 //If there are only x tiles or less in the path
                 if (finalPath.Count - 1 <= owner.GetCurrentActionPoints())
@@ -131,6 +150,13 @@ namespace CatGame.Units
             return allPaths;
         }
         
+        /// <summary>Sets the Tile to state that the Pathfinding is being used by it.</summary>
+        /// <param name="tiles"></param>
+        /// <param name="areUsed"></param>
+        /// <remarks>
+        /// The reason for this is that it is more efficient to check if it is possible
+        /// to reach this Tile within the actual AP Distance rather than a sphere cast.
+        /// </remarks>
         private void SetTilesUsingPathfinding(Tile[] tiles, bool areUsed)
         {
             for (int i = 0; i < tiles.Length; i++)
@@ -139,11 +165,26 @@ namespace CatGame.Units
             }
         }
 
+        /// <summary>Removes the Tiles not used in the pathfinding and there aren't accessible</summary>
         private void RemoveUnusedTiles()
         {
+            Attacker unitAttack = this.GetComponent<Attacker>();
+
             for (int i = availableTiles.Count - 1; i >= 0; i--)
             {
                 if (!availableTiles[i].isUsedInPathfinding) availableTiles.RemoveAt(i);
+            }
+
+            for (int i = nearbyEnemyUnits.Count - 1; i >= 0; i--)
+            {
+                List<Tile> enemyPath = PathfindingManager.Instance.GetPath(currentTile.Position, nearbyEnemyUnits[i].Position, false);
+                //Size reduced by two to negate the end tile and also the diagonal factor
+                int enemyPathDistance = enemyPath.Count - 2;
+
+                if (enemyPathDistance > unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
+                {
+                    nearbyEnemyUnits.RemoveAt(i);
+                }
             }
         }
 
@@ -151,14 +192,8 @@ namespace CatGame.Units
         /// A check to see if the tile that has been provided is a 
         /// tile that is currently available to move to.
         /// </summary>
-        /// <param name="tileToMoveTo">
-        /// The tile that is to be checked against all of the 
-        /// available tiles.
-        /// </param>
-        /// <returns>
-        /// Returns true if the tile provided is a tile that is
-        /// available to move to.
-        /// </returns>
+        /// <param name="tileToMoveTo">The tile that is to be checked against all of the available tiles.</param>
+        /// <returns>Returns true if the tile provided is a tile that is available to move to.</returns>
         public bool CanMoveToTile(Tile tileToMoveTo)
         {
             foreach (Tile tile in availableTiles)
@@ -172,6 +207,9 @@ namespace CatGame.Units
             return false;
         }
 
+        /// <summary>Changes the Tile Rendering Colour.</summary>
+        /// <param name="tiles">Tiles to change.</param>
+        /// <param name="colour">Colour to change the Tiles.</param>
         public void ChangeTileColours(Tile[] tiles, Color32 colour)
         {
             foreach (Tile tile in tiles)
@@ -180,6 +218,8 @@ namespace CatGame.Units
             }
         }
 
+        /// <summary>Resets the Tiles Renderer to their default colour</summary>
+        /// <param name="tiles">Tiles to change.</param>
         public void ResetTileColours(Tile[] tiles)
         {
             foreach (Tile tile in tiles)
@@ -197,25 +237,21 @@ namespace CatGame.Units
         #endregion
 
         #region Event Listener
-        /// <summary>
-        /// Used as a listener to invoke other functions
-        /// </summary>
-        /// <param name="isSelected">
-        /// Determines whether the unit has been selected or deselected
-        /// </param>
+        /// <summary>Used as a listener to invoke other functions.</summary>
+        /// <param name="isSelected">Determines whether the unit has been selected or deselected.</param>
         public void SelectionListener(bool isSelected)
         {
             if (!isSelected)
             {
                 ResetTileColours(availableTiles.ToArray());
-                ResetTileColours(nearbyEnemyUnits);
+                ResetTileColours(nearbyEnemyUnits.ToArray());
                 ResetTileColours(nearbyFriendlyUnits);
             }
 
             else
             {
                 ChangeTileColours(availableTiles.ToArray(), availableTileColour);
-                ChangeTileColours(nearbyEnemyUnits, enemyTileColour);
+                ChangeTileColours(nearbyEnemyUnits.ToArray(), enemyTileColour);
                 ChangeTileColours(nearbyFriendlyUnits, friendlyTileColour);
             }
         }

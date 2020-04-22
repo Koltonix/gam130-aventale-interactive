@@ -5,6 +5,11 @@ using CatGame.Pathfinding;
 
 namespace CatGame.Tiles
 {
+    /// <summary>
+    /// Deals with identifying a pre-built board using the width and height. It then deals with
+    /// converting this into a multi-dimensional array and regular array to be used in the Pathfinding and Movement
+    /// in the game.
+    /// </summary>
     public class BoardManager : MonoBehaviour, IGetBoardData
     {   
         #region Singleton
@@ -39,6 +44,7 @@ namespace CatGame.Tiles
         [SerializeField]
         private LayerMask impassableMask;
 
+        //Used to inform subscribers of any changes to the board.
         public delegate void OnBoardUpdate(Tile[] boardTiles);
         public event OnBoardUpdate onBoardUpdate;
 
@@ -53,36 +59,39 @@ namespace CatGame.Tiles
         /// <summary>
         /// Retreives all of the board tiles from a singular parent gameobject.
         /// </summary>
-        /// <remarks>
-        /// This is mainly a debugging tool since in the final build it is anticipated
-        /// that we will be using the procedural generation which will have all of the
-        /// tiles in one array already and therefore will not need this check.
-        /// </remarks>
-        /// <returns></returns>
+        /// <returns>An array of all of the Tiles in the board world.</returns>
         public Tile[] GetBoardTiles()
         {
             if (board == null) return null;
 
+            //Initialisers
             int amountOfTiles = board.transform.childCount;
             Tile[] boardTiles = new Tile[amountOfTiles];
             gridTiles = new Tile[boardWidth, boardHeight];
 
+            //Iterating through all of the board's child objects to make them into Tile classes
             for (int i = 0; i < amountOfTiles; i++)
             {
                 GameObject tileChild = board.transform.GetChild(i).gameObject;
+
+                //Tile Board Position
                 Vector2Int tilePosition = GetTilePositionFromWorld(tileChild.transform.position);
+                //Tile World Position
                 Vector3 spawnPosition = tileChild.transform.position;
 
+                //Replaces the current tiles placed down, but only once
                 if (!hasInitialised)
                 {
                     Destroy(tileChild);
                     tileChild = DetermineIfTileIsPassable(spawnPosition);
                 }
                 
+                //Assigning the Tile data
                 Tile newTile = new Tile(tileChild.transform.position, tileChild, tilePosition.x, tilePosition.y);
                 boardTiles[i] = newTile;
                 gridTiles[tilePosition.x, tilePosition.y] = newTile;
 
+                //Debugging
                 boardTiles[i].WorldReference.GetComponent<TileDebug>().TileDebugSetup(tilePosition.x, tilePosition.y, boardTiles[i].WorldReference);
             }
 
@@ -92,6 +101,12 @@ namespace CatGame.Tiles
             return boardTiles;
         }
 
+        /// <summary>
+        /// Determines if a Tile being spawned should be passable or impassable
+        /// based on if there is an object there or not.
+        /// </summary>
+        /// <param name="tilePosition">World Position.</param>
+        /// <returns>A GameObject of the new Tile GameObject that has been setup.</returns>
         private GameObject DetermineIfTileIsPassable(Vector3 tilePosition)
         {
             Vector3 checkPosition = tilePosition;
@@ -126,6 +141,10 @@ namespace CatGame.Tiles
             }
         }
 
+        /// <summary>
+        /// Checks for Duplicate Tiles and moves them up.
+        /// </summary>
+        /// <param name="tiles">All of the Tiles in the world.</param>
         public void CheckForDuplicates(Tile[] tiles)
         {
             for (int x = 0; x < tiles.Length; x++)
@@ -142,6 +161,10 @@ namespace CatGame.Tiles
             }
         }
 
+        /// <summary>
+        /// Checks for duplicate tile gameobjects and moves them up.
+        /// </summary>
+        /// <param name="tiles">All of the Tile GameObjects in the world.</param>
         public void CheckForDuplicates(GameObject[] tiles)
         {
             Dictionary<Vector3, GameObject> nonDuplicateTiles = new Dictionary<Vector3, GameObject>();
@@ -164,6 +187,14 @@ namespace CatGame.Tiles
             if (duplicates.Count > 0) throw new Exception("THERE ARE " + duplicates.Count + " DUPLICATE TILES. THEY HAVE BEEN MOVED UP BY 2 UNITS");
         }
 
+        /// <summary>
+        /// Gets all of the childen gameobjects in a parent.
+        /// </summary>
+        /// <remarks>
+        /// This is not any kind of search like depth search and will only do one layer.
+        /// </remarks>
+        /// <param name="parent">Parent GameObject.</param>
+        /// <returns>An array of children GameObjects.</returns>
         private GameObject[] GetAllChildrenFromParent(Transform parent)
         {
             GameObject[] childObjects = new GameObject[parent.childCount];

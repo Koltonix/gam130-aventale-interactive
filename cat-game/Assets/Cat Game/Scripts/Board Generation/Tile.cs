@@ -1,9 +1,15 @@
 ﻿using System;
 using UnityEngine;
 using CatGame.Units;
+using CatGame.Data;
 
 namespace CatGame.Tiles
 {
+    /// <summary>
+    /// Stores the Tile Data of the Board. It stores the position both in the 
+    /// board and the world position. It also stores values to be used in the
+    /// Pathfinding too.
+    /// </summary>
     [Serializable]
     public class Tile
     {
@@ -11,7 +17,7 @@ namespace CatGame.Tiles
         public GameObject WorldReference;
         public Color32 DefaultColour;
 
-        public Unit OccupiedUnit;
+        public Entity OccupiedEntity;
 
         public bool IsPassable;
 
@@ -26,11 +32,18 @@ namespace CatGame.Tiles
 
         public bool isUsedInPathfinding;
 
+        /// <summary>
+        /// Constructor for the Tile.
+        /// </summary>
+        /// <param name="Position">World Position</param>
+        /// <param name="GameObject">World GameObject Reference.</param>
+        /// <param name="x">X Board Position.</param>
+        /// <param name="y">Y Board Position.</param>
         public Tile(Vector3 Position, GameObject GameObject, int x, int y)
         {
             this.Position = Position;
             this.WorldReference = GameObject;
-            this.OccupiedUnit = null;
+            this.OccupiedEntity = null;
 
             boardX = x;
             boardY = y;
@@ -41,20 +54,23 @@ namespace CatGame.Tiles
             isUsedInPathfinding = false;
         }
 
-        public Unit CheckForUnit()
+        /// <summary>Checks above the tile to see if there is a Unit currently on top of it.</summary>
+        /// <returns>A Unit Class of what is standing above.</returns>
+        /// <remarks>This is a nullable return type.</remarks>
+        public Entity CheckForEntity()
         {
             Collider[] cols = Physics.OverlapSphere(Position, 1.5f);
             foreach (Collider nearbyObject in cols)
             {
-                Unit unit = nearbyObject.GetComponent<Unit>();
+                Entity unit = nearbyObject.GetComponent<Entity>();
                 if (unit != null)
                 {
-                    OccupiedUnit = unit;
+                    OccupiedEntity = unit;
                     return unit;
                 }
             }
 
-            OccupiedUnit = null;
+            OccupiedEntity = null;
             return null;
         }
     }

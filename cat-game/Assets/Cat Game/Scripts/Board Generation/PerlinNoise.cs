@@ -39,10 +39,10 @@ namespace CatGame.Board
         /// <summary>
         /// Constructor for the Perlin Noise Data class.
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="offset"></param>
-        /// <param name="scale"></param>
+        /// <param name="width">Width of the Noise.</param>
+        /// <param name="height">Height of the Noise.</param>
+        /// <param name="offset">Offset of the Noise Randomiser</param>
+        /// <param name="scale">Scale of the Noise</param>
         public PerlinNoise(int width, int height, Vector2 offset, Vector2 scale)
         {
             this.width = width;
@@ -57,19 +57,18 @@ namespace CatGame.Board
         /// Assigns a perlin noise value to the texture datatype which acts
         /// like a multidimensional array in terms of assigning.
         /// </summary>
-        /// <returns>
-        /// Returns a texture with a completed noise map depending on the width
-        /// and height provided by the constructor.
-        /// </returns>
+        /// <returns>A Texture2D Noise Map Image.</returns>
         public Texture2D GenerateRandomNoise()
         {
             Texture = new Texture2D(width, height);
             offset = GetRandomOffset();
 
+            //Iterating through each pixel
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
+                    //Assigning the noise value
                     float noiseValue = GetRandomNoiseValue(x, y);
                     Color noiseColour = new Color(noiseValue, noiseValue, noiseValue, 1);
                     Texture.SetPixel(x, y, noiseColour);
@@ -84,12 +83,8 @@ namespace CatGame.Board
         /// Returns a random offset value to be used in the perlin noise generation
         /// to ensure that it is random each time it is played
         /// </summary>
-        /// <remarks>
-        /// Sourced by https://www.youtube.com/watch?v=bG0uEXV6aHQ
-        /// </remarks>
-        /// <returns>
-        /// Returns a Vector2 which holds the X and Y offset values
-        /// </returns>
+        /// <remarks>Sourced by: https://www.youtube.com/watch?v=bG0uEXV6aHQ </remarks>
+        /// <returns>Returns a Vector2 which holds the X and Y offset values.</returns>
         public Vector2 GetRandomOffset()
         {
             Vector2 offset = Vector2.zero;
@@ -102,10 +97,8 @@ namespace CatGame.Board
         /// A short functions that mirrors the current texture and as a result doubles
         /// the width of the whole image.
         /// </summary>
-        /// <param name="texture"></param>
-        /// <returns>
-        /// Returns a texture of the mirrored image.
-        /// </returns>
+        /// <param name="texture">The current Noise Map Image.</param>
+        /// <returns>Returns a texture of the mirrored image.</returns>
         public Texture2D MirrorImage(Texture2D texture)
         {
             Texture2D mirroredMap = new Texture2D(texture.width * 2, texture.height);
@@ -129,12 +122,14 @@ namespace CatGame.Board
         /// </summary>
         public void BalanceMap()
         {
-            if (HasMorePassableThanImpassable())
+            //Only will balance if there is a greater proportion of impassable tiles than passable
+            if (!HasMorePassableThanImpassable())
             {
                 for (int x = 0; x < Texture.width; x++)
                 {
                     for (int y = 0; y < Texture.height; y++)
                     {
+                        //Inverts the pixel colour
                         Vector4 invertedColour = (Vector4.one - (Vector4)Texture.GetPixel(x, y));
                         invertedColour.w = 1f;
                         Texture.SetPixel(x, y, invertedColour);
@@ -149,9 +144,7 @@ namespace CatGame.Board
         /// Checks to see if there are more passable tiles, or more impassable
         /// tiles.
         /// </summary>
-        /// <returns>
-        /// Returns true if there are more passable tiles than impassable tiles.
-        /// </returns>
+        /// <returns>Returns true if there are more passable tiles than impassable tiles.</returns>
         public bool HasMorePassableThanImpassable()
         {
             int passableBlocks = 0;
@@ -175,7 +168,7 @@ namespace CatGame.Board
         /// not only easier debugging, but also to make the perlin noise more
         /// accurate to what the map will be like.
         /// </summary>
-        /// <param name="increaseAmount"></param>
+        /// <param name="increaseAmount">Contrast increase amount.</param>
         public void IncreaseContrast(float increaseAmount)
         {
             for (int x = 0; x < Texture.width; x++)
@@ -204,17 +197,13 @@ namespace CatGame.Board
 
         /// <summary>
         /// Uses an X and Y determine a perlin noise value at a given coordinate 
-        /// which I then later assign to the samples
+        /// which I then later assign to the samples.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
         /// <remarks>
-        /// Sourced by https://www.youtube.com/watch?v=bG0uEXV6aHQ
-        /// </remarks>
-        /// <returns>
-        /// Returns a perlin noise value depending on the colour of the position
-        /// of the coordinate
-        /// </returns>
+        /// Sourced by: https://www.youtube.com/watch?v=bG0uEXV6aHQ </remarks>
+        /// <param name="x">X Position of the Pixel</param>
+        /// <param name="y">Y Position of the Pixel</param>
+        /// <returns>Returns a perlin noise pixel value based on the coordinate and offset.</returns>
         public float GetRandomNoiseValue(int x, int y)
         {
             float xCoord = (float)x / width * scale.x + offset.x;

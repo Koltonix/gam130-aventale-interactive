@@ -2,6 +2,10 @@
 
 namespace CatGame.Controls
 {
+    /// <summary>
+    /// Template for the Input for all of the Input Values requried for
+    /// the game.
+    /// </summary>
     public abstract class UserInput : MonoBehaviour, IGetOnClick
     {
         [Header("Camera")]
@@ -42,10 +46,7 @@ namespace CatGame.Controls
             return new RaycastHit();
         }
 
-        public virtual void RaycastFromCamera()
-        {
-
-        }
+        public virtual void RaycastFromCamera(){}
 
         public void DebugDrawRay()
         {

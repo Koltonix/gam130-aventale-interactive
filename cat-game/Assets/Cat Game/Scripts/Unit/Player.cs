@@ -13,6 +13,7 @@ namespace CatGame.Data
     public class Player : IPlayerData
     {
         [Header("Information")]
+        public int hash;
         public int number;
         public bool isActive;
 
@@ -44,8 +45,11 @@ namespace CatGame.Data
         public Player()
         {
             ActionPoints = defaultActionPoints;
+            hash = this.GetHashCode();
         }
 
+        /// <summary>Enables the Unit</summary>
+        /// <param name="isEnabled">Unit's current state</param>
         public void ActivateUnit(bool isEnabled)
         {
             ActionPoints = defaultActionPoints;
@@ -54,6 +58,8 @@ namespace CatGame.Data
             onActive?.Invoke();
         }
 
+        /// <summary>Resets the Action Points of the Player.</summary>
+        /// <param name="player">Current Player's Turn.</param>
         public void ResetActionPoints(Player player)
         {
             if (player == this) ActionPoints = defaultActionPoints;

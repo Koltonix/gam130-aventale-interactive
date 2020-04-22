@@ -77,10 +77,6 @@ namespace CatGame.Units
                 //}
 
                 Attacker attacker = this.GetComponent<Attacker>();
-                if (attacker != null)
-                {
-                    attacker.AttackerDeath();
-                }
 
                 Destroyed();
                 Destroy(this.gameObject);
