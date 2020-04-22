@@ -986,7 +986,6 @@ GameObject:
   - component: {fileID: 7199226515336942354}
   - component: {fileID: 7199226515336942382}
   - component: {fileID: 6564429183987920432}
-  - component: {fileID: 1785711245}
   m_Layer: 10
   m_Name: Building
   m_TagString: Untagged
@@ -1091,8 +1090,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f27e20bde538c14db8c794bab57ebf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerIndex: 0
   owner:
+    hash: 122403328
     number: 0
     isActive: 0
     unitCap: 10
@@ -1101,6 +1100,18 @@ MonoBehaviour:
     colour:
       serializedVersion: 2
       rgba: 10440766
+  currentPlayer:
+    hash: 2090565504
+    number: 0
+    isActive: 0
+    unitCap: 10
+    PlayerUnits: []
+    defaultActionPoints: 8
+    colour:
+      serializedVersion: 2
+      rgba: 0
+  isEnabled: 0
+  playerIndex: 0
   SpawnPoints: 10
   uiHeight: 5
   BuildmenuPrefab: {fileID: 761650807146044451, guid: 32b2939ed75a6bc4c895ee15bb5cc652,
@@ -1135,25 +1146,6 @@ MonoBehaviour:
   maxHealth: 10
   currentHealth: 10
   healthBarPrefab: {fileID: 0}
-  healthBarOffset: {x: 0, y: 5, z: 0}
-  isABase: 1
-  animator: {fileID: 0}
---- !u!114 &1785711245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7199226515336942355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0b220faa48dd049a27ce0424ea9676, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 10
-  healthBarPrefab: {fileID: 889152434078798198, guid: d389fcb94443bd143bf1d0b3705d0f3f,
-    type: 3}
   healthBarOffset: {x: 0, y: 5, z: 0}
   isABase: 1
   animator: {fileID: 0}

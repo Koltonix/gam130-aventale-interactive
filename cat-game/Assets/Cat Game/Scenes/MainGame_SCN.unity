@@ -20461,7 +20461,13 @@ PrefabInstance:
       propertyPath: m_Size.z
       value: 0.95
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3479705739804647824, guid: 51c3652799c894541bdda77891e3b0a6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1785711245, guid: 51c3652799c894541bdda77891e3b0a6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 51c3652799c894541bdda77891e3b0a6, type: 3}
 --- !u!4 &1430040610 stripped
 Transform:
@@ -24111,7 +24117,13 @@ PrefabInstance:
       propertyPath: m_Size.z
       value: 0.95
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3479705739804647824, guid: 51c3652799c894541bdda77891e3b0a6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1785711245, guid: 51c3652799c894541bdda77891e3b0a6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 51c3652799c894541bdda77891e3b0a6, type: 3}
 --- !u!4 &1653660620 stripped
 Transform:
@@ -25393,31 +25405,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1784857373}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1785711244 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7199226515336942355, guid: 51c3652799c894541bdda77891e3b0a6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1430040609}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1785711245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785711244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0b220faa48dd049a27ce0424ea9676, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 10
-  healthBarPrefab: {fileID: 889152434078798198, guid: d389fcb94443bd143bf1d0b3705d0f3f,
-    type: 3}
-  healthBarOffset: {x: 0, y: 5, z: 0}
-  isABase: 1
-  animator: {fileID: 0}
 --- !u!1001 &1807681072
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28697,31 +28684,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2017556419}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2018886536 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7199226515336942355, guid: 51c3652799c894541bdda77891e3b0a6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1653660619}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2018886537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2018886536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0b220faa48dd049a27ce0424ea9676, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 10
-  healthBarPrefab: {fileID: 889152434078798198, guid: d389fcb94443bd143bf1d0b3705d0f3f,
-    type: 3}
-  healthBarOffset: {x: 0, y: 5, z: 0}
-  isABase: 1
-  animator: {fileID: 0}
 --- !u!1001 &2027782259
 PrefabInstance:
   m_ObjectHideFlags: 0
