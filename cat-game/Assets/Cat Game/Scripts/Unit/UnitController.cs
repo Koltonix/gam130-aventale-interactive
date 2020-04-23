@@ -207,7 +207,11 @@ namespace CatGame.Units
                 //Over something that can be attacked
                 Entity enemyEntity = gameObjectHit.collider.GetComponent<Entity>();
                 lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
-                List<Tile> pathToEnemy = PathfindingManager.Instance.GetPath(selectedUnit.currentTile.Position, lastSelectedTile.Position, true);
+                
+                List<Tile> pathToEnemy = PathfindingManager.Instance.GetPath(selectedUnit.currentTile.Position, lastSelectedTile.Position, true, lastSelectedTile);
+
+                //Removes the selected tile which is a Unit
+                if (pathToEnemy != null && pathToEnemy.Count > 0) pathToEnemy.RemoveAt(pathToEnemy.Count - 1);
 
                 if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference() && pathToEnemy.Count < selectedUnit.owner.GetCurrentActionPoints())
                 {
