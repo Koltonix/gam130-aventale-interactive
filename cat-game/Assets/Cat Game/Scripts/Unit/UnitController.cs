@@ -5,7 +5,7 @@ using CatGame.Controls;
 using CatGame.Tiles;
 using CatGame.Data;
 using CatGame.Combat;
-using CatGame.UI;
+using CatGame.Pathfinding;
 
 namespace CatGame.Units
 {
@@ -69,17 +69,17 @@ namespace CatGame.Units
                 //Makes every Unit check its own tiles again
                 BoardManager.Instance.GetBoardTiles();
 
-                //Acceping the tile to move to
-                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedTile.OccupiedEntity == null)
-                {
-                    MoveToTile();
-                    return;
-                }
-
                 //ATTACKING
                 if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider && gameObjectHit.collider.GetComponent<Health>())
                 {
                     CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
+                    return;
+                }
+
+                //Acceping the tile to move to
+                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
+                {
+                    MoveToTile(lastSelectedPath);
                     return;
                 }
 
@@ -132,24 +132,32 @@ namespace CatGame.Units
 
         private void DamageObject(Health health)
         {
+            UnitMovement _selectedUnit = selectedUnit;
             Attacker unitAttack = selectedUnit.GetComponent<Attacker>();
 
-            Tile enemyTile = BoardManager.Instance.GetTileFromWorldPosition(health.transform.position);
+            Tile enemyTile = BoardManager.Instance.GetTileFromWorldPosition(currentInput.GetRaycastHit().point);
             Tile unitTile = selectedUnit.currentTile;
 
-            //If it is within attack distance
             float xBoardDistance = Mathf.Abs(enemyTile.boardX - unitTile.boardX);
             float yBoardDistance = Mathf.Abs(enemyTile.boardY - unitTile.boardY);
+            bool canAttack = IsWithinAttackingDistance(unitTile, enemyTile, unitAttack.AttackRange);
 
-            if (xBoardDistance <= selectedUnit.owner.GetPlayerReference().ActionPoints && xBoardDistance <= unitAttack.AttackRange)
+            if (lastSelectedPath != null && lastSelectedPath.Length > 0 && !canAttack)
             {
-                if (yBoardDistance <= selectedUnit.owner.GetPlayerReference().ActionPoints && yBoardDistance <= unitAttack.AttackRange)
+                MoveToTile(lastSelectedPath);
+            }
+
+            //If it is within range and the player has enough AP
+            if (xBoardDistance <= _selectedUnit.owner.GetPlayerReference().ActionPoints && xBoardDistance <= unitAttack.AttackRange)
+            {
+                if (yBoardDistance <= _selectedUnit.owner.GetPlayerReference().ActionPoints && yBoardDistance <= unitAttack.AttackRange)
                 {
-                    selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
+                    _selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
                     health.Damage(unitAttack.Damage);
-                    DeselectUnit();
                 }
             }
+
+            DeselectUnit();
         }
 
         /// <summary>Assigns the current Unit Data and triggers the listener in the UnitMovement</summary>
@@ -179,21 +187,57 @@ namespace CatGame.Units
             }
         }
 
+        private bool IsWithinAttackingDistance(Tile currentTile, Tile enemyTile, int attackRange)
+        {
+            float xBoardDistance = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
+            float yBoardDistance = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
+
+            if (xBoardDistance < attackRange || yBoardDistance < attackRange) return true;
+            else return false;
+        }
+
         /// <summary>Selects the current tile that is being hovered over.</summary>
         private void SelectTile()
         {
             RaycastHit gameObjectHit = currentInput.GetRaycastHit();
-            
+            selectedUnit.ResetTileColours(selectedUnit.availableTiles.ToArray());
+
             if (gameObjectHit.collider != null)
             {
-                lastSelectedTile = GetSelectedTile(gameObjectHit);
-                Tile[] path = selectedUnit.GetAvailableTilesFromPathfinding(lastSelectedTile);
+                //Over something that can be attacked
+                Entity enemyEntity = gameObjectHit.collider.GetComponent<Entity>();
+                lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
+                
+                List<Tile> pathToEnemy = PathfindingManager.Instance.GetPath(selectedUnit.currentTile.Position, lastSelectedTile.Position, true, lastSelectedTile);
 
-                if (path != null)
+                //Removes the selected tile which is a Unit
+                if (pathToEnemy != null && pathToEnemy.Count > 0) pathToEnemy.RemoveAt(pathToEnemy.Count - 1);
+
+                if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference() && pathToEnemy.Count < selectedUnit.owner.GetCurrentActionPoints())
                 {
-                    DrawPath(path, selectedUnit.pathColour);
-                    lastSelectedPath = path;
-                    pathToDraw = PathArrayToQueue(path);
+                    bool canAttack = IsWithinAttackingDistance(selectedUnit.currentTile, lastSelectedTile, selectedUnit.GetComponent<Attacker>().AttackRange);
+                    if (canAttack)
+                    {
+                        lastSelectedPath = null;
+                        return;
+                    }
+
+                    if (pathToEnemy.Count >= 1) pathToEnemy.RemoveAt(pathToEnemy.Count - 1);
+                    if (pathToEnemy.Count == 0) lastSelectedPath = null;
+
+                    lastSelectedPath = pathToEnemy.ToArray();
+                }
+
+                else
+                {
+                    lastSelectedTile = GetSelectedTile(selectedUnit.availableTiles.ToArray(), gameObjectHit);
+                    lastSelectedPath = selectedUnit.GetAvailableTilesFromPathfinding(lastSelectedTile);
+                }
+                
+                if (lastSelectedPath != null)
+                {
+                    DrawPath(lastSelectedPath, selectedUnit.pathColour);
+                    pathToDraw = PathArrayToQueue(lastSelectedPath);
                 }
                 
                 return;
@@ -229,11 +273,11 @@ namespace CatGame.Units
         /// <summary>Gets the tile that the player is currently hovering over.</summary>
         /// <param name="gameObjectHit">The input raycast.</param>
         /// <returns>Returns the tile that the player is hovering over.</returns>
-        private Tile GetSelectedTile(RaycastHit gameObjectHit)
+        private Tile GetSelectedTile(Tile[] tiles, RaycastHit gameObjectHit)
         {
             if (gameObjectHit.collider != null)
             {
-                foreach (Tile tile in selectedUnit.availableTiles)
+                foreach (Tile tile in tiles)
                 {
                     if (gameObjectHit.collider.gameObject == tile.WorldReference)
                     {
@@ -252,13 +296,13 @@ namespace CatGame.Units
         }
 
         /// <summary>Starts the movement coroutone of the Unit to the Tile and then deselects it.</summary
-        private void MoveToTile()
+        private void MoveToTile(Tile[] path)
         {
             UnitMovement _selectedUnit = selectedUnit;
             DeselectUnit();
 
-            _selectedUnit.owner.GetPlayerReference().ActionPoints -= lastSelectedPath.Length - 1;         
-            movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, lastSelectedPath, _selectedUnit.transform)); ;
+            _selectedUnit.owner.GetPlayerReference().ActionPoints -= path.Length - 1;         
+            movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, path, _selectedUnit.transform)); ;
 
             return;
         }

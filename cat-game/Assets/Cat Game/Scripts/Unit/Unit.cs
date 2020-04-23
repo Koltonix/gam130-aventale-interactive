@@ -11,14 +11,22 @@ namespace CatGame.Units
         [SerializeField]
         private new string name;
         [SerializeField]
-        private new Renderer renderer;
+        private Renderer[] renderers;
 
         protected override void Start()
         {
             base.Start();
-            renderer.material.color = owner.colour;
+            ChangeRendererColour(owner.colour, renderers);
 
             if (name.Length == 0) name = "UNNAMED_UNIT";
+        }
+
+        private void ChangeRendererColour(Color32 colour, Renderer[] renderers)
+        {
+            foreach (Renderer renderer in renderers)
+            {
+                renderer.material.color = colour;
+            }
         }
 
         #region Contractual Obligations

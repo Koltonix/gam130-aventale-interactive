@@ -52,10 +52,10 @@ namespace CatGame.Pathfinding
         /// <param name="startPosition">Start Tile World Positon.</param>
         /// <param name="endPosition">End Tile World Position.</param>
         /// <returns>A list of the Tiles of the Path.</returns>
-        public List<Tile> GetPath(Vector3 startPosition, Vector3 endPosition, bool checkForUnit)
+        public List<Tile> GetPath(Vector3 startPosition, Vector3 endPosition, bool checkForUnit, Tile tileToIgnore)
         {
             FindPath(new Vector3(startPosition.x, boardData.GetBoardCentre().y, startPosition.z),
-                         new Vector3(endPosition.x, boardData.GetBoardCentre().y, endPosition.z), checkForUnit);
+                         new Vector3(endPosition.x, boardData.GetBoardCentre().y, endPosition.z), checkForUnit, tileToIgnore);
 
             return finalPath;
         }
@@ -63,7 +63,7 @@ namespace CatGame.Pathfinding
         /// <summary>Finds the closest path for the object to take from a start to and end point.</summary>
         /// <param name="startPosition">Start Tile World Position.</param>
         /// <param name="endPosition">End Tile World Position.</param>
-        private void FindPath(Vector3 startPosition, Vector3 endPosition, bool checkForUnit)
+        private void FindPath(Vector3 startPosition, Vector3 endPosition, bool checkForUnit, Tile tileToIgnore)
         {
             //Gets the Start Tile and End Tile.
             Tile startTile = boardData.GetTileFromWorldPosition(startPosition);
@@ -99,7 +99,7 @@ namespace CatGame.Pathfinding
                 {
                     if (!tile.IsPassable || (tile.OccupiedEntity != null && checkForUnit) || closedList.Contains(tile))
                     {
-                        continue;
+                        if (tile != tileToIgnore) continue;
                     }
 
                     //Gets the cost of moving to the next tile

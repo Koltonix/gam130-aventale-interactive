@@ -17,8 +17,6 @@ namespace CatGame.UI
         private TextMeshProUGUI aPCounter;
         [SerializeField]
         private TextMeshProUGUI unitCounter;
-        [SerializeField]
-        private Image flag;
 
         // Start is called before the first frame update
         void Start()
@@ -70,7 +68,6 @@ namespace CatGame.UI
         {
             currentPlayer.onAP += APCounter;
             APCounter(currentPlayer.ActionPoints);
-            flag.color = new Color32(currentPlayer.colour.r, currentPlayer.colour.g, currentPlayer.colour.b, 255);
         }
     }
 }

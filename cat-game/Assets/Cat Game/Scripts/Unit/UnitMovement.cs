@@ -137,7 +137,7 @@ namespace CatGame.Units
 
             foreach (Tile endTile in nearbyTiles)
             {
-                List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position, true);
+                List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position, true, null);
                 if (finalPath == null) continue;
                 //If there are only x tiles or less in the path
                 if (finalPath.Count - 1 <= owner.GetCurrentActionPoints())
@@ -177,7 +177,7 @@ namespace CatGame.Units
 
             for (int i = nearbyEnemyUnits.Count - 1; i >= 0; i--)
             {
-                List<Tile> enemyPath = PathfindingManager.Instance.GetPath(currentTile.Position, nearbyEnemyUnits[i].Position, false);
+                List<Tile> enemyPath = PathfindingManager.Instance.GetPath(currentTile.Position, nearbyEnemyUnits[i].Position, true, nearbyEnemyUnits[i]);
                 //Size reduced by two to negate the end tile and also the diagonal factor
                 int enemyPathDistance = enemyPath.Count - 2;
 
