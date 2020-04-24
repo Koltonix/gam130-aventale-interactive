@@ -51,7 +51,7 @@ namespace CatGame.Units
         private void Start()
         {
             currentInput = this.GetComponent<UserInput>();
-            TurnManager.Instance.onPlayerCycle += ChangePlayer;
+            TurnManager.Instance.onPlayerCycle += ChangePlayer;         
         }
 
         private void Update()
@@ -178,6 +178,7 @@ namespace CatGame.Units
             {
                 selectionProgress = SelectionProgress.UNSELECTED;
                 onSelect.Invoke(false);
+
                 //Required after the recent addition of the removal of unused tiles in pathfinding...
                 //Not ideal, but is necessary.
                 selectedUnit.ResetTileColours(BoardManager.Instance.tiles);
@@ -301,7 +302,10 @@ namespace CatGame.Units
             UnitMovement _selectedUnit = selectedUnit;
             DeselectUnit();
 
-            _selectedUnit.owner.GetPlayerReference().ActionPoints -= path.Length - 1;         
+            _selectedUnit.owner.GetPlayerReference().ActionPoints -= Mathf.CeilToInt((path.Length - 1) * _selectedUnit.apCostModifier);
+            Debug.Log((path.Length - 1) / _selectedUnit.apCostModifier);
+            _selectedUnit.maxDistance -= path.Length - 1;
+
             movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, path, _selectedUnit.transform)); ;
 
             return;

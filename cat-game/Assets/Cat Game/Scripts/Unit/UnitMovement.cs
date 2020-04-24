@@ -15,6 +15,9 @@ namespace CatGame.Units
     public class UnitMovement : MonoBehaviour
     {
         [Header("Movement Settings")]
+        public int maxDistance;
+        private int _maxDistance;
+        public float apCostModifier;
         public Tile currentTile;
 
         public List<Tile> availableTiles;
@@ -42,6 +45,8 @@ namespace CatGame.Units
 
             BoardManager.Instance.onBoardUpdate += DetermineTilesInSphere;
             TurnManager.Instance.onPlayerCycle += OnPlayerCycle;
+
+            _maxDistance = maxDistance;
         }
 
         #region Tile Prediction
@@ -140,7 +145,7 @@ namespace CatGame.Units
                 List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position, true, null);
                 if (finalPath == null) continue;
                 //If there are only x tiles or less in the path
-                if (finalPath.Count - 1 <= owner.GetCurrentActionPoints())
+                if (finalPath.Count - 1 <= owner.GetCurrentActionPoints() && finalPath.Count - 1 <= maxDistance)
                 {
                     allPaths.Add(endTile, finalPath);
                     SetTilesUsingPathfinding(finalPath.ToArray(), true);
@@ -258,7 +263,10 @@ namespace CatGame.Units
 
         private void OnPlayerCycle(Player player)
         {
-
+            if (player == owner.GetPlayerReference())
+            {
+                maxDistance = _maxDistance;
+            }
         }
 
         private void SetIsActive()
