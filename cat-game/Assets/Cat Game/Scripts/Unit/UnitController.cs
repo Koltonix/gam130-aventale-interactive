@@ -211,17 +211,13 @@ namespace CatGame.Units
             {
                 //Over something that can be attacked
                 lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
-                List<Tile> pathToEnemy = new List<Tile>();
                 Entity enemyEntity = lastSelectedTile.OccupiedEntity;
 
-                //Removes the selected tile which is a Unit
-                if (pathToEnemy != null && pathToEnemy.Count > 0) pathToEnemy.RemoveAt(pathToEnemy.Count - 1);
-
+                //There is an Enemy on the tile
                 if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference())
                 {
-
                     List<Tile> attackPath = selectedUnit.pathsToEnemy[lastSelectedTile];
-                    if (attackPath.Count < selectedUnit.owner.GetCurrentActionPoints()) return;
+                    if (attackPath.Count > selectedUnit.owner.GetCurrentActionPoints()) return;
 
                     bool canAttack = IsWithinAttackingDistance(selectedUnit.currentTile, lastSelectedTile, selectedUnit.GetComponent<Attacker>().AttackRange);
                     if (canAttack)
@@ -230,27 +226,24 @@ namespace CatGame.Units
                         return;
                     }
 
-                    if (attackPath.Count >= 1) attackPath.RemoveAt(attackPath.Count - 1);
                     if (attackPath.Count == 0) lastSelectedPath = null;
 
                     lastSelectedPath = attackPath.ToArray();
                 }
 
-                //Not selecting a Tile with a unit on it
+                //It is just a regular tile
                 else
                 {
                     lastSelectedTile = GetSelectedTile(selectedUnit.availableTiles.ToArray(), gameObjectHit);
                     lastSelectedPath = selectedUnit.GetAvailableTilesFromPathfinding(lastSelectedTile);
                 }
-                
+
                 //Draws the path
                 if (lastSelectedPath != null)
                 {
                     DrawPath(lastSelectedPath, selectedUnit.pathColour);
                     pathToDraw = PathArrayToQueue(lastSelectedPath);
                 }
-                
-                return;
             }
         }
 
