@@ -201,6 +201,7 @@ namespace CatGame.Units
         private void SelectTile()
         {
             RaycastHit gameObjectHit = currentInput.GetRaycastHit();
+
             selectedUnit.ResetTileColours(selectedUnit.availableTiles.ToArray());
 
             if (gameObjectHit.collider != null)
@@ -208,7 +209,7 @@ namespace CatGame.Units
                 //Over something that can be attacked
                 Entity enemyEntity = gameObjectHit.collider.GetComponent<Entity>();
                 lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
-                
+
                 List<Tile> pathToEnemy = PathfindingManager.Instance.GetPath(selectedUnit.currentTile.Position, lastSelectedTile.Position, true, lastSelectedTile);
 
                 //Removes the selected tile which is a Unit
@@ -303,8 +304,6 @@ namespace CatGame.Units
             DeselectUnit();
 
             _selectedUnit.owner.GetPlayerReference().ActionPoints -= Mathf.CeilToInt((path.Length - 1) * _selectedUnit.apCostModifier);
-            Debug.Log((path.Length - 1) / _selectedUnit.apCostModifier);
-            _selectedUnit.maxDistance -= path.Length - 1;
 
             movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, path, _selectedUnit.transform)); ;
 

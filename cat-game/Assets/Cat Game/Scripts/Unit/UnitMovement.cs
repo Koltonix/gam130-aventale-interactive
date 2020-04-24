@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using CatGame.Tiles;
 using CatGame.Data;
@@ -15,14 +14,18 @@ namespace CatGame.Units
     public class UnitMovement : MonoBehaviour
     {
         [Header("Movement Settings")]
-        public int maxDistance;
-        private int _maxDistance;
-        public float apCostModifier;
+        public float apCostModifier = 1.0f;
+
+        [HideInInspector]
         public Tile currentTile;
 
+        [HideInInspector]
         public List<Tile> availableTiles;
+        [HideInInspector]
         public List<Tile> nearbyEnemyUnits;
+        [HideInInspector]
         public Tile[] nearbyFriendlyUnits;
+        [HideInInspector]
         public Dictionary<Tile, List<Tile>> tilePaths;
 
         [Header("Required Data")]
@@ -45,8 +48,6 @@ namespace CatGame.Units
 
             BoardManager.Instance.onBoardUpdate += DetermineTilesInSphere;
             TurnManager.Instance.onPlayerCycle += OnPlayerCycle;
-
-            _maxDistance = maxDistance;
         }
 
         #region Tile Prediction
@@ -75,9 +76,9 @@ namespace CatGame.Units
                 if (tile.IsPassable && tile.OccupiedEntity == null)
                 {
                     //Within the AP Distance
-                    if (xBoardDistance <= owner.GetCurrentActionPoints())
+                    if (xBoardDistance <= owner.GetCurrentActionPoints() / apCostModifier)
                     {
-                        if (yBoardDistance <= owner.GetCurrentActionPoints())
+                        if (yBoardDistance <= owner.GetCurrentActionPoints() / apCostModifier)
                         {
                             accessibleTiles.Add(tile);
                         }
@@ -145,7 +146,7 @@ namespace CatGame.Units
                 List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position, true, null);
                 if (finalPath == null) continue;
                 //If there are only x tiles or less in the path
-                if (finalPath.Count - 1 <= owner.GetCurrentActionPoints() && finalPath.Count - 1 <= maxDistance)
+                if (finalPath.Count - 1 <= owner.GetCurrentActionPoints() / apCostModifier)
                 {
                     allPaths.Add(endTile, finalPath);
                     SetTilesUsingPathfinding(finalPath.ToArray(), true);
@@ -263,10 +264,7 @@ namespace CatGame.Units
 
         private void OnPlayerCycle(Player player)
         {
-            if (player == owner.GetPlayerReference())
-            {
-                maxDistance = _maxDistance;
-            }
+
         }
 
         private void SetIsActive()

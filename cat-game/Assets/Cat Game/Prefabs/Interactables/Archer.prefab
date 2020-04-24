@@ -78,6 +78,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d683cc40bef867249bae8d16c7cbbaab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxDistance: 8
+  totalAPCurrentlyAvailable: 0
   currentTile:
     Position: {x: 0, y: 0, z: 0}
     WorldReference: {fileID: 0}

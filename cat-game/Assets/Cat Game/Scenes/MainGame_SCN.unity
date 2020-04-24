@@ -14657,7 +14657,7 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 3584
+    m_Bits: 2560
 --- !u!1001 &954927838
 PrefabInstance:
   m_ObjectHideFlags: 0
