@@ -14628,6 +14628,9 @@ MonoBehaviour:
     colour:
       serializedVersion: 2
       rgba: 0
+  passableMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!4 &941093012
 Transform:
   m_ObjectHideFlags: 0

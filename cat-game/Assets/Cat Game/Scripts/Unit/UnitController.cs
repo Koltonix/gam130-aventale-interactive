@@ -193,23 +193,26 @@ namespace CatGame.Units
             float xBoardDistance = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
             float yBoardDistance = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
 
-            if (xBoardDistance < attackRange || yBoardDistance < attackRange) return true;
+
+            if (xBoardDistance < attackRange && yBoardDistance < attackRange) return true;
             else return false;
         }
 
+        public LayerMask passableMask;
         /// <summary>Selects the current tile that is being hovered over.</summary>
         private void SelectTile()
         {
-            RaycastHit gameObjectHit = currentInput.GetRaycastHit();
+            RaycastHit gameObjectHit;
+            Physics.Raycast(currentInput.GetRay(), out gameObjectHit, Mathf.Infinity, passableMask);
 
             selectedUnit.ResetTileColours(selectedUnit.availableTiles.ToArray());
 
             if (gameObjectHit.collider != null)
             {
-                //Over something that can be attacked
-                Entity enemyEntity = gameObjectHit.collider.GetComponent<Entity>();
                 lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
 
+                //Over something that can be attacked
+                Entity enemyEntity = lastSelectedTile.OccupiedEntity;
                 List<Tile> pathToEnemy = PathfindingManager.Instance.GetPath(selectedUnit.currentTile.Position, lastSelectedTile.Position, true, lastSelectedTile);
 
                 //Removes the selected tile which is a Unit
@@ -236,6 +239,7 @@ namespace CatGame.Units
                     lastSelectedPath = selectedUnit.GetAvailableTilesFromPathfinding(lastSelectedTile);
                 }
                 
+                //Draws the path
                 if (lastSelectedPath != null)
                 {
                     DrawPath(lastSelectedPath, selectedUnit.pathColour);
