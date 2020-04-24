@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 899322927159366496}
   - component: {fileID: 7862172290737842644}
   m_Layer: 11
-  m_Name: Unit Piece
+  m_Name: Catapult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,8 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0b220faa48dd049a27ce0424ea9676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 0
+  maxHealth: 20
+  currentHealth: 20
   healthBarPrefab: {fileID: 889152434078798198, guid: d389fcb94443bd143bf1d0b3705d0f3f,
     type: 3}
   healthBarOffset: {x: 0, y: 1.5, z: 0}
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 043cb2f4443425947b8a74bbf3e0b4ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 1
+  Damage: 10
   AttackRange: 1
   AttackAP: 2
   enemy: {fileID: 0}
@@ -201,7 +201,7 @@ PrefabInstance:
     - target: {fileID: 4517671048793864520, guid: d537e46f6d1ec1947843897df4cfce51,
         type: 3}
       propertyPath: m_Name
-      value: Spearman
+      value: Catapult
       objectReference: {fileID: 0}
     - target: {fileID: 4517671048793761128, guid: d537e46f6d1ec1947843897df4cfce51,
         type: 3}
@@ -258,6 +258,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6808724959992451265, guid: d537e46f6d1ec1947843897df4cfce51,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.621
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808724959992451265, guid: d537e46f6d1ec1947843897df4cfce51,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.225
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517671048793864522, guid: d537e46f6d1ec1947843897df4cfce51,
+        type: 3}
+      propertyPath: m_Name
+      value: polySurface40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517671048792991050, guid: d537e46f6d1ec1947843897df4cfce51,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: a4632913e9e08e9489dd4dc9c911ef10, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d537e46f6d1ec1947843897df4cfce51, type: 3}
 --- !u!4 &6957543701708745978 stripped
