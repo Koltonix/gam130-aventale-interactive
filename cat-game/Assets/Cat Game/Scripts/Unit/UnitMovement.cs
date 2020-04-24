@@ -27,6 +27,7 @@ namespace CatGame.Units
         public Tile[] nearbyFriendlyUnits;
         [HideInInspector]
         public Dictionary<Tile, List<Tile>> tilePaths;
+        public Dictionary<Tile, List<Tile>> pathsToEnemy;
 
         [Header("Required Data")]
         public Player owner;
@@ -174,6 +175,7 @@ namespace CatGame.Units
         /// <summary>Removes the Tiles not used in the pathfinding and there aren't accessible</summary>
         private void RemoveUnusedTiles()
         {
+            pathsToEnemy = new Dictionary<Tile, List<Tile>>();
             Attacker unitAttack = this.GetComponent<Attacker>();
 
             for (int i = availableTiles.Count - 1; i >= 0; i--)
@@ -190,6 +192,32 @@ namespace CatGame.Units
                 if (enemyPathDistance > unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
                 {
                     nearbyEnemyUnits.RemoveAt(i);
+                }
+                
+                //Will be used in pathfinding
+                else
+                {
+                    GetShortestAdjacentEnemyPaths(nearbyEnemyUnits[i]);
+                }
+            }
+        }
+
+        public void GetShortestAdjacentEnemyPaths(Tile enemyTile)
+        {
+           Tile[] currentPath;
+           Tile[] adjacentTiles = BoardManager.Instance.GetAllAdjacentTiles(enemyTile);
+
+            int shortestLength = 2147483647;
+
+            foreach (Tile tile in adjacentTiles)
+            {
+                currentPath = PathfindingManager.Instance.GetPath(currentTile.Position, tile.Position, true, enemyTile).ToArray();
+
+                if (currentPath.Length < shortestLength)
+                {
+                    shortestLength = currentPath.Length;
+                    if (pathsToEnemy.ContainsKey(enemyTile)) pathsToEnemy.Remove(enemyTile);
+                    pathsToEnemy.Add(enemyTile, new List<Tile>(currentPath));  
                 }
             }
         }

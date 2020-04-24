@@ -209,17 +209,20 @@ namespace CatGame.Units
 
             if (gameObjectHit.collider != null)
             {
-                lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
-
                 //Over something that can be attacked
+                lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
+                List<Tile> pathToEnemy = new List<Tile>();
                 Entity enemyEntity = lastSelectedTile.OccupiedEntity;
-                List<Tile> pathToEnemy = PathfindingManager.Instance.GetPath(selectedUnit.currentTile.Position, lastSelectedTile.Position, true, lastSelectedTile);
 
                 //Removes the selected tile which is a Unit
                 if (pathToEnemy != null && pathToEnemy.Count > 0) pathToEnemy.RemoveAt(pathToEnemy.Count - 1);
 
-                if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference() && pathToEnemy.Count < selectedUnit.owner.GetCurrentActionPoints())
+                if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference())
                 {
+
+                    List<Tile> attackPath = selectedUnit.pathsToEnemy[lastSelectedTile];
+                    if (attackPath.Count < selectedUnit.owner.GetCurrentActionPoints()) return;
+
                     bool canAttack = IsWithinAttackingDistance(selectedUnit.currentTile, lastSelectedTile, selectedUnit.GetComponent<Attacker>().AttackRange);
                     if (canAttack)
                     {
@@ -227,12 +230,13 @@ namespace CatGame.Units
                         return;
                     }
 
-                    if (pathToEnemy.Count >= 1) pathToEnemy.RemoveAt(pathToEnemy.Count - 1);
-                    if (pathToEnemy.Count == 0) lastSelectedPath = null;
+                    if (attackPath.Count >= 1) attackPath.RemoveAt(attackPath.Count - 1);
+                    if (attackPath.Count == 0) lastSelectedPath = null;
 
-                    lastSelectedPath = pathToEnemy.ToArray();
+                    lastSelectedPath = attackPath.ToArray();
                 }
 
+                //Not selecting a Tile with a unit on it
                 else
                 {
                     lastSelectedTile = GetSelectedTile(selectedUnit.availableTiles.ToArray(), gameObjectHit);

@@ -258,34 +258,60 @@ namespace CatGame.Tiles
             int xCheck;
             int yCheck;
 
-            //Right hand check
-            xCheck = tile.boardX + 1;
-            yCheck = tile.boardY;
-
-            checkingTile = CheckForNeighbour(xCheck, yCheck);
-            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
-
-
-            //Left hand check
-            xCheck = tile.boardX - 1;
-            yCheck = tile.boardY;
-
-            checkingTile = CheckForNeighbour(xCheck, yCheck);
-            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
-
-            //Upper hand check
+            //North Check
             xCheck = tile.boardX;
             yCheck = tile.boardY + 1;
 
             checkingTile = CheckForNeighbour(xCheck, yCheck);
             if (checkingTile != null) neighbouringTiles.Add(checkingTile);
 
-            //Left hand check
+            //East Check
+            xCheck = tile.boardX - 1;
+            yCheck = tile.boardY;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            //South Check
             xCheck = tile.boardX;
             yCheck = tile.boardY - 1;
 
             checkingTile = CheckForNeighbour(xCheck, yCheck);
             if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            //West Check
+            xCheck = tile.boardX + 1;
+            yCheck = tile.boardY;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            return neighbouringTiles.ToArray();
+        }
+
+        public Tile[] GetAllAdjacentTiles(Tile tile)
+        {
+            List<Tile> neighbouringTiles = new List<Tile>();
+
+            Tile checkingTile;
+            int xCheck;
+            int yCheck;
+
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    //Skip if it is the centre tile
+                    if (x == 0 && y == 0) continue;
+
+                    xCheck = tile.boardX + x;
+                    yCheck = tile.boardY + y;
+
+                    checkingTile = CheckForNeighbour(xCheck, yCheck);
+                    if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+                }
+            }
 
             return neighbouringTiles.ToArray();
         }
