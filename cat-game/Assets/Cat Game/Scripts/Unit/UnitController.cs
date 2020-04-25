@@ -212,11 +212,12 @@ namespace CatGame.Units
                 //Over something that can be attacked
                 lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
                 Entity enemyEntity = lastSelectedTile.OccupiedEntity;
+                Attacker currentAttacker = selectedUnit.GetComponent<Attacker>();
 
                 //There is an Enemy on the tile
                 if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference())
                 {
-                    List<Tile> attackPath = selectedUnit.pathsToEnemy[lastSelectedTile];
+                    List<Tile> attackPath = new List<Tile>(selectedUnit.pathsToEnemy[lastSelectedTile]);
                     if (attackPath.Count > selectedUnit.owner.GetCurrentActionPoints()) return;
 
                     bool canAttack = IsWithinAttackingDistance(selectedUnit.currentTile, lastSelectedTile, selectedUnit.GetComponent<Attacker>().AttackRange);
@@ -227,6 +228,13 @@ namespace CatGame.Units
                     }
 
                     if (attackPath.Count == 0) lastSelectedPath = null;
+
+                    //Cull the tiles based on range...
+                    for (int i = 0; i < currentAttacker.AttackRange; i++)
+                    {
+                        if (attackPath.Count > 0) attackPath.RemoveAt(attackPath.Count - 1);
+                    }
+                    
 
                     lastSelectedPath = attackPath.ToArray();
                 }

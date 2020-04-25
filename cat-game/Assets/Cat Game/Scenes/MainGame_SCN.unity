@@ -6819,7 +6819,7 @@ MonoBehaviour:
     isActive: 0
     unitCap: 10
     PlayerUnits: []
-    defaultActionPoints: 16
+    defaultActionPoints: 8
     colour:
       serializedVersion: 2
       rgba: 10440766

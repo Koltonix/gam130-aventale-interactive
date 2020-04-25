@@ -133,6 +133,14 @@ namespace CatGame.Pathfinding
             {
                 finalPath.Add(currentTile);
                 currentTile = currentTile.parent;
+
+                int xDistance = Mathf.Abs(currentTile.boardX - startTile.boardX); 
+                int yDistance = Mathf.Abs(currentTile.boardY - startTile.boardY);
+                if (xDistance == 1 && yDistance == 1)
+                {
+                    Debug.Log("wow");
+                    continue;
+                }
             }
 
             finalPath.Reverse();
