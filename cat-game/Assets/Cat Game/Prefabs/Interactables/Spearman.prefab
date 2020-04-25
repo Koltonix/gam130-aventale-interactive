@@ -78,7 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d683cc40bef867249bae8d16c7cbbaab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 200
   apCostModifier: 1
   currentTile:
     Position: {x: 0, y: 0, z: 0}
@@ -190,7 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 5
-  AttackRange: 1
+  AttackRange: 2
   AttackAP: 1
   enemy: {fileID: 0}
 --- !u!1001 &6791380685454051730

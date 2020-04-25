@@ -217,7 +217,11 @@ namespace CatGame.Units
                 //There is an Enemy on the tile
                 if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference())
                 {
-                    List<Tile> attackPath = new List<Tile>(selectedUnit.pathsToEnemy[lastSelectedTile]);
+                    List<Tile> attackPath;
+                    //Only will get the path if it is available...
+                    if (!selectedUnit.pathsToEnemy.TryGetValue(lastSelectedTile, out attackPath)) return; 
+                    attackPath = new List<Tile>(selectedUnit.pathsToEnemy[lastSelectedTile]);
+
                     if (attackPath.Count > selectedUnit.owner.GetCurrentActionPoints()) return;
 
                     bool canAttack = IsWithinAttackingDistance(selectedUnit.currentTile, lastSelectedTile, selectedUnit.GetComponent<Attacker>().AttackRange);

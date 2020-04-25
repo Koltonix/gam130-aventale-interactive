@@ -189,7 +189,7 @@ namespace CatGame.Units
                 //Size reduced by two to negate the end tile and also the diagonal factor
                 int enemyPathDistance = enemyPath.Count - 2;
 
-                if (enemyPathDistance > unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
+                if (enemyPathDistance >= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
                 {
                     nearbyEnemyUnits.RemoveAt(i);
                 }
