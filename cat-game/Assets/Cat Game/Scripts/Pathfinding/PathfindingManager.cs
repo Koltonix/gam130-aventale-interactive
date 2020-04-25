@@ -68,6 +68,7 @@ namespace CatGame.Pathfinding
             //Gets the Start Tile and End Tile.
             Tile startTile = boardData.GetTileFromWorldPosition(startPosition);
             Tile endTile = boardData.GetTileFromWorldPosition(endPosition);
+            if (tileToIgnore != null) endTile = tileToIgnore;
 
             List<Tile> openList = new List<Tile>();
             HashSet<Tile> closedList = new HashSet<Tile>();
@@ -90,7 +91,7 @@ namespace CatGame.Pathfinding
 
                 if (currentTile == endTile)
                 {
-                    GetFinalPath(startTile, endTile);
+                    GetFinalPath(startTile, endTile, tileToIgnore);
                     break;
                 }
 
@@ -124,7 +125,7 @@ namespace CatGame.Pathfinding
         /// <summary>Gets the final path using the start Tile and end Tile.</summary>
         /// <param name="startTile">Starting Tile in the Path.</param>
         /// <param name="endTile">End Tile in the Path.</param>
-        private void GetFinalPath(Tile startTile, Tile endTile)
+        private void GetFinalPath(Tile startTile, Tile endTile, Tile tileToIgnore)
         {
             List<Tile> finalPath = new List<Tile>();
             Tile currentTile = endTile;
@@ -133,18 +134,10 @@ namespace CatGame.Pathfinding
             {
                 finalPath.Add(currentTile);
                 currentTile = currentTile.parent;
-
-                int xDistance = Mathf.Abs(currentTile.boardX - startTile.boardX); 
-                int yDistance = Mathf.Abs(currentTile.boardY - startTile.boardY);
-                if (xDistance == 1 && yDistance == 1)
-                {
-                    Debug.Log("wow");
-                    continue;
-                }
             }
 
             finalPath.Reverse();
-            finalPath.Add(endTile);
+            if (tileToIgnore == null) finalPath.Add(endTile);
 
             this.finalPath = finalPath;
         }
