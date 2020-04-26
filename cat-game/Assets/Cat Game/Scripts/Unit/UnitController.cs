@@ -50,6 +50,7 @@ namespace CatGame.Units
 
         private void Start()
         {
+            currentPlayer = PlayerManager.Instance.GetCurrentPlayer();
             currentInput = this.GetComponent<UserInput>();
             TurnManager.Instance.onPlayerCycle += ChangePlayer;         
         }
@@ -109,7 +110,7 @@ namespace CatGame.Units
         {
             Unit unitHit = hitObject.GetComponent<Unit>();
             Health enemyHealth = hitObject.GetComponent<Health>();
-
+            
             if (unitHit && unitHit.owner != selectedUnit.owner) DamageObject(enemyHealth);
 
             //Building

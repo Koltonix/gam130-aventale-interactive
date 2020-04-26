@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5634768893781493896}
   - component: {fileID: 5634768893781493901}
   - component: {fileID: 7611467768782846760}
-  - component: {fileID: 2331581690834231310}
   - component: {fileID: 3662666720628452032}
+  - component: {fileID: 2331581690834231310}
   - component: {fileID: 899322927159366496}
   - component: {fileID: 7862172290737842644}
   m_Layer: 11
@@ -66,6 +66,42 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3662666720628452032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634768893781493900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f9546e8417ed342a18a4f33ae45666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner:
+    hash: 1331160576
+    number: 0
+    isActive: 0
+    unitCap: 10
+    PlayerUnits: []
+    defaultActionPoints: 8
+    colour:
+      serializedVersion: 2
+      rgba: 0
+  currentPlayer:
+    hash: -995644544
+    number: 0
+    isActive: 0
+    unitCap: 10
+    PlayerUnits: []
+    defaultActionPoints: 8
+    colour:
+      serializedVersion: 2
+      rgba: 0
+  isEnabled: 0
+  name: 
+  renderers:
+  - {fileID: 6957543701711040024}
 --- !u!114 &2331581690834231310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d683cc40bef867249bae8d16c7cbbaab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  apCostModifier: 1
   currentTile:
     Position: {x: 0, y: 0, z: 0}
     WorldReference: {fileID: 0}
@@ -120,42 +157,6 @@ MonoBehaviour:
   pathColour:
     serializedVersion: 2
     rgba: 4289077760
---- !u!114 &3662666720628452032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5634768893781493900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83f9546e8417ed342a18a4f33ae45666, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner:
-    hash: 1331160576
-    number: 0
-    isActive: 0
-    unitCap: 10
-    PlayerUnits: []
-    defaultActionPoints: 8
-    colour:
-      serializedVersion: 2
-      rgba: 0
-  currentPlayer:
-    hash: -995644544
-    number: 0
-    isActive: 0
-    unitCap: 10
-    PlayerUnits: []
-    defaultActionPoints: 8
-    colour:
-      serializedVersion: 2
-      rgba: 0
-  isEnabled: 0
-  name: 
-  renderers:
-  - {fileID: 6957543701711040024}
 --- !u!114 &899322927159366496
 MonoBehaviour:
   m_ObjectHideFlags: 0

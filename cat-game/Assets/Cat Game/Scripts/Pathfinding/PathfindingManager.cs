@@ -33,7 +33,6 @@ namespace CatGame.Pathfinding
         private IGetBoardData boardData;
         [SerializeField]
         private GameObject userInput;
-        private IGetOnClick clickData;
 
         [Header("Debug Colour Settings")]
         [SerializeField]
@@ -45,7 +44,6 @@ namespace CatGame.Pathfinding
         private void Start()
         {
             boardData = boardGenerator.GetComponent<IGetBoardData>();
-            clickData = userInput.GetComponent<IGetOnClick>();
         }
 
         /// <summary>Gets the Tile Path using the Pathfinding Algorithm.</summary>
