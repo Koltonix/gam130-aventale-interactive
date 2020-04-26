@@ -4,6 +4,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using CatGame.Units;
 
+public enum CurrentPlayer
+{ 
+    BLUE = 0,
+    RED = 1,
+    NULL
+};
+
+
 namespace CatGame.Data
 {
     /// <summary>
