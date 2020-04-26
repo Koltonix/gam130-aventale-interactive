@@ -12,14 +12,7 @@ namespace CatGame.Tiles
     /// </summary>
     public class BoardManager : MonoBehaviour, IGetBoardData
     {   
-        #region Singleton
         public static BoardManager Instance;
-        private void Awake()
-        {
-            if (Instance == null) Instance = this;
-            else Destroy(this);
-        }
-        #endregion
 
         [Header("Board Settings")]
         [SerializeField]
@@ -48,8 +41,11 @@ namespace CatGame.Tiles
         public delegate void OnBoardUpdate(Tile[] boardTiles);
         public event OnBoardUpdate onBoardUpdate;
 
-        private void Start()
+        private void Awake()
         {
+            if (Instance == null) Instance = this;
+            else Destroy(this);
+
             GameObject[] allTiles = GetAllChildrenFromParent(board.transform);
             CheckForDuplicates(allTiles);
             

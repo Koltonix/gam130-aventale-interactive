@@ -54,6 +54,7 @@ namespace CatGame.Pathfinding
         /// <returns>A list of the Tiles of the Path.</returns>
         public List<Tile> GetPath(Vector3 startPosition, Vector3 endPosition, bool checkForUnit, Tile tileToIgnore)
         {
+            if (boardData == null) return null;
             FindPath(new Vector3(startPosition.x, boardData.GetBoardCentre().y, startPosition.z),
                          new Vector3(endPosition.x, boardData.GetBoardCentre().y, endPosition.z), checkForUnit, tileToIgnore);
 

@@ -43,7 +43,7 @@ namespace CatGame.Units
         private void Start()
         {
             currentUnit = this.GetComponent<Unit>();
-            owner = PlayerManager.Instance.GetCurrentPlayer();
+            owner = currentUnit.GetOwner();
 
             owner.GetPlayerReference().onActive += SetIsActive;
 
