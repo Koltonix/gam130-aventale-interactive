@@ -98,6 +98,7 @@ MonoBehaviour:
     colour:
       serializedVersion: 2
       rgba: 0
+  player: 2
   isEnabled: 0
   name: 
   renderers:
@@ -191,6 +192,7 @@ MonoBehaviour:
   Damage: 10
   AttackRange: 1
   AttackAP: 2
+  canAttackBuildings: 1
   enemy: {fileID: 0}
 --- !u!1001 &6791380685454051730
 PrefabInstance:
@@ -212,7 +214,7 @@ PrefabInstance:
     - target: {fileID: 4517671048793761128, guid: d537e46f6d1ec1947843897df4cfce51,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.417
+      value: -0.124
       objectReference: {fileID: 0}
     - target: {fileID: 4517671048793761128, guid: d537e46f6d1ec1947843897df4cfce51,
         type: 3}

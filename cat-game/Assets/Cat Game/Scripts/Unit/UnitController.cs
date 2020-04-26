@@ -194,7 +194,6 @@ namespace CatGame.Units
             float xBoardDistance = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
             float yBoardDistance = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
 
-
             if (xBoardDistance < attackRange && yBoardDistance < attackRange) return true;
             else return false;
         }

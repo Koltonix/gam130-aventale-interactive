@@ -1,12 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using CatGame.Units;
-using CatGame.Controls;
-using CatGame.ControlScheme;
-using CatGame.Data;
-using CatGame.Tiles;
-using CatGame.UI;
+﻿using UnityEngine;
 
 namespace CatGame.Combat
 {

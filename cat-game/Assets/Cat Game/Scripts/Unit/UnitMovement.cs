@@ -177,14 +177,23 @@ namespace CatGame.Units
         {
             pathsToEnemy = new Dictionary<Tile, List<Tile>>();
             Attacker unitAttack = this.GetComponent<Attacker>();
-
+            
+            //Cull all nearby tiles
             for (int i = availableTiles.Count - 1; i >= 0; i--)
             {
                 if (!availableTiles[i].isUsedInPathfinding) availableTiles.RemoveAt(i);
             }
 
+            //Cull all nearby enemies
             for (int i = nearbyEnemyUnits.Count - 1; i >= 0; i--)
             {
+                //If the enemy is a building and the unit cannot attack a building
+                if (nearbyEnemyUnits[i].OccupiedEntity.GetComponent<Building>() && !unitAttack.canAttackBuildings)
+                {
+                    nearbyEnemyUnits.RemoveAt(i);
+                    continue;
+                }
+                
                 List<Tile> enemyPath = new List<Tile>(PathfindingManager.Instance.GetPath(currentTile.Position, nearbyEnemyUnits[i].Position, true, nearbyEnemyUnits[i]));
                 //Size reduced by two to negate the end tile and also the diagonal factor
                 int enemyPathDistance = enemyPath.Count - 2;
