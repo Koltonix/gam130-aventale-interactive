@@ -21013,6 +21013,11 @@ PrefabInstance:
       propertyPath: AttackRange
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3662666720628452032, guid: 39f16c1c39c31954e95e5347bc30c7b0,
+        type: 3}
+      propertyPath: player
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39f16c1c39c31954e95e5347bc30c7b0, type: 3}
 --- !u!1001 &1482814756
@@ -26165,6 +26170,11 @@ PrefabInstance:
     - target: {fileID: 7862172290737842644, guid: ef4869362072ee949a8246c6119d66b7,
         type: 3}
       propertyPath: canAttackBuildings
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3662666720628452032, guid: ef4869362072ee949a8246c6119d66b7,
+        type: 3}
+      propertyPath: player
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

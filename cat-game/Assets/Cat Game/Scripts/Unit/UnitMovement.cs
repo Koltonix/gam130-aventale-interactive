@@ -90,7 +90,7 @@ namespace CatGame.Units
                 else if (tile.OccupiedEntity != null && tile.OccupiedEntity != currentUnit)
                 {
                     Attacker unitAttack = this.GetComponent<Attacker>();
-                    if (tile.OccupiedEntity.owner == owner) friendlyUnits.Add(tile);
+                    if (tile.OccupiedEntity.owner.number == owner.number) friendlyUnits.Add(tile);
                     else
                     {
                         //Will only add the Unit if it is within the move distance and can also attack.

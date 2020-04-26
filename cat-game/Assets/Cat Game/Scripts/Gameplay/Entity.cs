@@ -8,7 +8,6 @@ namespace CatGame.Data
     /// </summary>
     public class Entity : MonoBehaviour
     {
-        [HideInInspector]
         public Player owner;
         [HideInInspector]
         public Player currentPlayer;

@@ -111,7 +111,7 @@ namespace CatGame.Units
             Unit unitHit = hitObject.GetComponent<Unit>();
             Health enemyHealth = hitObject.GetComponent<Health>();
             
-            if (unitHit && unitHit.owner != selectedUnit.owner) DamageObject(enemyHealth);
+            if (unitHit && unitHit.owner.number != selectedUnit.owner.number) DamageObject(enemyHealth);
 
             //Building
             else if (!unitHit && enemyHealth)
@@ -120,7 +120,7 @@ namespace CatGame.Units
                 if (building)
                 {
                     //Checking to see if it's an enemy building, or friendly one
-                    if (building.owner == PlayerManager.Instance.GetCurrentPlayer())
+                    if (building.owner.number == PlayerManager.Instance.GetCurrentPlayer().number)
                     {
                         DeselectUnit();
                         return;
