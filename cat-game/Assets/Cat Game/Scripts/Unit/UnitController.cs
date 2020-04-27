@@ -33,6 +33,7 @@ namespace CatGame.Units
         [SerializeField]
         private float minDistanceToCheck = 0.5f;
         private Coroutine movingCoroutine;
+        private Coroutine attackingCoroutine;
 
         [Header("Selection Information")]
         private UnitMovement selectedUnit;
@@ -64,7 +65,7 @@ namespace CatGame.Units
         /// <summary>Determines the Click depending on the current state of the Unit.</summary>
         private void DetermineClick()
         {
-            if (currentInput.IsMovementSelected() && movingCoroutine == null)
+            if (currentInput.IsMovementSelected() && movingCoroutine == null && attackingCoroutine == null)
             {
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
                 //Makes every Unit check its own tiles again
@@ -126,8 +127,8 @@ namespace CatGame.Units
             //It is an entity and is of the nearby units
             if (entity && selectedUnit.EnemyIsNearby(entity))
             {
-                if (entity is Unit) DamageObject(selectedUnit.currentTile, lastSelectedTile, selectedUnit, enemyHealth);
-                else if (entity is Building) DamageObject(selectedUnit.currentTile, lastSelectedTile, selectedUnit, enemyHealth);
+                if (entity is Unit) attackingCoroutine = StartCoroutine(AttackEnemy(selectedUnit, selectedUnit.currentTile, lastSelectedTile));
+                else if (entity is Building) attackingCoroutine = StartCoroutine(AttackEnemy(selectedUnit, selectedUnit.currentTile, lastSelectedTile));
             }
 
             else DeselectUnit();
@@ -192,7 +193,7 @@ namespace CatGame.Units
             float xDiff = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
             float yDiff = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
             float distance = Mathf.Sqrt((xDiff * xDiff) + (yDiff * yDiff));
-            Debug.Log(distance);
+
             //Flooring it since I want you to be able to attack diagonally
             distance = Mathf.FloorToInt(distance);
             if (distance <= attackRange) return true;
@@ -353,7 +354,10 @@ namespace CatGame.Units
             movingCoroutine = null;
             TurnManager.Instance.objectIsMoving = false;
 
-            if (tileToAttack.OccupiedEntity) DamageObject(path[path.Length - 1], tileToAttack, _selectedUnit, tileToAttack.OccupiedEntity.GetComponent<Health>());
+            if (tileToAttack.OccupiedEntity)
+            {
+                yield return attackingCoroutine = StartCoroutine(AttackEnemy(_selectedUnit, path[path.Length - 1], tileToAttack));
+            }
         }
 
         /// <summary>Linearly moves the Unit from its current position to the target.</summary>
@@ -381,6 +385,18 @@ namespace CatGame.Units
             }
 
            yield return null;
+        }
+
+        private IEnumerator AttackEnemy(UnitMovement _selectedUnit, Tile currentTile, Tile tileToAttack)
+        {
+            DamageObject(currentTile, tileToAttack, _selectedUnit, tileToAttack.OccupiedEntity.GetComponent<Health>());
+            TurnManager.Instance.objectIsAttacking = true; ;
+
+            //Implement wait for animation here
+            yield return new WaitForSeconds(0.5f);
+
+            TurnManager.Instance.objectIsAttacking = true;
+            attackingCoroutine = null;
         }
 
         /// <summary>Informs the State of the new player.</summary>
