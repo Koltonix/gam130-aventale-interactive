@@ -285,7 +285,7 @@ namespace CatGame.Tiles
             return neighbouringTiles.ToArray();
         }
 
-        public Tile[] GetAllAdjacentTiles(Tile tile)
+        public Tile[] GetAllAdjacentTiles(Tile tile, int range)
         {
             List<Tile> neighbouringTiles = new List<Tile>();
 
@@ -293,9 +293,9 @@ namespace CatGame.Tiles
             int xCheck;
             int yCheck;
 
-            for (int x = -1; x <= 1; x++)
+            for (int x = -range; x <= range; x++)
             {
-                for (int y = -1; y <= 1; y++)
+                for (int y = -range; y <= range; y++)
                 {
                     //Skip if it is the centre tile
                     if (x == 0 && y == 0) continue;

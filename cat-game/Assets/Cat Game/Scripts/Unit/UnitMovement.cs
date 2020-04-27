@@ -217,7 +217,7 @@ namespace CatGame.Units
                 //Will be used in pathfinding
                 else
                 {
-                    GetShortestAdjacentEnemyPaths(nearbyEnemyUnits[i]);
+                    GetShortestAdjacentEnemyPaths(nearbyEnemyUnits[i], unitAttack.AttackRange);
                 }
             }
         }
@@ -232,10 +232,10 @@ namespace CatGame.Units
             return false;
         }
 
-        public void GetShortestAdjacentEnemyPaths(Tile enemyTile)
+        public void GetShortestAdjacentEnemyPaths(Tile enemyTile, int range)
         {
            Tile[] currentPath;
-           Tile[] adjacentTiles = BoardManager.Instance.GetAllAdjacentTiles(enemyTile);
+           Tile[] adjacentTiles = BoardManager.Instance.GetAllAdjacentTiles(enemyTile, range);
 
             int shortestLength = 2147483647;
 

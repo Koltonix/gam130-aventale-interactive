@@ -234,10 +234,10 @@ namespace CatGame.Units
                     }
 
                     //Cull the tiles based on range...
-                    for (int i = 0; i < currentAttacker.AttackRange; i++)
-                    {
-                        if (attackPath.Count > 0) attackPath.RemoveAt(attackPath.Count - 1);
-                    }
+                    //for (int i = 0; i < currentAttacker.AttackRange; i++)
+                    //{
+                    //    if (attackPath.Count > 0) attackPath.RemoveAt(attackPath.Count - 1);
+                    //}
                     
 
                     lastSelectedPath = attackPath.ToArray();
