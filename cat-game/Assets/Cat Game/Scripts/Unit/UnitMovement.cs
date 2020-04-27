@@ -43,7 +43,7 @@ namespace CatGame.Units
         private void Start()
         {
             currentUnit = this.GetComponent<Unit>();
-            owner = PlayerManager.Instance.GetPlayerFromIndex(currentUnit.owner.number);
+            owner = PlayerManager.Instance.GetPlayerFromIndex((int)currentUnit.player);
 
             owner.GetPlayerReference().onActive += SetIsActive;
 
@@ -187,8 +187,19 @@ namespace CatGame.Units
             //Cull all nearby enemies
             for (int i = nearbyEnemyUnits.Count - 1; i >= 0; i--)
             {
-                //If the enemy is a building and the unit cannot attack a building
-                if (nearbyEnemyUnits[i].OccupiedEntity.GetComponent<Building>() && !unitAttack.canAttackBuildings)
+                Entity entity = nearbyEnemyUnits[i].OccupiedEntity.GetComponent<Entity>();
+                //Checking to see what type of units it can attack and removing them if they can't
+                if (entity)
+                {
+                    if ((entity is Unit && !unitAttack.canAttackUnits) || (entity is Building && !unitAttack.canAttackBuildings))
+                    {
+                        nearbyEnemyUnits.RemoveAt(i);
+                        continue;
+                    }              
+                }
+
+                //If the enemy i
+                if (nearbyEnemyUnits[i].OccupiedEntity.GetComponent<Unit>() && !unitAttack.canAttackUnits)
                 {
                     nearbyEnemyUnits.RemoveAt(i);
                     continue;
@@ -209,6 +220,16 @@ namespace CatGame.Units
                     GetShortestAdjacentEnemyPaths(nearbyEnemyUnits[i]);
                 }
             }
+        }
+
+        public bool EnemyIsNearby(Entity unit)
+        {
+            for (int i = 0; i < nearbyEnemyUnits.Count; i++)
+            {
+                if (nearbyEnemyUnits[i].OccupiedEntity == unit) return true;
+            }
+
+            return false;
         }
 
         public void GetShortestAdjacentEnemyPaths(Tile enemyTile)

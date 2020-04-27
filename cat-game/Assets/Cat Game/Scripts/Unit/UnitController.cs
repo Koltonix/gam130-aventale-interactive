@@ -108,27 +108,16 @@ namespace CatGame.Units
 
         private void CheckIfObjectIsDamageable(GameObject hitObject)
         {
-            Unit unitHit = hitObject.GetComponent<Unit>();
+            Entity entity = hitObject.GetComponent<Entity>();
             Health enemyHealth = hitObject.GetComponent<Health>();
-            
-            if (unitHit && unitHit.owner.number != selectedUnit.owner.number) DamageObject(enemyHealth);
 
-            //Building
-            else if (!unitHit && enemyHealth)
+            if (entity && selectedUnit.EnemyIsNearby(entity))
             {
-                Building building = hitObject.GetComponent<Building>();
-                if (building)
-                {
-                    //Checking to see if it's an enemy building, or friendly one
-                    if (building.owner.number == PlayerManager.Instance.GetCurrentPlayer().number)
-                    {
-                        DeselectUnit();
-                        return;
-                    }
-
-                    DamageObject(enemyHealth);
-                }
+                if (entity is Unit) DamageObject(enemyHealth);
+                else if (entity is Building) DamageObject(enemyHealth);
             }
+
+            else DeselectUnit();
         }
 
         private void DamageObject(Health health)
@@ -139,23 +128,21 @@ namespace CatGame.Units
             Tile enemyTile = BoardManager.Instance.GetTileFromWorldPosition(currentInput.GetRaycastHit().point);
             Tile unitTile = selectedUnit.currentTile;
 
-            float xBoardDistance = Mathf.Abs(enemyTile.boardX - unitTile.boardX);
-            float yBoardDistance = Mathf.Abs(enemyTile.boardY - unitTile.boardY);
             bool canAttack = IsWithinAttackingDistance(unitTile, enemyTile, unitAttack.AttackRange);
 
+            //Not within range, but can move to it
             if (lastSelectedPath != null && lastSelectedPath.Length > 0 && !canAttack)
             {
                 MoveToTile(lastSelectedPath);
+                DeselectUnit();
+                return;
             }
 
-            //If it is within range and the player has enough AP
-            if (xBoardDistance <= _selectedUnit.owner.GetPlayerReference().ActionPoints && xBoardDistance <= unitAttack.AttackRange)
+            //Within range and can attack
+            else
             {
-                if (yBoardDistance <= _selectedUnit.owner.GetPlayerReference().ActionPoints && yBoardDistance <= unitAttack.AttackRange)
-                {
-                    _selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
-                    health.Damage(unitAttack.Damage);
-                }
+                _selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
+                health.Damage(unitAttack.Damage);
             }
 
             DeselectUnit();
@@ -194,8 +181,16 @@ namespace CatGame.Units
             float xBoardDistance = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
             float yBoardDistance = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
 
-            if (xBoardDistance < attackRange && yBoardDistance < attackRange) return true;
-            else return false;
+            if (xBoardDistance < attackRange && yBoardDistance < attackRange)
+            {
+                Debug.Log("IS IN RANGE");
+                return true;
+            }
+            else
+            {
+                Debug.Log("Not IN RANGE");
+                return false;
+            }
         }
 
         public LayerMask passableMask;
@@ -225,13 +220,11 @@ namespace CatGame.Units
                     if (attackPath.Count > selectedUnit.owner.GetCurrentActionPoints()) return;
 
                     bool canAttack = IsWithinAttackingDistance(selectedUnit.currentTile, lastSelectedTile, selectedUnit.GetComponent<Attacker>().AttackRange);
-                    if (canAttack)
+                    if (canAttack || attackPath.Count == 0)
                     {
                         lastSelectedPath = null;
                         return;
                     }
-
-                    if (attackPath.Count == 0) lastSelectedPath = null;
 
                     //Cull the tiles based on range...
                     for (int i = 0; i < currentAttacker.AttackRange; i++)
