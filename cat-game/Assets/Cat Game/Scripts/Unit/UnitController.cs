@@ -78,9 +78,16 @@ namespace CatGame.Units
                         if (gameObjectHit.collider.GetComponent<Health>())
                         {
                             CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
+                            return;
+                        }
+                                                
+                        else if (lastSelectedTile != null && lastSelectedTile.OccupiedEntity)
+                        {
+                            CheckIfObjectIsDamageable(lastSelectedTile.OccupiedEntity.gameObject);
+                            return;
                         }
 
-                        return;
+                        
                     }
 
                     //Acceping the tile to move to
@@ -243,7 +250,7 @@ namespace CatGame.Units
                 //It is just a regular tile
                 else
                 {
-                    lastSelectedTile = GetSelectedTile(selectedUnit.availableTiles.ToArray(), gameObjectHit);
+                    lastSelectedTile = GetSelectedTile(gameObjectHit);
                     lastSelectedPath = selectedUnit.GetAvailableTilesFromPathfinding(lastSelectedTile);
                 }
 
@@ -285,23 +292,13 @@ namespace CatGame.Units
         /// <summary>Gets the tile that the player is currently hovering over.</summary>
         /// <param name="gameObjectHit">The input raycast.</param>
         /// <returns>Returns the tile that the player is hovering over.</returns>
-        private Tile GetSelectedTile(Tile[] tiles, RaycastHit gameObjectHit)
+        private Tile GetSelectedTile(RaycastHit gameObjectHit)
         {
             if (gameObjectHit.collider != null)
             {
-                foreach (Tile tile in tiles)
-                {
-                    if (gameObjectHit.collider.gameObject == tile.WorldReference)
-                    {
-                        onSelect?.Invoke(false);
-                        onSelect?.Invoke(true);
-
-                        tile.WorldReference.GetComponent<Renderer>().material.color = selectedUnit.selectedTileColour;
-                        return tile;
-                    }
-
-                    else tile.WorldReference.GetComponent<Renderer>().material.color = selectedUnit.availableTileColour;
-                }
+                onSelect?.Invoke(false);
+                onSelect?.Invoke(true);
+                return BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
             }
            
             return null;
