@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CatGame.Combat;
-using CatGame.Data;
 using CatGame.Tiles;
 
 namespace CatGame.Units
@@ -20,12 +18,18 @@ namespace CatGame.Units
             set
             {
                 currentHealth = value;
-                if (healthBar != null) healthBarCoroutine = StartCoroutine(ShowHealthBarTemporarily(healthBar, timeToShowHealth));
+                if (healthBar != null)
+                {
+                    if (healthBarCoroutine != null) StopCoroutine(healthBarCoroutine);
+                    healthBarCoroutine = StartCoroutine(ShowHealthBarTemporarily(healthBar, healthLerpSpeed));
+                }
             }
         }
 
         [SerializeField]
-        private float timeToShowHealth = .5f;
+        private float healthLerpSpeed = 0.75f;
+        [SerializeField]
+        private float disableDelay = 0.1f;
 
         [SerializeField]
         private GameObject healthBarPrefab;
@@ -48,14 +52,6 @@ namespace CatGame.Units
             healthBar.transform.position += healthBarOffset;
             healthBar.SetActive(false);
             healthBarImage = healthBar.GetComponentInChildren<Image>();
-        }
-
-        void Update()
-        {
-            if (healthBarIsActive)
-            {
-                healthBarImage.fillAmount = (float)CurrentHealth / (float)MaxHealth;
-            }
         }
         
         void OnMouseEnter()
@@ -100,16 +96,33 @@ namespace CatGame.Units
             }
         }
 
-        private IEnumerator ShowHealthBarTemporarily(GameObject healthBar, float timeToShow)
+        private IEnumerator ShowHealthBarTemporarily(GameObject healthBar, float lerpSpeed)
         {
             healthBar.SetActive(true);
             healthBarIsActive = true;
 
-            yield return new WaitForSeconds(timeToShow);
+            yield return StartCoroutine(LerpHealthBar(healthBarImage, lerpSpeed));
+            yield return new WaitForSeconds(disableDelay);
             healthBar.SetActive(false);
             healthBarIsActive = false;
 
             healthBarCoroutine = null;
+        }
+        
+        private IEnumerator LerpHealthBar(Image healthBarImage, float lerpSpeed)
+        {
+            float t = 0.0f;
+            while (t <= 1.0f)
+            {
+                t += lerpSpeed * Time.deltaTime;
+
+                float targetHealth = (float)CurrentHealth / (float)MaxHealth;
+                healthBarImage.fillAmount = Mathf.Lerp(healthBarImage.fillAmount, targetHealth, t);
+                yield return null;
+            }
+
+            yield return null;
+            
         }
 
         private void Destroyed()

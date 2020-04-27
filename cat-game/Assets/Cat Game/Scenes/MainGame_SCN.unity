@@ -20940,6 +20940,16 @@ PrefabInstance:
       propertyPath: player
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 899322927159366496, guid: 39f16c1c39c31954e95e5347bc30c7b0,
+        type: 3}
+      propertyPath: disableDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 899322927159366496, guid: 39f16c1c39c31954e95e5347bc30c7b0,
+        type: 3}
+      propertyPath: healthLerpSpeed
+      value: 1.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39f16c1c39c31954e95e5347bc30c7b0, type: 3}
 --- !u!1001 &1482814756
@@ -26103,6 +26113,16 @@ PrefabInstance:
       propertyPath: player
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 899322927159366496, guid: ef4869362072ee949a8246c6119d66b7,
+        type: 3}
+      propertyPath: disableDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 899322927159366496, guid: ef4869362072ee949a8246c6119d66b7,
+        type: 3}
+      propertyPath: healthLerpSpeed
+      value: 1.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef4869362072ee949a8246c6119d66b7, type: 3}
 --- !u!1001 &1843807302
@@ -26711,6 +26731,16 @@ PrefabInstance:
         type: 3}
       propertyPath: canAttackBuildings
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 899322927159366496, guid: dff7167a84c88b74181a703427ade5cc,
+        type: 3}
+      propertyPath: disableDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 899322927159366496, guid: dff7167a84c88b74181a703427ade5cc,
+        type: 3}
+      propertyPath: healthLerpSpeed
+      value: 1.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dff7167a84c88b74181a703427ade5cc, type: 3}

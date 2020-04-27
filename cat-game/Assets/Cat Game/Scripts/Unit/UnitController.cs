@@ -354,7 +354,7 @@ namespace CatGame.Units
             movingCoroutine = null;
             TurnManager.Instance.objectIsMoving = false;
 
-            if (tileToAttack.OccupiedEntity)
+            if (tileToAttack != null && tileToAttack.OccupiedEntity)
             {
                 yield return attackingCoroutine = StartCoroutine(AttackEnemy(_selectedUnit, path[path.Length - 1], tileToAttack));
             }
