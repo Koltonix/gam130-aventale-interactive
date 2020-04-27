@@ -14546,7 +14546,7 @@ MonoBehaviour:
       rgba: 0
   passableMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 2560
 --- !u!4 &941093012
 Transform:
   m_ObjectHideFlags: 0
@@ -14576,7 +14576,7 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 2560
+    m_Bits: 6656
 --- !u!1001 &954927838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20049,6 +20049,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building
       objectReference: {fileID: 0}
+    - target: {fileID: 7199226515336942355, guid: 51c3652799c894541bdda77891e3b0a6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7199226515336942383, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -23716,7 +23721,7 @@ PrefabInstance:
     - target: {fileID: 7199226515336942355, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7199226515336942383, guid: 51c3652799c894541bdda77891e3b0a6,
         type: 3}

@@ -64,12 +64,6 @@ namespace CatGame.Units
         /// <summary>Determines the Click depending on the current state of the Unit.</summary>
         private void DetermineClick()
         {
-            //If a unit has been selected then it is the Tile picking phase
-            if (selectionProgress == SelectionProgress.SELECTED)
-            {
-                SelectTile();
-            }
-
             if (currentInput.IsMovementSelected() && movingCoroutine == null)
             {
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
@@ -108,6 +102,12 @@ namespace CatGame.Units
                         }
                     }
                 }  
+            }
+
+            //If a unit has been selected then it is the Tile picking phase
+            if (selectionProgress == SelectionProgress.SELECTED)
+            {
+                SelectTile();
             }
         }
 
