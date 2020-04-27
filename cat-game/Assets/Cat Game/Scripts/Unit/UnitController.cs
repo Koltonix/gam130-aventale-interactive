@@ -64,23 +64,30 @@ namespace CatGame.Units
         /// <summary>Determines the Click depending on the current state of the Unit.</summary>
         private void DetermineClick()
         {
+            //If a unit has been selected then it is the Tile picking phase
+            if (selectionProgress == SelectionProgress.SELECTED)
+            {
+                SelectTile();
+            }
+
             if (currentInput.IsMovementSelected() && movingCoroutine == null)
             {
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
                 //Makes every Unit check its own tiles again
                 BoardManager.Instance.GetBoardTiles();
 
-                //Acceping the tile to move to
-                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
-                {
-                    MoveToTile(lastSelectedPath);
-                    return;
-                }
-
+                //NEED TO CHANGE IT SO THAT IT ATTACKS THE TILE CLICKED NOT THE OBJECT OR KEEP IT LIKE THIS AND USE THE LAST TILE
                 //ATTACKING
                 if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider && gameObjectHit.collider.GetComponent<Health>())
                 {
                     CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
+                    return;
+                }
+
+                //Acceping the tile to move to
+                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
+                {
+                    MoveToTile(lastSelectedPath);
                     return;
                 }
 
@@ -97,12 +104,6 @@ namespace CatGame.Units
                 }
 
                 DeselectUnit();
-            }
-
-            //If a unit has been selected then it is the Tile picking phase
-            if (selectionProgress == SelectionProgress.SELECTED)
-            {
-                SelectTile();
             }
         }
 
@@ -129,7 +130,7 @@ namespace CatGame.Units
             Tile enemyTile = BoardManager.Instance.GetTileFromWorldPosition(currentInput.GetRaycastHit().point);
             Tile unitTile = selectedUnit.currentTile;
 
-            bool canAttack = IsWithinAttackingDistance(unitTile, enemyTile, unitAttack.AttackRange);
+            bool canAttack = IsWithinAttackingDistance(unitTile, lastSelectedTile, unitAttack.AttackRange);
             Debug.Log(canAttack);
 
             //Not within range, but can move to it
@@ -184,7 +185,7 @@ namespace CatGame.Units
             float xDiff = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
             float yDiff = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
             float distance = Mathf.Sqrt((xDiff * xDiff) + (yDiff * yDiff));
-
+            Debug.Log(distance);
             //Flooring it since I want you to be able to attack diagonally
             distance = Mathf.FloorToInt(distance);
             if (distance <= attackRange) return true;

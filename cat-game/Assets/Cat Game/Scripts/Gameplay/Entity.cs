@@ -18,7 +18,13 @@ namespace CatGame.Data
         {
             //Subscribes to the OnPlayerCycle event.
             TurnManager.Instance.onPlayerCycle += OnTurnEnd;
-            if (player == CurrentPlayer.NULL) owner = PlayerManager.Instance.GetCurrentPlayer();
+
+            if (player == CurrentPlayer.NULL)
+            {
+                owner = PlayerManager.Instance.GetCurrentPlayer();
+                player = (CurrentPlayer)owner.number;
+            }
+
             else owner = PlayerManager.Instance.GetPlayerFromIndex((int)player);
 
             OnTurnEnd(PlayerManager.Instance.GetCurrentPlayer());
