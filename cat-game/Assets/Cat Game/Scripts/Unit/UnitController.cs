@@ -70,17 +70,17 @@ namespace CatGame.Units
                 //Makes every Unit check its own tiles again
                 BoardManager.Instance.GetBoardTiles();
 
-                //ATTACKING
-                if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider && gameObjectHit.collider.GetComponent<Health>())
-                {
-                    CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
-                    return;
-                }
-
                 //Acceping the tile to move to
                 if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
                 {
                     MoveToTile(lastSelectedPath);
+                    return;
+                }
+
+                //ATTACKING
+                if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider && gameObjectHit.collider.GetComponent<Health>())
+                {
+                    CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
                     return;
                 }
 
@@ -111,6 +111,7 @@ namespace CatGame.Units
             Entity entity = hitObject.GetComponent<Entity>();
             Health enemyHealth = hitObject.GetComponent<Health>();
 
+            //It is an entity and is of the nearby units
             if (entity && selectedUnit.EnemyIsNearby(entity))
             {
                 if (entity is Unit) DamageObject(enemyHealth);
@@ -129,6 +130,7 @@ namespace CatGame.Units
             Tile unitTile = selectedUnit.currentTile;
 
             bool canAttack = IsWithinAttackingDistance(unitTile, enemyTile, unitAttack.AttackRange);
+            Debug.Log(canAttack);
 
             //Not within range, but can move to it
             if (lastSelectedPath != null && lastSelectedPath.Length > 0 && !canAttack)
@@ -139,7 +141,7 @@ namespace CatGame.Units
             }
 
             //Within range and can attack
-            else
+            else if (canAttack)
             {
                 _selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
                 health.Damage(unitAttack.Damage);
@@ -178,19 +180,15 @@ namespace CatGame.Units
 
         private bool IsWithinAttackingDistance(Tile currentTile, Tile enemyTile, int attackRange)
         {
-            float xBoardDistance = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
-            float yBoardDistance = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
+            //Pythagoras Theorem for finding distance
+            float xDiff = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
+            float yDiff = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
+            float distance = Mathf.Sqrt((xDiff * xDiff) + (yDiff * yDiff));
 
-            if (xBoardDistance < attackRange && yBoardDistance < attackRange)
-            {
-                Debug.Log("IS IN RANGE");
-                return true;
-            }
-            else
-            {
-                Debug.Log("Not IN RANGE");
-                return false;
-            }
+            //Flooring it since I want you to be able to attack diagonally
+            distance = Mathf.FloorToInt(distance);
+            if (distance <= attackRange) return true;
+            return false;
         }
 
         public LayerMask passableMask;
