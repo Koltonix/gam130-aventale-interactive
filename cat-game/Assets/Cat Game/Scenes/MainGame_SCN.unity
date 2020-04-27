@@ -6776,6 +6776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPlayerIndex: 0
   objectIsMoving: 0
+  objectIsAttacking: 0
 --- !u!114 &417332115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26091,6 +26092,11 @@ PrefabInstance:
         type: 3}
       propertyPath: canAttackBuildings
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7862172290737842644, guid: ef4869362072ee949a8246c6119d66b7,
+        type: 3}
+      propertyPath: Damage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3662666720628452032, guid: ef4869362072ee949a8246c6119d66b7,
         type: 3}

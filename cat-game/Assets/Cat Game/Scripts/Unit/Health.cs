@@ -11,8 +11,21 @@ namespace CatGame.Units
     public class Health : MonoBehaviour
     {
         [SerializeField]
-        private int maxHealth;
-        public int currentHealth;
+        private int MaxHealth;
+
+        private int currentHealth;
+        public int CurrentHealth
+        { 
+            get { return currentHealth; }
+            set
+            {
+                currentHealth = value;
+                if (healthBar != null) healthBarCoroutine = StartCoroutine(ShowHealthBarTemporarily(healthBar, timeToShowHealth));
+            }
+        }
+
+        [SerializeField]
+        private float timeToShowHealth = .5f;
 
         [SerializeField]
         private GameObject healthBarPrefab;
@@ -21,6 +34,7 @@ namespace CatGame.Units
         private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0);
         private Image healthBarImage;
         private bool healthBarIsActive;
+        private Coroutine healthBarCoroutine;
 
         public bool isABase = false;
 
@@ -29,7 +43,7 @@ namespace CatGame.Units
 
         void Start()
         {
-            currentHealth = maxHealth;
+            CurrentHealth = MaxHealth;
             healthBar = Instantiate(healthBarPrefab, this.transform);
             healthBar.transform.position += healthBarOffset;
             healthBar.SetActive(false);
@@ -40,36 +54,39 @@ namespace CatGame.Units
         {
             if (healthBarIsActive)
             {
-                healthBarImage.fillAmount = (float)currentHealth / (float)maxHealth;
+                healthBarImage.fillAmount = (float)CurrentHealth / (float)MaxHealth;
             }
         }
         
         void OnMouseEnter()
         {
-            healthBar.SetActive(true);
             healthBarIsActive = true;
+            healthBar.SetActive(true);
         }
 
         void OnMouseExit()
         {
-            healthBarIsActive = false;
-            healthBar.SetActive(false);
+            if (healthBarCoroutine == null)
+            {
+                healthBarIsActive = false;
+                healthBar.SetActive(false);
+            }
         }
 
         public int GetHealth()
         {
-            return currentHealth;
+            return CurrentHealth;
         }
 
         public void Heal(int heal)
         {
-            currentHealth = Mathf.Clamp(currentHealth + heal, 0, maxHealth);
+            CurrentHealth = Mathf.Clamp(CurrentHealth + heal, 0, MaxHealth);
         }
 
         public void Damage(int damage)
         {
-            currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
-            if (currentHealth <= 0)
+            CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, MaxHealth);
+            if (CurrentHealth <= 0)
             {
                 //if (animator != null)
                 //{
@@ -81,6 +98,18 @@ namespace CatGame.Units
                 Destroyed();
                 Destroy(this.gameObject);
             }
+        }
+
+        private IEnumerator ShowHealthBarTemporarily(GameObject healthBar, float timeToShow)
+        {
+            healthBar.SetActive(true);
+            healthBarIsActive = true;
+
+            yield return new WaitForSeconds(timeToShow);
+            healthBar.SetActive(false);
+            healthBarIsActive = false;
+
+            healthBarCoroutine = null;
         }
 
         private void Destroyed()

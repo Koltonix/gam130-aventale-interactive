@@ -1111,6 +1111,7 @@ MonoBehaviour:
     colour:
       serializedVersion: 2
       rgba: 0
+  player: 2
   isEnabled: 0
   playerIndex: 0
   SpawnPoints: 10
@@ -1147,8 +1148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0b220faa48dd049a27ce0424ea9676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  MaxHealth: 10
+  timeToShowHealth: 1
   healthBarPrefab: {fileID: 889152434078798198, guid: d389fcb94443bd143bf1d0b3705d0f3f,
     type: 3}
   healthBarOffset: {x: 0, y: 5, z: 0}

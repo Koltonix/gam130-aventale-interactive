@@ -98,6 +98,7 @@ MonoBehaviour:
     colour:
       serializedVersion: 2
       rgba: 0
+  player: 2
   isEnabled: 0
   name: 
   renderers:
@@ -169,8 +170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0b220faa48dd049a27ce0424ea9676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 10
+  MaxHealth: 5
+  timeToShowHealth: 1
   healthBarPrefab: {fileID: 889152434078798198, guid: d389fcb94443bd143bf1d0b3705d0f3f,
     type: 3}
   healthBarOffset: {x: 0, y: 1.5, z: 0}
@@ -191,6 +192,8 @@ MonoBehaviour:
   Damage: 5
   AttackRange: 2
   AttackAP: 1
+  canAttackBuildings: 1
+  canAttackUnits: 1
   enemy: {fileID: 0}
 --- !u!1001 &6791380685454051730
 PrefabInstance:
