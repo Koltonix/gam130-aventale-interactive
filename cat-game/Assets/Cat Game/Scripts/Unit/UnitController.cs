@@ -93,7 +93,7 @@ namespace CatGame.Units
                     //Acceping the tile to move to
                     if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
                     {
-                        MoveToTile(lastSelectedPath);
+                        MoveToTile(lastSelectedPath, null);
                         return;
                     }
 
@@ -126,28 +126,23 @@ namespace CatGame.Units
             //It is an entity and is of the nearby units
             if (entity && selectedUnit.EnemyIsNearby(entity))
             {
-                if (entity is Unit) DamageObject(enemyHealth);
-                else if (entity is Building) DamageObject(enemyHealth);
+                if (entity is Unit) DamageObject(selectedUnit.currentTile, lastSelectedTile, selectedUnit, enemyHealth);
+                else if (entity is Building) DamageObject(selectedUnit.currentTile, lastSelectedTile, selectedUnit, enemyHealth);
             }
 
             else DeselectUnit();
         }
 
-        private void DamageObject(Health health)
+        private void DamageObject(Tile currentTile, Tile enemyTile, UnitMovement _selectedUnit, Health health )
         {
-            UnitMovement _selectedUnit = selectedUnit;
-            Attacker unitAttack = selectedUnit.GetComponent<Attacker>();
+            Attacker unitAttack = _selectedUnit.GetComponent<Attacker>();
 
-            Tile enemyTile = BoardManager.Instance.GetTileFromWorldPosition(currentInput.GetRaycastHit().point);
-            Tile unitTile = selectedUnit.currentTile;
-
-            bool canAttack = IsWithinAttackingDistance(unitTile, lastSelectedTile, unitAttack.AttackRange);
-            Debug.Log(canAttack);
+            bool canAttack = IsWithinAttackingDistance(currentTile, enemyTile, unitAttack.AttackRange);
 
             //Not within range, but can move to it
             if (lastSelectedPath != null && lastSelectedPath.Length > 0 && !canAttack)
             {
-                MoveToTile(lastSelectedPath);
+                MoveToTile(lastSelectedPath, enemyTile);
                 DeselectUnit();
                 return;
             }
@@ -305,14 +300,15 @@ namespace CatGame.Units
         }
 
         /// <summary>Starts the movement coroutone of the Unit to the Tile and then deselects it.</summary
-        private void MoveToTile(Tile[] path)
+        private void MoveToTile(Tile[] path, Tile tileToAttack)
         {
+            if (selectedUnit == null) return;
             UnitMovement _selectedUnit = selectedUnit;
             DeselectUnit();
 
             _selectedUnit.owner.GetPlayerReference().ActionPoints -= Mathf.CeilToInt((path.Length - 1) * _selectedUnit.apCostModifier);
 
-            movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, path, _selectedUnit.transform)); ;
+            movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, path, _selectedUnit.transform, tileToAttack)); ;
 
             return;
         }
@@ -322,7 +318,7 @@ namespace CatGame.Units
         /// <param name="path">Tile Path to take in order.</param>
         /// <param name="objectToMove">The GameObject to move in world space.</param>
         /// <returns>NULL</returns>
-        private IEnumerator PathfindObject(UnitMovement _selectedUnit, Tile[] path, Transform objectToMove)
+        private IEnumerator PathfindObject(UnitMovement _selectedUnit, Tile[] path, Transform objectToMove, Tile tileToAttack)
         {
             TurnManager.Instance.objectIsMoving = true;
             if (path != null)
@@ -356,6 +352,8 @@ namespace CatGame.Units
 
             movingCoroutine = null;
             TurnManager.Instance.objectIsMoving = false;
+
+            if (tileToAttack.OccupiedEntity) DamageObject(path[path.Length - 1], tileToAttack, _selectedUnit, tileToAttack.OccupiedEntity.GetComponent<Health>());
         }
 
         /// <summary>Linearly moves the Unit from its current position to the target.</summary>
