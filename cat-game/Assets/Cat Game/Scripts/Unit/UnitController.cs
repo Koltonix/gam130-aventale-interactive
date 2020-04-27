@@ -75,35 +75,39 @@ namespace CatGame.Units
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
                 //Makes every Unit check its own tiles again
                 BoardManager.Instance.GetBoardTiles();
-
-                //NEED TO CHANGE IT SO THAT IT ATTACKS THE TILE CLICKED NOT THE OBJECT OR KEEP IT LIKE THIS AND USE THE LAST TILE
-                //ATTACKING
-                if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider && gameObjectHit.collider.GetComponent<Health>())
+                if (!gameObjectHit.collider) DeselectUnit();
+                if (gameObjectHit.collider)
                 {
-                    CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
-                    return;
-                }
-
-                //Acceping the tile to move to
-                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
-                {
-                    MoveToTile(lastSelectedPath);
-                    return;
-                }
-
-                //Checking to see if it is a moveable object
-                if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<UnitMovement>() != null)
-                {
-                    //Seeing if the Unit can moved based on the current player
-                    if (gameObjectHit.collider.GetComponent<Unit>().owner.GetActiveState())
+                    //ATTACKING
+                    if (selectionProgress == SelectionProgress.SELECTED)
                     {
-                        DeselectUnit();
-                        UnitClicked(gameObjectHit.collider.GetComponent<UnitMovement>());
+                        if (gameObjectHit.collider.GetComponent<Health>())
+                        {
+                            CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
+                        }
+
                         return;
                     }
-                }
 
-                DeselectUnit();
+                    //Acceping the tile to move to
+                    if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
+                    {
+                        MoveToTile(lastSelectedPath);
+                        return;
+                    }
+
+                    //Checking to see if it is a moveable object
+                    if (gameObjectHit.collider.GetComponent<UnitMovement>() != null)
+                    {
+                        //Seeing if the Unit can moved based on the current player
+                        if (gameObjectHit.collider.GetComponent<Unit>().owner.GetActiveState())
+                        {
+                            DeselectUnit();
+                            UnitClicked(gameObjectHit.collider.GetComponent<UnitMovement>());
+                            return;
+                        }
+                    }
+                }  
             }
         }
 
@@ -181,6 +185,7 @@ namespace CatGame.Units
 
         private bool IsWithinAttackingDistance(Tile currentTile, Tile enemyTile, int attackRange)
         {
+            if (currentTile == null || enemyTile == null) return false;
             //Pythagoras Theorem for finding distance
             float xDiff = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
             float yDiff = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
