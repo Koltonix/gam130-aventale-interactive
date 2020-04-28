@@ -15,8 +15,7 @@ namespace CatGame.Tiles
         public static BoardManager Instance;
 
         [Header("Board Settings")]
-        [SerializeField]
-        private GameObject board;
+        public GameObject board;
         public Tile[] tiles;
         public Tile[,] gridTiles;
 
@@ -27,11 +26,11 @@ namespace CatGame.Tiles
         private Vector2 gridWorldSize;
         [SerializeField]
         public Vector2Int tileGap;
+        public float yScale;
         private bool hasInitialised = false;
 
         [Header("Tile Settings")]
-        [SerializeField]
-        private GameObject passableTilePrefab;
+        public GameObject passableTilePrefab;
         [SerializeField]
         private GameObject impassableTilePrefab;
         [SerializeField]
@@ -116,7 +115,7 @@ namespace CatGame.Tiles
 
                 tileReference.layer = 9;
                 tileReference.transform.localScale = new Vector3(tileGap.x * tileReference.transform.localScale.x,
-                                                                 tileGap.y * tileReference.transform.localScale.y,
+                                                                 yScale,
                                                                  tileGap.y * tileReference.transform.localScale.z);
 
                 tileReference.transform.SetParent(board.transform);
@@ -129,7 +128,7 @@ namespace CatGame.Tiles
 
                 tileReference.layer = 10;
                 tileReference.transform.localScale = new Vector3(tileGap.x * tileReference.transform.localScale.x,
-                                                                 tileGap.y * tileReference.transform.localScale.y,
+                                                                 yScale,
                                                                  tileGap.y * tileReference.transform.localScale.z);
 
                 tileReference.transform.SetParent(board.transform);

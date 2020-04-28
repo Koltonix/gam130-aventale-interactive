@@ -217,6 +217,7 @@ namespace CatGame.Units
                 //Will be used in pathfinding
                 else
                 {
+                    
                     GetShortestAdjacentEnemyPaths(nearbyEnemyUnits[i], unitAttack.AttackRange);
                 }
             }
