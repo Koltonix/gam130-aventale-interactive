@@ -13,7 +13,7 @@ namespace CatGame.Units
 
         private int currentHealth;
         public int CurrentHealth
-        { 
+        {
             get { return currentHealth; }
             set
             {
@@ -30,6 +30,7 @@ namespace CatGame.Units
         private float healthLerpSpeed = 0.75f;
         [SerializeField]
         private float disableDelay = 0.1f;
+        public bool isDying = false;
 
         [SerializeField]
         private GameObject healthBarPrefab;
@@ -43,6 +44,10 @@ namespace CatGame.Units
         public bool isABase = false;
 
         [SerializeField]
+        private GameObject hitParticlePrefab;
+        [SerializeField]
+        private GameObject deathParticlePrefab;
+        [SerializeField]
         private Animator animator;
 
         void Start()
@@ -53,7 +58,7 @@ namespace CatGame.Units
             healthBar.SetActive(false);
             healthBarImage = healthBar.GetComponentInChildren<Image>();
         }
-        
+
         void OnMouseEnter()
         {
             healthBarIsActive = true;
@@ -82,17 +87,21 @@ namespace CatGame.Units
         public void Damage(int damage)
         {
             CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, MaxHealth);
+            ParticleManager.SpawnParticle(hitParticlePrefab, transform.position, Quaternion.identity);
+
             if (CurrentHealth <= 0)
             {
                 //if (animator != null)
                 //{
                 //animator.Play();
                 //}
-
-                Attacker attacker = this.GetComponent<Attacker>();
+                isDying = true;
 
                 Destroyed();
-                Destroy(this.gameObject);
+                this.gameObject.DisableBehaviours();
+
+                if (!isABase) Destroy(this.gameObject, ParticleManager.SpawnParticle(deathParticlePrefab, transform.position + healthBarOffset, Quaternion.identity) - 1.0f);
+                else Destroy(this.gameObject);
             }
         }
 
@@ -108,7 +117,7 @@ namespace CatGame.Units
 
             healthBarCoroutine = null;
         }
-        
+
         private IEnumerator LerpHealthBar(Image healthBarImage, float lerpSpeed)
         {
             float t = 0.0f;
@@ -122,7 +131,7 @@ namespace CatGame.Units
             }
 
             yield return null;
-            
+
         }
 
         private void Destroyed()
