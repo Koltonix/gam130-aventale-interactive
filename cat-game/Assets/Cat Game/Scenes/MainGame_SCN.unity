@@ -15939,36 +15939,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1056238248}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1068864627
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1068864628}
-  m_Layer: 0
-  m_Name: Camera Point 9
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!4 &1068864628
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1068864627}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 35, z: 2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2043210109}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!43 &1069070602
 Mesh:
   m_ObjectHideFlags: 0
@@ -17911,7 +17881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1250377469, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
       propertyPath: travelPoints.Array.size
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1250377469, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
       propertyPath: travelPoints.Array.data[0].worldTransform
@@ -17988,7 +17958,7 @@ PrefabInstance:
     - target: {fileID: 1250377469, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
       propertyPath: travelPoints.Array.data[8].worldReference
       value: 
-      objectReference: {fileID: 1068864627}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
 --- !u!1001 &1254142806
@@ -29056,7 +29026,6 @@ Transform:
   - {fileID: 1219574301}
   - {fileID: 507270145}
   - {fileID: 1898186498}
-  - {fileID: 1068864628}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
