@@ -390,12 +390,12 @@ namespace CatGame.Units
         private IEnumerator AttackEnemy(UnitMovement _selectedUnit, Tile currentTile, Tile tileToAttack)
         {
             DamageObject(currentTile, tileToAttack, _selectedUnit, tileToAttack.OccupiedEntity.GetComponent<Health>());
-            TurnManager.Instance.objectIsAttacking = true; ;
+            TurnManager.Instance.objectIsAttacking = true;
 
             //Implement wait for animation here
             yield return new WaitForSeconds(0.5f);
 
-            TurnManager.Instance.objectIsAttacking = true;
+            TurnManager.Instance.objectIsAttacking = false;
             attackingCoroutine = null;
         }
 
