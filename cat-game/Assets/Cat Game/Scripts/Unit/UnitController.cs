@@ -149,7 +149,7 @@ namespace CatGame.Units
             }
 
             //Within range and can attack
-            else if (canAttack)
+            else if (canAttack && !health.isDying)
             {
                 _selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
                 health.Damage(unitAttack.Damage);
