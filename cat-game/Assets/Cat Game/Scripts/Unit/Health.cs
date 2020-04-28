@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CatGame.Combat;
-using CatGame.Data;
 using CatGame.Tiles;
 
 namespace CatGame.Units
@@ -11,8 +9,27 @@ namespace CatGame.Units
     public class Health : MonoBehaviour
     {
         [SerializeField]
-        private int maxHealth;
-        public int currentHealth;
+        private int MaxHealth;
+
+        private int currentHealth;
+        public int CurrentHealth
+        { 
+            get { return currentHealth; }
+            set
+            {
+                currentHealth = value;
+                if (healthBar != null)
+                {
+                    if (healthBarCoroutine != null) StopCoroutine(healthBarCoroutine);
+                    healthBarCoroutine = StartCoroutine(ShowHealthBarTemporarily(healthBar, healthLerpSpeed));
+                }
+            }
+        }
+
+        [SerializeField]
+        private float healthLerpSpeed = 0.75f;
+        [SerializeField]
+        private float disableDelay = 0.1f;
 
         [SerializeField]
         private GameObject healthBarPrefab;
@@ -21,6 +38,7 @@ namespace CatGame.Units
         private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0);
         private Image healthBarImage;
         private bool healthBarIsActive;
+        private Coroutine healthBarCoroutine;
 
         public bool isABase = false;
 
@@ -29,47 +47,42 @@ namespace CatGame.Units
 
         void Start()
         {
-            currentHealth = maxHealth;
+            CurrentHealth = MaxHealth;
             healthBar = Instantiate(healthBarPrefab, this.transform);
             healthBar.transform.position += healthBarOffset;
             healthBar.SetActive(false);
             healthBarImage = healthBar.GetComponentInChildren<Image>();
         }
-
-        void Update()
-        {
-            if (healthBarIsActive)
-            {
-                healthBarImage.fillAmount = (float)currentHealth / (float)maxHealth;
-            }
-        }
         
         void OnMouseEnter()
         {
-            healthBar.SetActive(true);
             healthBarIsActive = true;
+            healthBar.SetActive(true);
         }
 
         void OnMouseExit()
         {
-            healthBarIsActive = false;
-            healthBar.SetActive(false);
+            if (healthBarCoroutine == null)
+            {
+                healthBarIsActive = false;
+                healthBar.SetActive(false);
+            }
         }
 
         public int GetHealth()
         {
-            return currentHealth;
+            return CurrentHealth;
         }
 
         public void Heal(int heal)
         {
-            currentHealth = Mathf.Clamp(currentHealth + heal, 0, maxHealth);
+            CurrentHealth = Mathf.Clamp(CurrentHealth + heal, 0, MaxHealth);
         }
 
         public void Damage(int damage)
         {
-            currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
-            if (currentHealth <= 0)
+            CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, MaxHealth);
+            if (CurrentHealth <= 0)
             {
                 //if (animator != null)
                 //{
@@ -81,6 +94,35 @@ namespace CatGame.Units
                 Destroyed();
                 Destroy(this.gameObject);
             }
+        }
+
+        private IEnumerator ShowHealthBarTemporarily(GameObject healthBar, float lerpSpeed)
+        {
+            healthBar.SetActive(true);
+            healthBarIsActive = true;
+
+            yield return StartCoroutine(LerpHealthBar(healthBarImage, lerpSpeed));
+            yield return new WaitForSeconds(disableDelay);
+            healthBar.SetActive(false);
+            healthBarIsActive = false;
+
+            healthBarCoroutine = null;
+        }
+        
+        private IEnumerator LerpHealthBar(Image healthBarImage, float lerpSpeed)
+        {
+            float t = 0.0f;
+            while (t <= 1.0f)
+            {
+                t += lerpSpeed * Time.deltaTime;
+
+                float targetHealth = (float)CurrentHealth / (float)MaxHealth;
+                healthBarImage.fillAmount = Mathf.Lerp(healthBarImage.fillAmount, targetHealth, t);
+                yield return null;
+            }
+
+            yield return null;
+            
         }
 
         private void Destroyed()

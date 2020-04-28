@@ -33,7 +33,6 @@ namespace CatGame.Pathfinding
         private IGetBoardData boardData;
         [SerializeField]
         private GameObject userInput;
-        private IGetOnClick clickData;
 
         [Header("Debug Colour Settings")]
         [SerializeField]
@@ -45,7 +44,6 @@ namespace CatGame.Pathfinding
         private void Start()
         {
             boardData = boardGenerator.GetComponent<IGetBoardData>();
-            clickData = userInput.GetComponent<IGetOnClick>();
         }
 
         /// <summary>Gets the Tile Path using the Pathfinding Algorithm.</summary>
@@ -54,6 +52,7 @@ namespace CatGame.Pathfinding
         /// <returns>A list of the Tiles of the Path.</returns>
         public List<Tile> GetPath(Vector3 startPosition, Vector3 endPosition, bool checkForUnit, Tile tileToIgnore)
         {
+            if (boardData == null) return null;
             FindPath(new Vector3(startPosition.x, boardData.GetBoardCentre().y, startPosition.z),
                          new Vector3(endPosition.x, boardData.GetBoardCentre().y, endPosition.z), checkForUnit, tileToIgnore);
 
@@ -68,6 +67,7 @@ namespace CatGame.Pathfinding
             //Gets the Start Tile and End Tile.
             Tile startTile = boardData.GetTileFromWorldPosition(startPosition);
             Tile endTile = boardData.GetTileFromWorldPosition(endPosition);
+            if (tileToIgnore != null) endTile = tileToIgnore;
 
             List<Tile> openList = new List<Tile>();
             HashSet<Tile> closedList = new HashSet<Tile>();
@@ -90,7 +90,7 @@ namespace CatGame.Pathfinding
 
                 if (currentTile == endTile)
                 {
-                    GetFinalPath(startTile, endTile);
+                    GetFinalPath(startTile, endTile, tileToIgnore);
                     break;
                 }
 
@@ -124,7 +124,7 @@ namespace CatGame.Pathfinding
         /// <summary>Gets the final path using the start Tile and end Tile.</summary>
         /// <param name="startTile">Starting Tile in the Path.</param>
         /// <param name="endTile">End Tile in the Path.</param>
-        private void GetFinalPath(Tile startTile, Tile endTile)
+        private void GetFinalPath(Tile startTile, Tile endTile, Tile tileToIgnore)
         {
             List<Tile> finalPath = new List<Tile>();
             Tile currentTile = endTile;
@@ -136,7 +136,7 @@ namespace CatGame.Pathfinding
             }
 
             finalPath.Reverse();
-            finalPath.Add(endTile);
+            if (tileToIgnore == null) finalPath.Add(endTile);
 
             this.finalPath = finalPath;
         }

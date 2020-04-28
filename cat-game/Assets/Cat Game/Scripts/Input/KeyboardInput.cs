@@ -51,7 +51,7 @@ namespace CatGame.Controls
         public override void RaycastFromCamera()
         {
             cameraRay = mainCamera.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(cameraRay, out cameraRaycastHit, layerMask);
+            Physics.Raycast(cameraRay, out cameraRaycastHit, Mathf.Infinity, layerMask);
             mousePosition = cameraRay.direction;
         }
     }

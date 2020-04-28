@@ -33,6 +33,7 @@ namespace CatGame.Units
         [SerializeField]
         private float minDistanceToCheck = 0.5f;
         private Coroutine movingCoroutine;
+        private Coroutine attackingCoroutine;
 
         [Header("Selection Information")]
         private UnitMovement selectedUnit;
@@ -50,8 +51,9 @@ namespace CatGame.Units
 
         private void Start()
         {
+            currentPlayer = PlayerManager.Instance.GetCurrentPlayer();
             currentInput = this.GetComponent<UserInput>();
-            TurnManager.Instance.onPlayerCycle += ChangePlayer;
+            TurnManager.Instance.onPlayerCycle += ChangePlayer;         
         }
 
         private void Update()
@@ -63,39 +65,51 @@ namespace CatGame.Units
         /// <summary>Determines the Click depending on the current state of the Unit.</summary>
         private void DetermineClick()
         {
-            if (currentInput.IsMovementSelected() && movingCoroutine == null)
+            if (currentInput.IsMovementSelected() && movingCoroutine == null && attackingCoroutine == null)
             {
                 RaycastHit gameObjectHit = currentInput.GetRaycastHit();
                 //Makes every Unit check its own tiles again
                 BoardManager.Instance.GetBoardTiles();
-
-                //ATTACKING
-                if (selectionProgress == SelectionProgress.SELECTED && gameObjectHit.collider && gameObjectHit.collider.GetComponent<Health>())
+                if (!gameObjectHit.collider) DeselectUnit();
+                if (gameObjectHit.collider)
                 {
-                    CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
-                    return;
-                }
-
-                //Acceping the tile to move to
-                if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
-                {
-                    MoveToTile(lastSelectedPath);
-                    return;
-                }
-
-                //Checking to see if it is a moveable object
-                if (gameObjectHit.collider != null && gameObjectHit.collider.GetComponent<UnitMovement>() != null)
-                {
-                    //Seeing if the Unit can moved based on the current player
-                    if (gameObjectHit.collider.GetComponent<Unit>().owner.GetActiveState())
+                    //ATTACKING
+                    if (selectionProgress == SelectionProgress.SELECTED)
                     {
-                        DeselectUnit();
-                        UnitClicked(gameObjectHit.collider.GetComponent<UnitMovement>());
+                        if (gameObjectHit.collider.GetComponent<Health>())
+                        {
+                            CheckIfObjectIsDamageable(gameObjectHit.collider.gameObject);
+                            return;
+                        }
+                                                
+                        else if (lastSelectedTile != null && lastSelectedTile.OccupiedEntity)
+                        {
+                            CheckIfObjectIsDamageable(lastSelectedTile.OccupiedEntity.gameObject);
+                            return;
+                        }
+
+                        
+                    }
+
+                    //Acceping the tile to move to
+                    if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
+                    {
+                        MoveToTile(lastSelectedPath, null);
                         return;
                     }
-                }
 
-                DeselectUnit();
+                    //Checking to see if it is a moveable object
+                    if (gameObjectHit.collider.GetComponent<UnitMovement>() != null)
+                    {
+                        //Seeing if the Unit can moved based on the current player
+                        if (gameObjectHit.collider.GetComponent<Unit>().owner.GetActiveState())
+                        {
+                            DeselectUnit();
+                            UnitClicked(gameObjectHit.collider.GetComponent<UnitMovement>());
+                            return;
+                        }
+                    }
+                }  
             }
 
             //If a unit has been selected then it is the Tile picking phase
@@ -107,54 +121,38 @@ namespace CatGame.Units
 
         private void CheckIfObjectIsDamageable(GameObject hitObject)
         {
-            Unit unitHit = hitObject.GetComponent<Unit>();
+            Entity entity = hitObject.GetComponent<Entity>();
             Health enemyHealth = hitObject.GetComponent<Health>();
 
-            if (unitHit && unitHit.owner != selectedUnit.owner) DamageObject(enemyHealth);
-
-            //Building
-            else if (!unitHit && enemyHealth)
+            //It is an entity and is of the nearby units
+            if (entity && selectedUnit.EnemyIsNearby(entity))
             {
-                Building building = hitObject.GetComponent<Building>();
-                if (building)
-                {
-                    //Checking to see if it's an enemy building, or friendly one
-                    if (building.owner == PlayerManager.Instance.GetCurrentPlayer())
-                    {
-                        DeselectUnit();
-                        return;
-                    }
-
-                    DamageObject(enemyHealth);
-                }
+                if (entity is Unit) attackingCoroutine = StartCoroutine(AttackEnemy(selectedUnit, selectedUnit.currentTile, lastSelectedTile));
+                else if (entity is Building) attackingCoroutine = StartCoroutine(AttackEnemy(selectedUnit, selectedUnit.currentTile, lastSelectedTile));
             }
+
+            else DeselectUnit();
         }
 
-        private void DamageObject(Health health)
+        private void DamageObject(Tile currentTile, Tile enemyTile, UnitMovement _selectedUnit, Health health )
         {
-            UnitMovement _selectedUnit = selectedUnit;
-            Attacker unitAttack = selectedUnit.GetComponent<Attacker>();
+            Attacker unitAttack = _selectedUnit.GetComponent<Attacker>();
 
-            Tile enemyTile = BoardManager.Instance.GetTileFromWorldPosition(currentInput.GetRaycastHit().point);
-            Tile unitTile = selectedUnit.currentTile;
+            bool canAttack = IsWithinAttackingDistance(currentTile, enemyTile, unitAttack.AttackRange);
 
-            float xBoardDistance = Mathf.Abs(enemyTile.boardX - unitTile.boardX);
-            float yBoardDistance = Mathf.Abs(enemyTile.boardY - unitTile.boardY);
-            bool canAttack = IsWithinAttackingDistance(unitTile, enemyTile, unitAttack.AttackRange);
-
+            //Not within range, but can move to it
             if (lastSelectedPath != null && lastSelectedPath.Length > 0 && !canAttack)
             {
-                MoveToTile(lastSelectedPath);
+                MoveToTile(lastSelectedPath, enemyTile);
+                DeselectUnit();
+                return;
             }
 
-            //If it is within range and the player has enough AP
-            if (xBoardDistance <= _selectedUnit.owner.GetPlayerReference().ActionPoints && xBoardDistance <= unitAttack.AttackRange)
+            //Within range and can attack
+            else if (canAttack)
             {
-                if (yBoardDistance <= _selectedUnit.owner.GetPlayerReference().ActionPoints && yBoardDistance <= unitAttack.AttackRange)
-                {
-                    _selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
-                    health.Damage(unitAttack.Damage);
-                }
+                _selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
+                health.Damage(unitAttack.Damage);
             }
 
             DeselectUnit();
@@ -178,6 +176,7 @@ namespace CatGame.Units
             {
                 selectionProgress = SelectionProgress.UNSELECTED;
                 onSelect.Invoke(false);
+
                 //Required after the recent addition of the removal of unused tiles in pathfinding...
                 //Not ideal, but is necessary.
                 selectedUnit.ResetTileColours(BoardManager.Instance.tiles);
@@ -189,58 +188,74 @@ namespace CatGame.Units
 
         private bool IsWithinAttackingDistance(Tile currentTile, Tile enemyTile, int attackRange)
         {
-            float xBoardDistance = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
-            float yBoardDistance = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
+            if (currentTile == null || enemyTile == null) return false;
+            //Pythagoras Theorem for finding distance
+            float xDiff = Mathf.Abs(enemyTile.boardX - currentTile.boardX);
+            float yDiff = Mathf.Abs(enemyTile.boardY - currentTile.boardY);
+            float distance = Mathf.Sqrt((xDiff * xDiff) + (yDiff * yDiff));
 
-            if (xBoardDistance < attackRange || yBoardDistance < attackRange) return true;
-            else return false;
+            //Flooring it since I want you to be able to attack diagonally
+            distance = Mathf.FloorToInt(distance);
+            if (distance <= attackRange) return true;
+            return false;
         }
 
+        public LayerMask passableMask;
         /// <summary>Selects the current tile that is being hovered over.</summary>
         private void SelectTile()
         {
-            RaycastHit gameObjectHit = currentInput.GetRaycastHit();
+            RaycastHit gameObjectHit;
+            Physics.Raycast(currentInput.GetRay(), out gameObjectHit, Mathf.Infinity, passableMask);
+
             selectedUnit.ResetTileColours(selectedUnit.availableTiles.ToArray());
 
             if (gameObjectHit.collider != null)
             {
                 //Over something that can be attacked
-                Entity enemyEntity = gameObjectHit.collider.GetComponent<Entity>();
                 lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
-                
-                List<Tile> pathToEnemy = PathfindingManager.Instance.GetPath(selectedUnit.currentTile.Position, lastSelectedTile.Position, true, lastSelectedTile);
+                Entity enemyEntity = lastSelectedTile.OccupiedEntity;
+                Attacker currentAttacker = selectedUnit.GetComponent<Attacker>();
 
-                //Removes the selected tile which is a Unit
-                if (pathToEnemy != null && pathToEnemy.Count > 0) pathToEnemy.RemoveAt(pathToEnemy.Count - 1);
-
-                if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference() && pathToEnemy.Count < selectedUnit.owner.GetCurrentActionPoints())
+                //There is an Enemy on the tile
+                if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference())
                 {
+                    List<Tile> attackPath;
+                    //Only will get the path if it is available...
+                    if (!selectedUnit.pathsToEnemy.TryGetValue(lastSelectedTile, out attackPath)) return; 
+                    attackPath = new List<Tile>(selectedUnit.pathsToEnemy[lastSelectedTile]);
+
+                    if (attackPath.Count > selectedUnit.owner.GetCurrentActionPoints()) return;
+
                     bool canAttack = IsWithinAttackingDistance(selectedUnit.currentTile, lastSelectedTile, selectedUnit.GetComponent<Attacker>().AttackRange);
-                    if (canAttack)
+                    if (canAttack || attackPath.Count == 0)
                     {
                         lastSelectedPath = null;
                         return;
                     }
 
-                    if (pathToEnemy.Count >= 1) pathToEnemy.RemoveAt(pathToEnemy.Count - 1);
-                    if (pathToEnemy.Count == 0) lastSelectedPath = null;
+                    //Cull the tiles based on range...
+                    //for (int i = 0; i < currentAttacker.AttackRange; i++)
+                    //{
+                    //    if (attackPath.Count > 0) attackPath.RemoveAt(attackPath.Count - 1);
+                    //}
+                    
 
-                    lastSelectedPath = pathToEnemy.ToArray();
+                    lastSelectedPath = attackPath.ToArray();
                 }
 
+                //It is just a regular tile
                 else
                 {
-                    lastSelectedTile = GetSelectedTile(selectedUnit.availableTiles.ToArray(), gameObjectHit);
+                    lastSelectedTile = GetSelectedTile(gameObjectHit);
                     lastSelectedPath = selectedUnit.GetAvailableTilesFromPathfinding(lastSelectedTile);
                 }
-                
+
+                //Draws the path
                 if (lastSelectedPath != null)
                 {
                     DrawPath(lastSelectedPath, selectedUnit.pathColour);
                     pathToDraw = PathArrayToQueue(lastSelectedPath);
                 }
-                
-                return;
             }
         }
 
@@ -273,36 +288,28 @@ namespace CatGame.Units
         /// <summary>Gets the tile that the player is currently hovering over.</summary>
         /// <param name="gameObjectHit">The input raycast.</param>
         /// <returns>Returns the tile that the player is hovering over.</returns>
-        private Tile GetSelectedTile(Tile[] tiles, RaycastHit gameObjectHit)
+        private Tile GetSelectedTile(RaycastHit gameObjectHit)
         {
             if (gameObjectHit.collider != null)
             {
-                foreach (Tile tile in tiles)
-                {
-                    if (gameObjectHit.collider.gameObject == tile.WorldReference)
-                    {
-                        onSelect?.Invoke(false);
-                        onSelect?.Invoke(true);
-
-                        tile.WorldReference.GetComponent<Renderer>().material.color = selectedUnit.selectedTileColour;
-                        return tile;
-                    }
-
-                    else tile.WorldReference.GetComponent<Renderer>().material.color = selectedUnit.availableTileColour;
-                }
+                onSelect?.Invoke(false);
+                onSelect?.Invoke(true);
+                return BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
             }
            
             return null;
         }
 
         /// <summary>Starts the movement coroutone of the Unit to the Tile and then deselects it.</summary
-        private void MoveToTile(Tile[] path)
+        private void MoveToTile(Tile[] path, Tile tileToAttack)
         {
+            if (selectedUnit == null) return;
             UnitMovement _selectedUnit = selectedUnit;
             DeselectUnit();
 
-            _selectedUnit.owner.GetPlayerReference().ActionPoints -= path.Length - 1;         
-            movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, path, _selectedUnit.transform)); ;
+            _selectedUnit.owner.GetPlayerReference().ActionPoints -= Mathf.CeilToInt((path.Length - 1) * _selectedUnit.apCostModifier);
+
+            movingCoroutine = StartCoroutine(PathfindObject(_selectedUnit, path, _selectedUnit.transform, tileToAttack)); ;
 
             return;
         }
@@ -312,7 +319,7 @@ namespace CatGame.Units
         /// <param name="path">Tile Path to take in order.</param>
         /// <param name="objectToMove">The GameObject to move in world space.</param>
         /// <returns>NULL</returns>
-        private IEnumerator PathfindObject(UnitMovement _selectedUnit, Tile[] path, Transform objectToMove)
+        private IEnumerator PathfindObject(UnitMovement _selectedUnit, Tile[] path, Transform objectToMove, Tile tileToAttack)
         {
             TurnManager.Instance.objectIsMoving = true;
             if (path != null)
@@ -346,6 +353,11 @@ namespace CatGame.Units
 
             movingCoroutine = null;
             TurnManager.Instance.objectIsMoving = false;
+
+            if (tileToAttack != null && tileToAttack.OccupiedEntity)
+            {
+                yield return attackingCoroutine = StartCoroutine(AttackEnemy(_selectedUnit, path[path.Length - 1], tileToAttack));
+            }
         }
 
         /// <summary>Linearly moves the Unit from its current position to the target.</summary>
@@ -373,6 +385,18 @@ namespace CatGame.Units
             }
 
            yield return null;
+        }
+
+        private IEnumerator AttackEnemy(UnitMovement _selectedUnit, Tile currentTile, Tile tileToAttack)
+        {
+            DamageObject(currentTile, tileToAttack, _selectedUnit, tileToAttack.OccupiedEntity.GetComponent<Health>());
+            TurnManager.Instance.objectIsAttacking = true; ;
+
+            //Implement wait for animation here
+            yield return new WaitForSeconds(0.5f);
+
+            TurnManager.Instance.objectIsAttacking = true;
+            attackingCoroutine = null;
         }
 
         /// <summary>Informs the State of the new player.</summary>

@@ -16,4 +16,14 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: e4ad0bab84022834e8be2c1a5634d2d0, type: 3}
   description: "Personality: Intelligent \r\n\r\nOwners: Mark & Ellie \r\n\r\nLives
     in: 49 LaPerm Lane \r\n\r\nDescription: A master of technology, never seen without
-    his robot steed. "
+    his robot steed. \n\n\nMark is a tech wizard, constantly buying the latest, most
+    high tech things he can, whether or not he uses them. Chase receives the same
+    treatment, and constantly has the newest, state-of-the art toys, cat feeders,
+    litter boxes and automatic groomers. Chase has thrived in this environment, his
+    curious nature finding every detail about his new toys and using them in strange
+    and wonderful ways. He rarely even walks anymore, having figured out how to guide
+    Mark's PurrBot with his tail to go wherever he wishes. He often parades Mark's
+    new things to the other neighborhood cats, proudly wheeling around on his PurrBot
+    through the back alleys of the houses. Chase is always ready to test out his new
+    toys, so when Tibbles called on him to fight with her he jumped at the chance,
+    riding his PurrBot into battle like a mighty steed.\r\n"

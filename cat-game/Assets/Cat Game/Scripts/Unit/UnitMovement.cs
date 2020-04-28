@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using CatGame.Tiles;
 using CatGame.Data;
@@ -15,12 +14,20 @@ namespace CatGame.Units
     public class UnitMovement : MonoBehaviour
     {
         [Header("Movement Settings")]
+        public float apCostModifier = 1.0f;
+
+        [HideInInspector]
         public Tile currentTile;
 
+        [HideInInspector]
         public List<Tile> availableTiles;
+        [HideInInspector]
         public List<Tile> nearbyEnemyUnits;
+        [HideInInspector]
         public Tile[] nearbyFriendlyUnits;
+        [HideInInspector]
         public Dictionary<Tile, List<Tile>> tilePaths;
+        public Dictionary<Tile, List<Tile>> pathsToEnemy;
 
         [Header("Required Data")]
         public Player owner;
@@ -36,7 +43,7 @@ namespace CatGame.Units
         private void Start()
         {
             currentUnit = this.GetComponent<Unit>();
-            owner = PlayerManager.Instance.GetCurrentPlayer();
+            owner = PlayerManager.Instance.GetPlayerFromIndex((int)currentUnit.player);
 
             owner.GetPlayerReference().onActive += SetIsActive;
 
@@ -70,9 +77,9 @@ namespace CatGame.Units
                 if (tile.IsPassable && tile.OccupiedEntity == null)
                 {
                     //Within the AP Distance
-                    if (xBoardDistance <= owner.GetCurrentActionPoints())
+                    if (xBoardDistance <= owner.GetCurrentActionPoints() / apCostModifier)
                     {
-                        if (yBoardDistance <= owner.GetCurrentActionPoints())
+                        if (yBoardDistance <= owner.GetCurrentActionPoints() / apCostModifier)
                         {
                             accessibleTiles.Add(tile);
                         }
@@ -83,7 +90,7 @@ namespace CatGame.Units
                 else if (tile.OccupiedEntity != null && tile.OccupiedEntity != currentUnit)
                 {
                     Attacker unitAttack = this.GetComponent<Attacker>();
-                    if (tile.OccupiedEntity.owner == owner) friendlyUnits.Add(tile);
+                    if (tile.OccupiedEntity.owner.number == owner.number) friendlyUnits.Add(tile);
                     else
                     {
                         //Will only add the Unit if it is within the move distance and can also attack.
@@ -140,7 +147,7 @@ namespace CatGame.Units
                 List<Tile> finalPath = PathfindingManager.Instance.GetPath(currentTile.Position, endTile.Position, true, null);
                 if (finalPath == null) continue;
                 //If there are only x tiles or less in the path
-                if (finalPath.Count - 1 <= owner.GetCurrentActionPoints())
+                if (finalPath.Count - 1 <= owner.GetCurrentActionPoints() / apCostModifier)
                 {
                     allPaths.Add(endTile, finalPath);
                     SetTilesUsingPathfinding(finalPath.ToArray(), true);
@@ -168,22 +175,80 @@ namespace CatGame.Units
         /// <summary>Removes the Tiles not used in the pathfinding and there aren't accessible</summary>
         private void RemoveUnusedTiles()
         {
+            pathsToEnemy = new Dictionary<Tile, List<Tile>>();
             Attacker unitAttack = this.GetComponent<Attacker>();
-
+            
+            //Cull all nearby tiles
             for (int i = availableTiles.Count - 1; i >= 0; i--)
             {
                 if (!availableTiles[i].isUsedInPathfinding) availableTiles.RemoveAt(i);
             }
 
+            //Cull all nearby enemies
             for (int i = nearbyEnemyUnits.Count - 1; i >= 0; i--)
             {
-                List<Tile> enemyPath = PathfindingManager.Instance.GetPath(currentTile.Position, nearbyEnemyUnits[i].Position, true, nearbyEnemyUnits[i]);
+                Entity entity = nearbyEnemyUnits[i].OccupiedEntity.GetComponent<Entity>();
+                //Checking to see what type of units it can attack and removing them if they can't
+                if (entity)
+                {
+                    if ((entity is Unit && !unitAttack.canAttackUnits) || (entity is Building && !unitAttack.canAttackBuildings))
+                    {
+                        nearbyEnemyUnits.RemoveAt(i);
+                        continue;
+                    }              
+                }
+
+                //If the enemy i
+                if (nearbyEnemyUnits[i].OccupiedEntity.GetComponent<Unit>() && !unitAttack.canAttackUnits)
+                {
+                    nearbyEnemyUnits.RemoveAt(i);
+                    continue;
+                }
+                
+                List<Tile> enemyPath = new List<Tile>(PathfindingManager.Instance.GetPath(currentTile.Position, nearbyEnemyUnits[i].Position, true, nearbyEnemyUnits[i]));
                 //Size reduced by two to negate the end tile and also the diagonal factor
                 int enemyPathDistance = enemyPath.Count - 2;
 
-                if (enemyPathDistance > unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
+                if (enemyPathDistance >= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
                 {
                     nearbyEnemyUnits.RemoveAt(i);
+                }
+                
+                //Will be used in pathfinding
+                else
+                {
+                    
+                    GetShortestAdjacentEnemyPaths(nearbyEnemyUnits[i], unitAttack.AttackRange);
+                }
+            }
+        }
+
+        public bool EnemyIsNearby(Entity unit)
+        {
+            for (int i = 0; i < nearbyEnemyUnits.Count; i++)
+            {
+                if (nearbyEnemyUnits[i].OccupiedEntity == unit) return true;
+            }
+
+            return false;
+        }
+
+        public void GetShortestAdjacentEnemyPaths(Tile enemyTile, int range)
+        {
+           Tile[] currentPath;
+           Tile[] adjacentTiles = BoardManager.Instance.GetAllAdjacentTiles(enemyTile, range);
+
+            int shortestLength = 2147483647;
+
+            foreach (Tile tile in adjacentTiles)
+            {
+                currentPath = PathfindingManager.Instance.GetPath(currentTile.Position, tile.Position, true, null).ToArray();
+
+                if (currentPath.Length < shortestLength)
+                {
+                    shortestLength = currentPath.Length;
+                    if (pathsToEnemy.ContainsKey(enemyTile)) pathsToEnemy.Remove(enemyTile);
+                    pathsToEnemy.Add(enemyTile, new List<Tile>(currentPath));  
                 }
             }
         }

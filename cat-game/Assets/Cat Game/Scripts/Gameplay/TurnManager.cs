@@ -21,7 +21,8 @@ namespace CatGame.Data
 
         [Header("Current Turn")]
         public int currentPlayerIndex;
-        public bool objectIsMoving;
+        public bool objectIsMoving = false;
+        public bool objectIsAttacking = false;
 
         [Header("Player Settings")]
         private IPlayerManager playerManagerData;
@@ -37,8 +38,8 @@ namespace CatGame.Data
         /// <remarks>Only ends the turn once all plays have ceased.</remarks>
         public void EndTurn()
         {
-            if (!objectIsMoving) currentPlayerIndex = GetNextPlayersTurn(currentPlayerIndex);
-            else Debug.Log("OBJECT IS MOVING STILL");
+            if (!objectIsMoving && !objectIsAttacking) currentPlayerIndex = GetNextPlayersTurn(currentPlayerIndex);
+            else Debug.Log("OBJECT INTERACTING");
         }
 
         /// <summary>Cycles through the players in the game and disables everything of theirs.</summary>

@@ -94,7 +94,7 @@ namespace CatGame.Data
         public void SpawnUnit(GameObject unit)
         {
             //You cannot build a unit while one is moving
-            if (TurnManager.Instance.objectIsMoving) return;
+            if (TurnManager.Instance.objectIsMoving || TurnManager.Instance.objectIsAttacking) return;
 
             //Checking if there is a Unit above it.
             //Not ideal, but time constraints result in this.

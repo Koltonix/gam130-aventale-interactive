@@ -12,18 +12,10 @@ namespace CatGame.Tiles
     /// </summary>
     public class BoardManager : MonoBehaviour, IGetBoardData
     {   
-        #region Singleton
         public static BoardManager Instance;
-        private void Awake()
-        {
-            if (Instance == null) Instance = this;
-            else Destroy(this);
-        }
-        #endregion
 
         [Header("Board Settings")]
-        [SerializeField]
-        private GameObject board;
+        public GameObject board;
         public Tile[] tiles;
         public Tile[,] gridTiles;
 
@@ -34,11 +26,11 @@ namespace CatGame.Tiles
         private Vector2 gridWorldSize;
         [SerializeField]
         public Vector2Int tileGap;
+        public float yScale;
         private bool hasInitialised = false;
 
         [Header("Tile Settings")]
-        [SerializeField]
-        private GameObject passableTilePrefab;
+        public GameObject passableTilePrefab;
         [SerializeField]
         private GameObject impassableTilePrefab;
         [SerializeField]
@@ -48,8 +40,11 @@ namespace CatGame.Tiles
         public delegate void OnBoardUpdate(Tile[] boardTiles);
         public event OnBoardUpdate onBoardUpdate;
 
-        private void Start()
+        private void Awake()
         {
+            if (Instance == null) Instance = this;
+            else Destroy(this);
+
             GameObject[] allTiles = GetAllChildrenFromParent(board.transform);
             CheckForDuplicates(allTiles);
             
@@ -120,7 +115,7 @@ namespace CatGame.Tiles
 
                 tileReference.layer = 9;
                 tileReference.transform.localScale = new Vector3(tileGap.x * tileReference.transform.localScale.x,
-                                                                 tileGap.y * tileReference.transform.localScale.y,
+                                                                 yScale,
                                                                  tileGap.y * tileReference.transform.localScale.z);
 
                 tileReference.transform.SetParent(board.transform);
@@ -133,7 +128,7 @@ namespace CatGame.Tiles
 
                 tileReference.layer = 10;
                 tileReference.transform.localScale = new Vector3(tileGap.x * tileReference.transform.localScale.x,
-                                                                 tileGap.y * tileReference.transform.localScale.y,
+                                                                 yScale,
                                                                  tileGap.y * tileReference.transform.localScale.z);
 
                 tileReference.transform.SetParent(board.transform);
@@ -258,34 +253,60 @@ namespace CatGame.Tiles
             int xCheck;
             int yCheck;
 
-            //Right hand check
-            xCheck = tile.boardX + 1;
-            yCheck = tile.boardY;
-
-            checkingTile = CheckForNeighbour(xCheck, yCheck);
-            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
-
-
-            //Left hand check
-            xCheck = tile.boardX - 1;
-            yCheck = tile.boardY;
-
-            checkingTile = CheckForNeighbour(xCheck, yCheck);
-            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
-
-            //Upper hand check
+            //North Check
             xCheck = tile.boardX;
             yCheck = tile.boardY + 1;
 
             checkingTile = CheckForNeighbour(xCheck, yCheck);
             if (checkingTile != null) neighbouringTiles.Add(checkingTile);
 
-            //Left hand check
+            //East Check
+            xCheck = tile.boardX - 1;
+            yCheck = tile.boardY;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            //South Check
             xCheck = tile.boardX;
             yCheck = tile.boardY - 1;
 
             checkingTile = CheckForNeighbour(xCheck, yCheck);
             if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            //West Check
+            xCheck = tile.boardX + 1;
+            yCheck = tile.boardY;
+
+            checkingTile = CheckForNeighbour(xCheck, yCheck);
+            if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+            return neighbouringTiles.ToArray();
+        }
+
+        public Tile[] GetAllAdjacentTiles(Tile tile, int range)
+        {
+            List<Tile> neighbouringTiles = new List<Tile>();
+
+            Tile checkingTile;
+            int xCheck;
+            int yCheck;
+
+            for (int x = -range; x <= range; x++)
+            {
+                for (int y = -range; y <= range; y++)
+                {
+                    //Skip if it is the centre tile
+                    if (x == 0 && y == 0) continue;
+
+                    xCheck = tile.boardX + x;
+                    yCheck = tile.boardY + y;
+
+                    checkingTile = CheckForNeighbour(xCheck, yCheck);
+                    if (checkingTile != null) neighbouringTiles.Add(checkingTile);
+
+                }
+            }
 
             return neighbouringTiles.ToArray();
         }

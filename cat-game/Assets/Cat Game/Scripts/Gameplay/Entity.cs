@@ -9,14 +9,23 @@ namespace CatGame.Data
     public class Entity : MonoBehaviour
     {
         public Player owner;
+        [HideInInspector]
         public Player currentPlayer;
+        public CurrentPlayer player = CurrentPlayer.NULL;
         public bool isEnabled;
 
         protected virtual void Start()
         {
             //Subscribes to the OnPlayerCycle event.
             TurnManager.Instance.onPlayerCycle += OnTurnEnd;
-            owner = PlayerManager.Instance.GetCurrentPlayer();
+
+            if (player == CurrentPlayer.NULL)
+            {
+                owner = PlayerManager.Instance.GetCurrentPlayer();
+                player = (CurrentPlayer)owner.number;
+            }
+
+            else owner = PlayerManager.Instance.GetPlayerFromIndex((int)player);
 
             OnTurnEnd(PlayerManager.Instance.GetCurrentPlayer());
         }
