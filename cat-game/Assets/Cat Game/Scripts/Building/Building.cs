@@ -11,12 +11,6 @@ namespace CatGame.Data
     public class Building : Entity
     {
         [Header("Attributes")]
-        //This index is currently needed to get reference to the correct instance of the Player class, not created
-        //a new one entirely. This will be fixed when you are able to place buildings using the mouse since we
-        //can assign a reference to the class from there.
-        [SerializeField]
-        private int playerIndex;
-
         private Player currentTurnPlayer;
         private Player debugOwner;
 
@@ -42,7 +36,6 @@ namespace CatGame.Data
         protected override void Start()
         {
             base.Start();
-            owner = PlayerManager.Instance.GetPlayerFromIndex(playerIndex);
             debugOwner = owner.GetPlayerReference();
 
             currentTurnPlayer = PlayerManager.Instance.GetCurrentPlayer();
