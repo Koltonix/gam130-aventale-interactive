@@ -1711,7 +1711,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6102965135390553193}
   m_Layer: 0
-  m_Name: WeaponPivotPoint
+  m_Name: WeaponPivotPoint_FeatherStick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
