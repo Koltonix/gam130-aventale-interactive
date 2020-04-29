@@ -170,8 +170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0b220faa48dd049a27ce0424ea9676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 10
-  timeToShowHealth: 1
+  MaxHealth: 20
+  healthLerpSpeed: 0.75
+  disableDelay: 0.1
   healthBarPrefab: {fileID: 889152434078798198, guid: d389fcb94443bd143bf1d0b3705d0f3f,
     type: 3}
   healthBarOffset: {x: 0, y: 1.5, z: 0}
@@ -191,7 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 10
   AttackRange: 1
-  AttackAP: 2
+  AttackAP: 1
   canAttackBuildings: 1
   canAttackUnits: 1
   enemy: {fileID: 0}
