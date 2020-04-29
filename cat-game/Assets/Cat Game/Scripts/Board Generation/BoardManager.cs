@@ -55,6 +55,7 @@ namespace CatGame.Tiles
         /// Retreives all of the board tiles from a singular parent gameobject.
         /// </summary>
         /// <returns>An array of all of the Tiles in the board world.</returns>
+        /// <remarks>Math updated using: https://www.youtube.com/watch?v=nhiFx28e7JY&t=1210s </remarks>
         public Tile[] GetBoardTiles()
         {
             if (board == null) return null;
@@ -102,6 +103,7 @@ namespace CatGame.Tiles
         /// </summary>
         /// <param name="tilePosition">World Position.</param>
         /// <returns>A GameObject of the new Tile GameObject that has been setup.</returns>
+        /// <remarks>Math updated using: https://www.youtube.com/watch?v=nhiFx28e7JY&t=1210s </remarks>
         private GameObject DetermineIfTileIsPassable(Vector3 tilePosition)
         {
             Vector3 checkPosition = tilePosition;
@@ -212,14 +214,14 @@ namespace CatGame.Tiles
         {
             gridWorldSize = new Vector2(boardWidth * tileGap.x, boardHeight * tileGap.y);
 
-            float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x) / tileGap.x;
-            float yPoint = ((position.z + gridWorldSize.y * .5f) / gridWorldSize.y) / tileGap.y;
+            float xPoint = (position.x + gridWorldSize.x * .5f) / gridWorldSize.x;
+            float yPoint = (position.z + gridWorldSize.y * .5f) / gridWorldSize.y;
 
             xPoint = Mathf.Clamp01(xPoint);
             yPoint = Mathf.Clamp01(yPoint);
 
-            int x = Mathf.RoundToInt((gridWorldSize.x - tileGap.x) * xPoint);
-            int y = Mathf.RoundToInt((gridWorldSize.y - tileGap.y) * yPoint);
+            int x = Mathf.RoundToInt((boardWidth - 1) * xPoint);
+            int y = Mathf.RoundToInt((boardHeight - 1) * yPoint);
 
             return new Vector2Int(x, y);
         }
@@ -229,15 +231,15 @@ namespace CatGame.Tiles
             if (gridTiles != null)
             {
                 gridWorldSize = new Vector2(boardWidth * tileGap.x, boardHeight * tileGap.y);
-
-                float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x) / tileGap.x;
-                float yPoint = ((position.z + gridWorldSize.y * .5f) / gridWorldSize.y) / tileGap.y;
+                
+                float xPoint = (position.x + gridWorldSize.x * .5f) / gridWorldSize.x;
+                float yPoint = (position.z + gridWorldSize.y * .5f) / gridWorldSize.y;
 
                 xPoint = Mathf.Clamp01(xPoint);
                 yPoint = Mathf.Clamp01(yPoint);
 
-                int x = Mathf.RoundToInt((gridWorldSize.x - tileGap.x) * xPoint);
-                int y = Mathf.RoundToInt((gridWorldSize.y - tileGap.y) * yPoint);
+                int x = Mathf.RoundToInt((boardWidth - 1) * xPoint);
+                int y = Mathf.RoundToInt((boardHeight - 1) * yPoint);
 
                 return gridTiles[x, y];
             }

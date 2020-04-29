@@ -214,7 +214,6 @@ namespace CatGame.Units
                 //Over something that can be attacked
                 lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
                 Entity enemyEntity = lastSelectedTile.OccupiedEntity;
-                Attacker currentAttacker = selectedUnit.GetComponent<Attacker>();
 
                 //There is an Enemy on the tile
                 if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference())
