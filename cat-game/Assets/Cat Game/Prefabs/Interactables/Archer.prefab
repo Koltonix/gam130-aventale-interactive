@@ -102,8 +102,10 @@ MonoBehaviour:
   isEnabled: 0
   name: 
   renderers:
-  - {fileID: 5721285338969871871}
+  - {fileID: 2594568416212361582}
   - {fileID: 5721285338969871869}
+  anim: {fileID: 2594568416208150446}
+  rigidBody: {fileID: 7611467768782846760}
 --- !u!114 &2331581690834231310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +271,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1102240675504499991, guid: 7af2a1de123b8fd44ae885463f6b50ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7af2a1de123b8fd44ae885463f6b50ef, type: 3}
 --- !u!4 &5721285338967971615 stripped
@@ -277,9 +284,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3119358707531972985}
   m_PrefabAsset: {fileID: 0}
---- !u!23 &5721285338969871871 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7218186652597097606, guid: 7af2a1de123b8fd44ae885463f6b50ef,
+--- !u!95 &2594568416208150446 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1102240675514015447, guid: 7af2a1de123b8fd44ae885463f6b50ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 3119358707531972985}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &2594568416212361582 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1102240675509706775, guid: 7af2a1de123b8fd44ae885463f6b50ef,
     type: 3}
   m_PrefabInstance: {fileID: 3119358707531972985}
   m_PrefabAsset: {fileID: 0}

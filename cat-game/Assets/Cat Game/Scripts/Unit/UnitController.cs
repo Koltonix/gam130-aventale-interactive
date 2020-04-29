@@ -53,7 +53,7 @@ namespace CatGame.Units
         {
             currentPlayer = PlayerManager.Instance.GetCurrentPlayer();
             currentInput = this.GetComponent<UserInput>();
-            TurnManager.Instance.onPlayerCycle += ChangePlayer;         
+            TurnManager.Instance.onPlayerCycle += ChangePlayer;
         }
 
         private void Update()
@@ -321,6 +321,8 @@ namespace CatGame.Units
         private IEnumerator PathfindObject(UnitMovement _selectedUnit, Tile[] path, Transform objectToMove, Tile tileToAttack)
         {
             TurnManager.Instance.objectIsMoving = true;
+            if (_selectedUnit.currentUnit.anim) _selectedUnit.currentUnit.anim.SetBool("ISMOVING", true);
+
             if (path != null)
             {
                 //Move to each tile one by one
@@ -352,6 +354,7 @@ namespace CatGame.Units
 
             movingCoroutine = null;
             TurnManager.Instance.objectIsMoving = false;
+            if (_selectedUnit.currentUnit.anim) _selectedUnit.currentUnit.anim.SetBool("ISMOVING", false);
 
             if (tileToAttack != null && tileToAttack.OccupiedEntity)
             {

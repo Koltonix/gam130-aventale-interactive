@@ -13,6 +13,10 @@ namespace CatGame.Units
         [SerializeField]
         private Renderer[] renderers;
 
+        [Header("Animations")]
+        public Animator anim;
+        public Rigidbody rigidBody;
+
         protected override void Start()
         {
             base.Start();
