@@ -7215,7 +7215,7 @@ MonoBehaviour:
   boardWidth: 12
   boardHeight: 12
   tileGap: {x: 2, y: 2}
-  yScale: 2
+  yScale: 0.5
   passableTilePrefab: {fileID: 2263864217131829366, guid: 7dae563ab0a3f8245915928e9560981e,
     type: 3}
   impassableTilePrefab: {fileID: 5476029951858658855, guid: 1209cf964f9e31e4a8107cc28dafd2f7,
