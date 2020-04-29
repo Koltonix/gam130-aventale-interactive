@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f8890e04022303143a98552321893e27
+guid: 1f257553b24bb6743ae5203efb11b27a
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Archer
+    100000: Archer
+    100002: //RootNode
     100004: Archer_Cat:polySurface20
     100006: Archer_Cat:polySurface21
     100008: Archer_Cat:polySurface22
@@ -46,8 +46,8 @@ ModelImporter:
     100080: Tail07
     100082: TailTip
     100084: transform1
-    400000: //RootNode
-    400002: Archer
+    400000: Archer
+    400002: //RootNode
     400004: Archer_Cat:polySurface20
     400006: Archer_Cat:polySurface21
     400008: Archer_Cat:polySurface22
@@ -95,7 +95,7 @@ ModelImporter:
     4300004: Archer_Cat:polySurface21
     4300006: Archer_Cat:polySurface22
     4300008: Archer_Cat:polySurface23
-    7400000: Take 001
+    7400000: ArcherIdle
     9500000: //RootNode
     13700000: Archer
     13700002: Archer_Cat:polySurface20
@@ -129,7 +129,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: ArcherIdle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 21
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -154,7 +182,7 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
+    previousCalculatedGlobalScale: 0.01
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
