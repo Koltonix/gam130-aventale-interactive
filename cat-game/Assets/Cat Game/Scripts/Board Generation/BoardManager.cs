@@ -241,6 +241,7 @@ namespace CatGame.Tiles
                 int x = Mathf.RoundToInt((boardWidth - 1) * xPoint);
                 int y = Mathf.RoundToInt((boardHeight - 1) * yPoint);
 
+
                 return gridTiles[x, y];
             }
 
