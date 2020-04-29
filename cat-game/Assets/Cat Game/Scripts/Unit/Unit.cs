@@ -20,7 +20,7 @@ namespace CatGame.Units
         protected override void Start()
         {
             base.Start();
-            ChangeRendererColour(owner.colour, renderers);
+            if (renderers != null) ChangeRendererColour(owner.colour, renderers);
 
             if (name.Length == 0) name = "UNNAMED_UNIT";
         }
