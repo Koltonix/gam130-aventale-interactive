@@ -23,7 +23,7 @@
         }
     },
     "texturesets": {
-        "lambert1": {
+        "Chair": {
             "shader": "Main shader"
         }
     }
