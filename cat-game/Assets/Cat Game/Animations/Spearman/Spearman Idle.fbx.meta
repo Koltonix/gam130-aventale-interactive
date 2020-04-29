@@ -1,107 +1,91 @@
 fileFormatVersion: 2
-guid: 51e8e893688e5644a9d2c815e4139d19
+guid: 35c92f34a02903c4085823b70c414c37
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Archer
-    100002: Archer_Cat:polySurface20
-    100004: Archer_Cat:polySurface21
-    100006: Archer_Cat:polySurface22
-    100008: Archer_Cat:polySurface23
-    100010: //RootNode
-    100012: ArcherSpine
-    100014: Head
-    100016: HeadTip
-    100018: ikHandle1
-    100020: L_clavicle
-    100022: L_Ear01
-    100024: L_Ear01 1
-    100026: L_Ear02
-    100028: L_Ear02 1
-    100030: L_EarConnect
-    100032: L_EarTip
-    100034: L_EarTip 1
-    100036: L_elbow
-    100038: L_elbow 1
-    100040: L_hand
-    100042: L_hand 1
-    100044: L_leg
-    100046: L_legEnd
-    100048: L_shoulder
-    100050: L_shoulder 1
-    100052: MainCntrl
-    100054: R_clavicle
-    100056: R_EarConnect
-    100058: R_leg
-    100060: R_legEnd
-    100062: Spine
-    100064: Spine01
-    100066: spine02
-    100068: Tail01
-    100070: Tail02
-    100072: Tail03
-    100074: Tail04
-    100076: Tail05
-    100078: Tail06
-    100080: Tail07
-    100082: TailTip
-    100084: transform1
-    400000: Archer
-    400002: Archer_Cat:polySurface20
-    400004: Archer_Cat:polySurface21
-    400006: Archer_Cat:polySurface22
-    400008: Archer_Cat:polySurface23
-    400010: //RootNode
-    400012: ArcherSpine
-    400014: Head
-    400016: HeadTip
-    400018: ikHandle1
-    400020: L_clavicle
-    400022: L_Ear01
-    400024: L_Ear01 1
-    400026: L_Ear02
-    400028: L_Ear02 1
-    400030: L_EarConnect
-    400032: L_EarTip
-    400034: L_EarTip 1
-    400036: L_elbow
-    400038: L_elbow 1
-    400040: L_hand
-    400042: L_hand 1
-    400044: L_leg
-    400046: L_legEnd
-    400048: L_shoulder
-    400050: L_shoulder 1
-    400052: MainCntrl
-    400054: R_clavicle
-    400056: R_EarConnect
-    400058: R_leg
-    400060: R_legEnd
-    400062: Spine
-    400064: Spine01
-    400066: spine02
-    400068: Tail01
-    400070: Tail02
-    400072: Tail03
-    400074: Tail04
-    400076: Tail05
-    400078: Tail06
-    400080: Tail07
-    400082: TailTip
-    400084: transform1
+    100000: Head
+    100002: HeadTip
+    100004: Hip1
+    100006: IKSpine
+    100008: L_clavicle
+    100010: L_Ear01
+    100012: L_Ear01 1
+    100014: L_Ear02
+    100016: L_Ear02 1
+    100018: L_EarConnect
+    100020: L_EarTip
+    100022: L_EarTip 1
+    100024: L_elbow
+    100026: L_elbow 1
+    100028: L_hand
+    100030: L_hand 1
+    100032: L_leg
+    100034: L_legEnd
+    100036: L_shoulder
+    100038: L_shoulder 1
+    100040: MainCntrl
+    100042: R_clavicle
+    100044: R_EarConnect
+    100046: R_leg
+    100048: R_legEnd
+    100050: //RootNode
+    100052: Spearman_Cat1
+    100054: Spine
+    100056: Spine01
+    100058: spine02
+    100060: Tail01
+    100062: Tail02
+    100064: Tail03
+    100066: Tail04
+    100068: Tail05
+    100070: Tail06
+    100072: Tail07
+    100074: TailTip
+    100076: transform1
+    400000: Head
+    400002: HeadTip
+    400004: Hip1
+    400006: IKSpine
+    400008: L_clavicle
+    400010: L_Ear01
+    400012: L_Ear01 1
+    400014: L_Ear02
+    400016: L_Ear02 1
+    400018: L_EarConnect
+    400020: L_EarTip
+    400022: L_EarTip 1
+    400024: L_elbow
+    400026: L_elbow 1
+    400028: L_hand
+    400030: L_hand 1
+    400032: L_leg
+    400034: L_legEnd
+    400036: L_shoulder
+    400038: L_shoulder 1
+    400040: MainCntrl
+    400042: R_clavicle
+    400044: R_EarConnect
+    400046: R_leg
+    400048: R_legEnd
+    400050: //RootNode
+    400052: Spearman_Cat1
+    400054: Spine
+    400056: Spine01
+    400058: spine02
+    400060: Tail01
+    400062: Tail02
+    400064: Tail03
+    400066: Tail04
+    400068: Tail05
+    400070: Tail06
+    400072: Tail07
+    400074: TailTip
+    400076: transform1
     2100000: lambert1
-    4300000: Archer
-    4300002: Archer_Cat:polySurface20
-    4300004: Archer_Cat:polySurface21
-    4300006: Archer_Cat:polySurface22
-    4300008: Archer_Cat:polySurface23
-    7400000: Take 001
+    4300000: Spearman_Cat1
+    7400000: SpearmanIdle
     9500000: //RootNode
-    13700000: Archer
-    13700002: Archer_Cat:polySurface20
-    13700004: Archer_Cat:polySurface21
-    13700006: Archer_Cat:polySurface22
-    13700008: Archer_Cat:polySurface23
+    13700000: Spearman_Cat1
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -131,7 +115,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: SpearmanIdle
       takeName: Take 001
       firstFrame: 1
       lastFrame: 20
@@ -157,7 +141,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
