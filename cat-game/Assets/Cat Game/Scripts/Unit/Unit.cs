@@ -13,10 +13,14 @@ namespace CatGame.Units
         [SerializeField]
         private Renderer[] renderers;
 
+        [Header("Animations")]
+        public Animator anim;
+        public Rigidbody rigidBody;
+
         protected override void Start()
         {
             base.Start();
-            ChangeRendererColour(owner.colour, renderers);
+            if (renderers != null) ChangeRendererColour(owner.colour, renderers);
 
             if (name.Length == 0) name = "UNNAMED_UNIT";
         }

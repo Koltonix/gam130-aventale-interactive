@@ -53,7 +53,7 @@ namespace CatGame.Units
         {
             currentPlayer = PlayerManager.Instance.GetCurrentPlayer();
             currentInput = this.GetComponent<UserInput>();
-            TurnManager.Instance.onPlayerCycle += ChangePlayer;         
+            TurnManager.Instance.onPlayerCycle += ChangePlayer;
         }
 
         private void Update()
@@ -149,7 +149,7 @@ namespace CatGame.Units
             }
 
             //Within range and can attack
-            else if (canAttack)
+            else if (canAttack && !health.isDying)
             {
                 _selectedUnit.owner.GetPlayerReference().ActionPoints -= unitAttack.AttackAP;
                 health.Damage(unitAttack.Damage);
@@ -214,7 +214,6 @@ namespace CatGame.Units
                 //Over something that can be attacked
                 lastSelectedTile = BoardManager.Instance.GetTileFromWorldPosition(gameObjectHit.point);
                 Entity enemyEntity = lastSelectedTile.OccupiedEntity;
-                Attacker currentAttacker = selectedUnit.GetComponent<Attacker>();
 
                 //There is an Enemy on the tile
                 if (enemyEntity && enemyEntity.owner.GetPlayerReference() != selectedUnit.owner.GetPlayerReference())
@@ -234,10 +233,10 @@ namespace CatGame.Units
                     }
 
                     //Cull the tiles based on range...
-                    for (int i = 0; i < currentAttacker.AttackRange; i++)
-                    {
-                        if (attackPath.Count > 0) attackPath.RemoveAt(attackPath.Count - 1);
-                    }
+                    //for (int i = 0; i < currentAttacker.AttackRange; i++)
+                    //{
+                    //    if (attackPath.Count > 0) attackPath.RemoveAt(attackPath.Count - 1);
+                    //}
                     
 
                     lastSelectedPath = attackPath.ToArray();
@@ -322,6 +321,8 @@ namespace CatGame.Units
         private IEnumerator PathfindObject(UnitMovement _selectedUnit, Tile[] path, Transform objectToMove, Tile tileToAttack)
         {
             TurnManager.Instance.objectIsMoving = true;
+            if (_selectedUnit.currentUnit.anim) _selectedUnit.currentUnit.anim.SetBool("ISMOVING", true);
+
             if (path != null)
             {
                 //Move to each tile one by one
@@ -353,8 +354,9 @@ namespace CatGame.Units
 
             movingCoroutine = null;
             TurnManager.Instance.objectIsMoving = false;
+            if (_selectedUnit.currentUnit.anim) _selectedUnit.currentUnit.anim.SetBool("ISMOVING", false);
 
-            if (tileToAttack.OccupiedEntity)
+            if (tileToAttack != null && tileToAttack.OccupiedEntity)
             {
                 yield return attackingCoroutine = StartCoroutine(AttackEnemy(_selectedUnit, path[path.Length - 1], tileToAttack));
             }
@@ -390,12 +392,12 @@ namespace CatGame.Units
         private IEnumerator AttackEnemy(UnitMovement _selectedUnit, Tile currentTile, Tile tileToAttack)
         {
             DamageObject(currentTile, tileToAttack, _selectedUnit, tileToAttack.OccupiedEntity.GetComponent<Health>());
-            TurnManager.Instance.objectIsAttacking = true; ;
+            TurnManager.Instance.objectIsAttacking = true;
 
             //Implement wait for animation here
             yield return new WaitForSeconds(0.5f);
 
-            TurnManager.Instance.objectIsAttacking = true;
+            TurnManager.Instance.objectIsAttacking = false;
             attackingCoroutine = null;
         }
 

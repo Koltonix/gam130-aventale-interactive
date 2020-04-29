@@ -1,0 +1,218 @@
+fileFormatVersion: 2
+guid: 1f257553b24bb6743ae5203efb11b27a
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Archer
+    100002: //RootNode
+    100004: Archer_Cat:polySurface20
+    100006: Archer_Cat:polySurface21
+    100008: Archer_Cat:polySurface22
+    100010: Archer_Cat:polySurface23
+    100012: ArcherSpine
+    100014: Head
+    100016: HeadTip
+    100018: ikHandle1
+    100020: L_clavicle
+    100022: L_Ear01
+    100024: L_Ear01 1
+    100026: L_Ear02
+    100028: L_Ear02 1
+    100030: L_EarConnect
+    100032: L_EarTip
+    100034: L_EarTip 1
+    100036: L_elbow
+    100038: L_elbow 1
+    100040: L_hand
+    100042: L_hand 1
+    100044: L_leg
+    100046: L_legEnd
+    100048: L_shoulder
+    100050: L_shoulder 1
+    100052: MainCntrl
+    100054: R_clavicle
+    100056: R_EarConnect
+    100058: R_leg
+    100060: R_legEnd
+    100062: Spine
+    100064: Spine01
+    100066: spine02
+    100068: Tail01
+    100070: Tail02
+    100072: Tail03
+    100074: Tail04
+    100076: Tail05
+    100078: Tail06
+    100080: Tail07
+    100082: TailTip
+    100084: transform1
+    400000: Archer
+    400002: //RootNode
+    400004: Archer_Cat:polySurface20
+    400006: Archer_Cat:polySurface21
+    400008: Archer_Cat:polySurface22
+    400010: Archer_Cat:polySurface23
+    400012: ArcherSpine
+    400014: Head
+    400016: HeadTip
+    400018: ikHandle1
+    400020: L_clavicle
+    400022: L_Ear01
+    400024: L_Ear01 1
+    400026: L_Ear02
+    400028: L_Ear02 1
+    400030: L_EarConnect
+    400032: L_EarTip
+    400034: L_EarTip 1
+    400036: L_elbow
+    400038: L_elbow 1
+    400040: L_hand
+    400042: L_hand 1
+    400044: L_leg
+    400046: L_legEnd
+    400048: L_shoulder
+    400050: L_shoulder 1
+    400052: MainCntrl
+    400054: R_clavicle
+    400056: R_EarConnect
+    400058: R_leg
+    400060: R_legEnd
+    400062: Spine
+    400064: Spine01
+    400066: spine02
+    400068: Tail01
+    400070: Tail02
+    400072: Tail03
+    400074: Tail04
+    400076: Tail05
+    400078: Tail06
+    400080: Tail07
+    400082: TailTip
+    400084: transform1
+    2100000: lambert1
+    4300000: Archer
+    4300002: Archer_Cat:polySurface20
+    4300004: Archer_Cat:polySurface21
+    4300006: Archer_Cat:polySurface22
+    4300008: Archer_Cat:polySurface23
+    7400000: ArcherIdle
+    9500000: //RootNode
+    13700000: Archer
+    13700002: Archer_Cat:polySurface20
+    13700004: Archer_Cat:polySurface21
+    13700006: Archer_Cat:polySurface22
+    13700008: Archer_Cat:polySurface23
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: ArcherIdle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 21
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.3
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -112,7 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55d260effa4d085469fb814d1feead00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldCamera: {fileID: 0}
   Buttons: []
   buttonPrefab: {fileID: 7566935799962482655, guid: d78860d2382019642921406f334f8fc8,
     type: 3}

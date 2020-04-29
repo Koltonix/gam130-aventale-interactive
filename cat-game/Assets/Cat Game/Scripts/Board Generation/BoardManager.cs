@@ -15,8 +15,7 @@ namespace CatGame.Tiles
         public static BoardManager Instance;
 
         [Header("Board Settings")]
-        [SerializeField]
-        private GameObject board;
+        public GameObject board;
         public Tile[] tiles;
         public Tile[,] gridTiles;
 
@@ -27,11 +26,11 @@ namespace CatGame.Tiles
         private Vector2 gridWorldSize;
         [SerializeField]
         public Vector2Int tileGap;
+        public float yScale;
         private bool hasInitialised = false;
 
         [Header("Tile Settings")]
-        [SerializeField]
-        private GameObject passableTilePrefab;
+        public GameObject passableTilePrefab;
         [SerializeField]
         private GameObject impassableTilePrefab;
         [SerializeField]
@@ -56,6 +55,7 @@ namespace CatGame.Tiles
         /// Retreives all of the board tiles from a singular parent gameobject.
         /// </summary>
         /// <returns>An array of all of the Tiles in the board world.</returns>
+        /// <remarks>Math updated using: https://www.youtube.com/watch?v=nhiFx28e7JY&t=1210s </remarks>
         public Tile[] GetBoardTiles()
         {
             if (board == null) return null;
@@ -103,6 +103,7 @@ namespace CatGame.Tiles
         /// </summary>
         /// <param name="tilePosition">World Position.</param>
         /// <returns>A GameObject of the new Tile GameObject that has been setup.</returns>
+        /// <remarks>Math updated using: https://www.youtube.com/watch?v=nhiFx28e7JY&t=1210s </remarks>
         private GameObject DetermineIfTileIsPassable(Vector3 tilePosition)
         {
             Vector3 checkPosition = tilePosition;
@@ -116,7 +117,7 @@ namespace CatGame.Tiles
 
                 tileReference.layer = 9;
                 tileReference.transform.localScale = new Vector3(tileGap.x * tileReference.transform.localScale.x,
-                                                                 tileGap.y * tileReference.transform.localScale.y,
+                                                                 yScale,
                                                                  tileGap.y * tileReference.transform.localScale.z);
 
                 tileReference.transform.SetParent(board.transform);
@@ -129,7 +130,7 @@ namespace CatGame.Tiles
 
                 tileReference.layer = 10;
                 tileReference.transform.localScale = new Vector3(tileGap.x * tileReference.transform.localScale.x,
-                                                                 tileGap.y * tileReference.transform.localScale.y,
+                                                                 yScale,
                                                                  tileGap.y * tileReference.transform.localScale.z);
 
                 tileReference.transform.SetParent(board.transform);
@@ -213,14 +214,14 @@ namespace CatGame.Tiles
         {
             gridWorldSize = new Vector2(boardWidth * tileGap.x, boardHeight * tileGap.y);
 
-            float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x) / tileGap.x;
-            float yPoint = ((position.z + gridWorldSize.y * .5f) / gridWorldSize.y) / tileGap.y;
+            float xPoint = (position.x + gridWorldSize.x * .5f) / gridWorldSize.x;
+            float yPoint = (position.z + gridWorldSize.y * .5f) / gridWorldSize.y;
 
             xPoint = Mathf.Clamp01(xPoint);
             yPoint = Mathf.Clamp01(yPoint);
 
-            int x = Mathf.RoundToInt((gridWorldSize.x - tileGap.x) * xPoint);
-            int y = Mathf.RoundToInt((gridWorldSize.y - tileGap.y) * yPoint);
+            int x = Mathf.RoundToInt((boardWidth - 1) * xPoint);
+            int y = Mathf.RoundToInt((boardHeight - 1) * yPoint);
 
             return new Vector2Int(x, y);
         }
@@ -230,15 +231,17 @@ namespace CatGame.Tiles
             if (gridTiles != null)
             {
                 gridWorldSize = new Vector2(boardWidth * tileGap.x, boardHeight * tileGap.y);
-
-                float xPoint = ((position.x + gridWorldSize.x * .5f) / gridWorldSize.x) / tileGap.x;
-                float yPoint = ((position.z + gridWorldSize.y * .5f) / gridWorldSize.y) / tileGap.y;
+                
+                float xPoint = (position.x + gridWorldSize.x * .5f) / gridWorldSize.x;
+                float yPoint = (position.z + gridWorldSize.y * .5f) / gridWorldSize.y;
 
                 xPoint = Mathf.Clamp01(xPoint);
                 yPoint = Mathf.Clamp01(yPoint);
 
-                int x = Mathf.RoundToInt((gridWorldSize.x - tileGap.x) * xPoint);
-                int y = Mathf.RoundToInt((gridWorldSize.y - tileGap.y) * yPoint);
+                int x = Mathf.RoundToInt((boardWidth - 1) * xPoint);
+                int y = Mathf.RoundToInt((boardHeight - 1) * yPoint);
+
+
 
                 return gridTiles[x, y];
             }
@@ -285,7 +288,7 @@ namespace CatGame.Tiles
             return neighbouringTiles.ToArray();
         }
 
-        public Tile[] GetAllAdjacentTiles(Tile tile)
+        public Tile[] GetAllAdjacentTiles(Tile tile, int range)
         {
             List<Tile> neighbouringTiles = new List<Tile>();
 
@@ -293,9 +296,9 @@ namespace CatGame.Tiles
             int xCheck;
             int yCheck;
 
-            for (int x = -1; x <= 1; x++)
+            for (int x = -range; x <= range; x++)
             {
-                for (int y = -1; y <= 1; y++)
+                for (int y = -range; y <= range; y++)
                 {
                     //Skip if it is the centre tile
                     if (x == 0 && y == 0) continue;
