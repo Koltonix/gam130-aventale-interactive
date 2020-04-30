@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using CatGame.ControlScheme;
 
 namespace CatGame.UI
 {
@@ -28,7 +29,7 @@ namespace CatGame.UI
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(Keybinds.KeybindsManager.PauseBack))
             {
                 TogglePauseMenu();
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using CatGame.ControlScheme;
 
 namespace CatGame.CameraMovement
 {
@@ -9,9 +10,9 @@ namespace CatGame.CameraMovement
     {
         [Header("Input Settings")]
         [SerializeField]
-        private KeyCode positiveButton = KeyCode.E;
+        private KeyCode positiveButton = Keybinds.KeybindsManager.NextCamera;
         [SerializeField]
-        private KeyCode negativeButton = KeyCode.Q;
+        private KeyCode negativeButton = Keybinds.KeybindsManager.LastCamera;
         [Space]
 
         [Header("Camera Attributes")]
