@@ -46,7 +46,11 @@ namespace CatGame.CameraMovement
             else if (Input.GetKey(negativeButton) && rotationCoroutine == null) IterateThroughPoints(-1);
         }
 
-        public override void OnStateEnter(){}
+        public override void OnStateEnter()
+        {
+            UpdateCamera(travelPoints[pointIndex]);
+        }
+
         public override void OnStateExit(){}
 
         /// <summary>Checks if the current mechanic is in progress.</summary>

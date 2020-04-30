@@ -7,12 +7,13 @@ namespace CatGame.CameraMovement
     /// A State Handler which deals with the Zooming and Moving on the Camera
     /// between points.
     /// </summary>
-    [RequireComponent(typeof(CameraZoom), typeof(CameraRotator))]
+    [RequireComponent(typeof(CameraZoom), typeof(CameraRotator), typeof(CameraBirdsEyeView))]
     public class CameraStateHandler : MonoBehaviour
     {
         [Header("States")]
         private CameraState rotating;
         private CameraState zooming;
+        private CameraState birdsEye;
         private CameraState currentState;
 
         private IEnumerator changingState;
@@ -21,6 +22,7 @@ namespace CatGame.CameraMovement
         {
             rotating = this.GetComponent<CameraRotator>();
             zooming = this.GetComponent<CameraZoom>();
+            birdsEye = this.GetComponent<CameraBirdsEyeView>();
 
             //Starts the entrance function for the first state
             changingState = ChangeState(rotating);
@@ -34,16 +36,25 @@ namespace CatGame.CameraMovement
             //Checks to see what next state to go to.
             if (changingState == null)
             {
-                if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E) && changingState == null)
+                if ((Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E) && changingState == null))
                 {
                     changingState = ChangeState(rotating);
                     StartCoroutine(changingState);
+                    return;
                 }
 
                 else if (Input.GetAxisRaw("SCROLL_WHEEL") != 0 && changingState == null)
                 {
                     changingState = ChangeState(zooming);
                     StartCoroutine(changingState);
+                    return;
+                }
+
+                else if (Input.GetKeyDown(KeyCode.Tab) && changingState == null)
+                {
+                    changingState = ChangeState(birdsEye);
+                    StartCoroutine(changingState);
+                    return;
                 }
             }
         }
