@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rooma_MAT
+  m_Name: Roomba_MAT
   m_Shader: {fileID: 4800000, guid: 557270e517c587a488c9db27df255b05, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
