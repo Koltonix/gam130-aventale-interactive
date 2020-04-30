@@ -16,9 +16,6 @@ namespace CatGame.UI
         // Called by buttons.
         public void TogglePauseMenu()
         {
-            MonoBehaviour[] allMonoBehaviours = FindObjectsOfType<MonoBehaviour>();
-            Debug.Log(allMonoBehaviours.Length);
-
             if (pauseMenu.activeSelf)
             {
                 pauseMenu.SetActive(false);
