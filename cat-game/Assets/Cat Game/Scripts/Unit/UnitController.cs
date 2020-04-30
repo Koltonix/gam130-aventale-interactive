@@ -92,7 +92,7 @@ namespace CatGame.Units
                     }
 
                     //Acceping the tile to move to
-                    if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
+                    if (selectionProgress == SelectionProgress.SELECTED && selectedUnit.owner.GetCurrentActionPoints() > 0 && lastSelectedTile != null && lastSelectedPath != null && lastSelectedPath.Length > 0 && lastSelectedTile.OccupiedEntity == null)
                     {
                         MoveToTile(lastSelectedPath, null);
                         return;

@@ -100,7 +100,7 @@ namespace CatGame.Units
                 Destroyed();
                 this.gameObject.DisableBehaviours();
 
-                if (!isABase) Destroy(this.gameObject, ParticleManager.SpawnParticle(deathParticlePrefab, transform.position + healthBarOffset, Quaternion.identity) - 1.0f);
+                if (!isABase) Destroy(this.gameObject, ParticleManager.SpawnParticle(deathParticlePrefab, transform.position + healthBarOffset, Quaternion.identity) - 1.25f);
                 else Destroy(this.gameObject);
             }
         }
