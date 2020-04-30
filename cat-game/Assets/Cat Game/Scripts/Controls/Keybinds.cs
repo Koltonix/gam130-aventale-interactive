@@ -41,7 +41,7 @@ namespace CatGame.ControlScheme
             ZoomOut = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("ZoomOut", "S"));
             PauseBack = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("PauseBack", "Escape"));
             BirdsEye = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("BirdsEye", "Tab"));
-            BirdsEye = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Select", "Mouse0"));
+            Select = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Select", "Mouse0"));
 
         }
 

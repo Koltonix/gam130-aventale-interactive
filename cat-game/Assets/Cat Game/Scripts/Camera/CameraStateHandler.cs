@@ -51,7 +51,7 @@ namespace CatGame.CameraMovement
                     return;
                 }
 
-                else if (Input.GetKeyDown(KeyCode.Tab) && changingState == null)
+                else if (Input.GetKeyDown(Keybinds.KeybindsManager.BirdsEye) && changingState == null)
                 {
                     changingState = ChangeState(birdsEye);
                     StartCoroutine(changingState);

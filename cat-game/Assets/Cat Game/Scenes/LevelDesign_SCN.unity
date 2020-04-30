@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1355559554}
-  m_IndirectSpecularColor: {r: 0.3031551, g: 0.12918648, b: 0.34287488, a: 1}
+  m_IndirectSpecularColor: {r: 0.110456094, g: 0.046590343, b: 0.12441223, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4466,7 +4466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dd4019545aa9e4da6262348c4c9cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseButton: 27
+  isPaused: 0
   pauseUIPrefab: {fileID: 1901254604458093392, guid: 5d2fd352e0007f646bd8b84f0c7a0ad1,
     type: 3}
   pauseUI: {fileID: 0}
@@ -32205,6 +32205,66 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8271806065227639186, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: behavioursToIgnoreOnPause.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: onPauseDisable.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: behavioursToIgnoreOnPause.Array.data[0]
+      value: 
+      objectReference: {fileID: 38192068}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: behavioursToIgnoreOnPause.Array.data[1]
+      value: 
+      objectReference: {fileID: 1099639749}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: behavioursToIgnoreOnPause.Array.data[2]
+      value: 
+      objectReference: {fileID: 637911991}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: behavioursToIgnoreOnPause.Array.data[3]
+      value: 
+      objectReference: {fileID: 457745206}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: behavioursToIgnoreOnPause.Array.data[4]
+      value: 
+      objectReference: {fileID: 4914117}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: behavioursToIgnoreOnPause.Array.data[5]
+      value: 
+      objectReference: {fileID: 4914116}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: onPauseDisable.Array.data[0]
+      value: 
+      objectReference: {fileID: 941093013}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: onPauseDisable.Array.data[1]
+      value: 
+      objectReference: {fileID: 7199226515327084930}
+    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: onPauseDisable.Array.data[2]
+      value: 
+      objectReference: {fileID: 7199226514400752383}
     - target: {fileID: 7389578050620446893, guid: da20a039e656767489b893fad8b2e4a0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -32345,11 +32405,6 @@ PrefabInstance:
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8271806065227639186, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 108777140, guid: da20a039e656767489b893fad8b2e4a0, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -32359,51 +32414,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: behavioursToIgnoreOnPause.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: onPauseDisable.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: behavioursToIgnoreOnPause.Array.data[0]
-      value: 
-      objectReference: {fileID: 38192068}
-    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: behavioursToIgnoreOnPause.Array.data[1]
-      value: 
-      objectReference: {fileID: 1099639749}
-    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: behavioursToIgnoreOnPause.Array.data[2]
-      value: 
-      objectReference: {fileID: 637911991}
-    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: behavioursToIgnoreOnPause.Array.data[3]
-      value: 
-      objectReference: {fileID: 457745206}
-    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: behavioursToIgnoreOnPause.Array.data[4]
-      value: 
-      objectReference: {fileID: 4914117}
-    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: behavioursToIgnoreOnPause.Array.data[5]
-      value: 
-      objectReference: {fileID: 4914116}
-    - target: {fileID: 7389578050666915758, guid: da20a039e656767489b893fad8b2e4a0,
-        type: 3}
-      propertyPath: onPauseDisable.Array.data[0]
-      value: 
-      objectReference: {fileID: 941093013}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da20a039e656767489b893fad8b2e4a0, type: 3}
 --- !u!4 &6735766632096406452

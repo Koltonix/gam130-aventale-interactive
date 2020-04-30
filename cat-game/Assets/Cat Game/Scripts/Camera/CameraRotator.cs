@@ -10,9 +10,9 @@ namespace CatGame.CameraMovement
     {
         [Header("Input Settings")]
         [SerializeField]
-        private KeyCode positiveButton = Keybinds.KeybindsManager.NextCamera;
+        private KeyCode positiveButton;
         [SerializeField]
-        private KeyCode negativeButton = Keybinds.KeybindsManager.LastCamera;
+        private KeyCode negativeButton;
         [Space]
 
         [Header("Camera Attributes")]
@@ -36,6 +36,9 @@ namespace CatGame.CameraMovement
         {
             if (!cameraTransform) cameraTransform = this.transform;
             if (travelPoints.Length > 0) latestPoint = travelPoints[0];
+
+            positiveButton = Keybinds.KeybindsManager.NextCamera;
+            negativeButton = Keybinds.KeybindsManager.LastCamera;
         }
 
         #region Abstract Parent Obligations
