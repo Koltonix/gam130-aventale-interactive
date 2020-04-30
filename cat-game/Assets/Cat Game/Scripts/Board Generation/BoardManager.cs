@@ -107,9 +107,9 @@ namespace CatGame.Tiles
         private GameObject DetermineIfTileIsPassable(Vector3 tilePosition)
         {
             Vector3 checkPosition = tilePosition;
-            checkPosition.y += 1.0f;
+            checkPosition.y = GetBoardCentre().y;
 
-            bool isPassable = !(Physics.CheckSphere(checkPosition, .75f, impassableMask));
+            bool isPassable = !Physics.CheckSphere(checkPosition, .5f, impassableMask);
 
             if (isPassable)
             {    

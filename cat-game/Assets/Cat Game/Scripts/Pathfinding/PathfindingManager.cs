@@ -139,6 +139,16 @@ namespace CatGame.Pathfinding
             if (tileToIgnore == null) finalPath.Add(endTile);
 
             this.finalPath = finalPath;
+            ResetCosts(BoardManager.Instance.tiles);
+        }
+
+        private void ResetCosts(Tile[] tiles)
+        {
+            foreach (var tile in tiles)
+            {
+                tile.gCost = 0;
+                tile.hCost = 0;
+            }
         }
 
         /// <summary>
@@ -201,8 +211,18 @@ namespace CatGame.Pathfinding
 
                         Gizmos.color = tile.IsPassable ? passableColour : impassableColour;
                         Gizmos.DrawWireCube(spawnPosition, new Vector3(tileScale.x, tileScale.y + drawHeight, tileScale.z));
+                    } 
+                }
+
+                if (start && end)
+                {
+                    List<Tile> tilePath = GetPath(start.position, end.position, true, null);
+                    for (int i = 0; i < tilePath.Count; i++)
+                    {
+                        Gizmos.color = Color.black;
+                        Vector3 scale = new Vector3(BoardManager.Instance.tileGap.x, 1, BoardManager.Instance.tileGap.y);
+                        Gizmos.DrawCube(tilePath[i].Position, scale);
                     }
-                    
                 }
             }
             

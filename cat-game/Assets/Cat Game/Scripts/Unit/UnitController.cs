@@ -125,7 +125,7 @@ namespace CatGame.Units
             Health enemyHealth = hitObject.GetComponent<Health>();
 
             //It is an entity and is of the nearby units
-            if (entity && selectedUnit.EnemyIsNearby(entity))
+            if (entity && selectedUnit != null && lastSelectedTile != null && selectedUnit.EnemyIsNearby(entity))
             {
                 if (entity is Unit) attackingCoroutine = StartCoroutine(AttackEnemy(selectedUnit, selectedUnit.currentTile, lastSelectedTile));
                 else if (entity is Building) attackingCoroutine = StartCoroutine(AttackEnemy(selectedUnit, selectedUnit.currentTile, lastSelectedTile));

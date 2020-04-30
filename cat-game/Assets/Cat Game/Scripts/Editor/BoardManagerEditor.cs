@@ -35,7 +35,7 @@ namespace CatGame.Tiles
                 for (int y = 0; y < boardHeight; y++)
                 {
                     Vector3 spawnPosition = new Vector3(x * tileGap.x - ((boardWidth - 1) * tileGap.x * .5f),
-                                                        tileGap.y,
+                                                        0.0f,
                                                         y * tileGap.y - ((boardHeight - 1) * tileGap.y * .5f));
 
                     GameObject clone = Instantiate(prefab, spawnPosition, Quaternion.identity, parent.transform);

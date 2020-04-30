@@ -16,7 +16,6 @@ namespace CatGame.Units
         [Header("Movement Settings")]
         public float apCostModifier = 1.0f;
 
-        [HideInInspector]
         public Tile currentTile;
 
         [HideInInspector]
@@ -93,11 +92,11 @@ namespace CatGame.Units
                     if (tile.OccupiedEntity.owner.number == owner.number) friendlyUnits.Add(tile);
                     else
                     {
+
+                        float distance = Mathf.Sqrt((xBoardDistance * xBoardDistance) + (yBoardDistance * yBoardDistance));
+                        int diff = unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP + 1;
                         //Will only add the Unit if it is within the move distance and can also attack.
-                        if (xBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP)
-                        {
-                            if (yBoardDistance <= unitAttack.AttackRange + owner.GetPlayerReference().ActionPoints - unitAttack.AttackAP) enemyUnits.Add(tile);
-                        }
+                        if (distance < diff || distance < diff) enemyUnits.Add(tile);
                     }
                 }
             }
@@ -150,28 +149,14 @@ namespace CatGame.Units
                 if (finalPath.Count - 1 <= owner.GetCurrentActionPoints() / apCostModifier)
                 {
                     allPaths.Add(endTile, finalPath);
-                    SetTilesUsingPathfinding(finalPath.ToArray(), true);
+                    //SetTilesUsingPathfinding(finalPath.ToArray(), true);
+                    endTile.isUsedInPathfinding = true;
                 }
             }
 
             return allPaths;
         }
         
-        /// <summary>Sets the Tile to state that the Pathfinding is being used by it.</summary>
-        /// <param name="tiles"></param>
-        /// <param name="areUsed"></param>
-        /// <remarks>
-        /// The reason for this is that it is more efficient to check if it is possible
-        /// to reach this Tile within the actual AP Distance rather than a sphere cast.
-        /// </remarks>
-        private void SetTilesUsingPathfinding(Tile[] tiles, bool areUsed)
-        {
-            for (int i = 0; i < tiles.Length; i++)
-            {
-                tiles[i].isUsedInPathfinding = areUsed;
-            }
-        }
-
         /// <summary>Removes the Tiles not used in the pathfinding and there aren't accessible</summary>
         private void RemoveUnusedTiles()
         {
