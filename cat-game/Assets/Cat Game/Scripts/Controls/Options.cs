@@ -25,16 +25,13 @@ namespace CatGame.ControlScheme
         void Start()
         {
             backButton.onClick.AddListener(BackButton);
-            configButtons[0].onClick.AddListener(SetUp);
-            configButtons[1].onClick.AddListener(SetDown);
-            configButtons[2].onClick.AddListener(SetForward);
-            configButtons[3].onClick.AddListener(SetBack);
-            configButtons[4].onClick.AddListener(SetLeft);
-            configButtons[5].onClick.AddListener(SetRight);
-            configButtons[6].onClick.AddListener(SetBoost);
-            configButtons[7].onClick.AddListener(SetCameraMove);
-            configButtons[8].onClick.AddListener(SetMovementSelect);
-            configButtons[9].onClick.AddListener(SetAttackSelect);
+            configButtons[0].onClick.AddListener(SetNextCamera);
+            configButtons[1].onClick.AddListener(SetLastCamera);
+            configButtons[2].onClick.AddListener(SetZoomIn);
+            configButtons[3].onClick.AddListener(SetZoomOut);
+            configButtons[4].onClick.AddListener(SetPauseBack);
+            configButtons[5].onClick.AddListener(SetBirdsEye);
+            configButtons[6].onClick.AddListener(SetSelect);
             UpdateButtonText();
             prompt.SetActive(false);
         }
@@ -65,77 +62,56 @@ namespace CatGame.ControlScheme
 
         void UpdateButtonText()
         {
-            configButtons[0].GetComponentInChildren<Text>().text = "Configure Camera Up Key (" + PlayerPrefs.GetString("upKey", "E") + ")";
-            configButtons[1].GetComponentInChildren<Text>().text = "Configure Camera Down Key (" + PlayerPrefs.GetString("downKey", "Q") + ")";
-            configButtons[2].GetComponentInChildren<Text>().text = "Configure Camera Forward Key (" + PlayerPrefs.GetString("forwardKey", "W") + ")";
-            configButtons[3].GetComponentInChildren<Text>().text = "Configure Camera Backward Key (" + PlayerPrefs.GetString("backwardKey", "S") + ")";
-            configButtons[4].GetComponentInChildren<Text>().text = "Configure Camera Left Key (" + PlayerPrefs.GetString("leftKey", "A") + ")";
-            configButtons[5].GetComponentInChildren<Text>().text = "Configure Camera Right Key (" + PlayerPrefs.GetString("rightKey", "D") + ")";
-            configButtons[6].GetComponentInChildren<Text>().text = "Configure Camera Boost Key (" + PlayerPrefs.GetString("boostKey", "LeftShift") + ")";
-            configButtons[7].GetComponentInChildren<Text>().text = "Configure Camera Movement Key (" + PlayerPrefs.GetString("cameraMoveKey", "Mouse2") + ")";
-            configButtons[8].GetComponentInChildren<Text>().text = "Configure Movement Select Key (" + PlayerPrefs.GetString("movementSelectKey", "Mouse0") + ")";
-            configButtons[9].GetComponentInChildren<Text>().text = "Configure Attack Select Key (" + PlayerPrefs.GetString("attackSelectKey", "Mouse2") + ")";
+            configButtons[0].GetComponentInChildren<Text>().text = "Configure next camera Key (" + PlayerPrefs.GetString("NextCamera", "E") + ")";
+            configButtons[1].GetComponentInChildren<Text>().text = "Configure last camera Key (" + PlayerPrefs.GetString("LastCamera", "Q") + ")";
+            configButtons[2].GetComponentInChildren<Text>().text = "Configure Zoom In Key (" + PlayerPrefs.GetString("ZoomIn", "W") + ")";
+            configButtons[3].GetComponentInChildren<Text>().text = "Configure Zoom Out Key (" + PlayerPrefs.GetString("ZoomOut", "S") + ")";
+            configButtons[4].GetComponentInChildren<Text>().text = "Configure Pause/Back Key (" + PlayerPrefs.GetString("PauseBack", "A") + ")";
+            configButtons[5].GetComponentInChildren<Text>().text = "Configure Toggle Bird's Eye Key (" + PlayerPrefs.GetString("BirdsEye", "Tab") + ")";
+            configButtons[6].GetComponentInChildren<Text>().text = "Configure Select Key (" + PlayerPrefs.GetString("Select", "Mouse0") + ")";
         }
 
-        void SetUp()
+        void SetNextCamera()
         {
             waitingForInput = true;
-            buttonToSet = "upKey";
+            buttonToSet = "NextCamera";
             prompt.SetActive(true);
         }
 
-        void SetDown()
+        void SetLastCamera()
         {
             waitingForInput = true;
-            buttonToSet = "downKey";
+            buttonToSet = "LastCamera";
             prompt.SetActive(true);
         }
-        void SetForward()
+        void SetZoomIn()
         {
             waitingForInput = true;
-            buttonToSet = "forwardKey";
+            buttonToSet = "ZoomIn";
             prompt.SetActive(true);
         }
-        void SetBack()
+        void SetZoomOut()
         {
             waitingForInput = true;
-            buttonToSet = "backwardKey";
+            buttonToSet = "ZoomOut";
             prompt.SetActive(true);
         }
-        void SetLeft()
+        void SetPauseBack()
         {
             waitingForInput = true;
-            buttonToSet = "leftKey";
+            buttonToSet = "PauseBack";
             prompt.SetActive(true);
         }
-        void SetRight()
+        void SetBirdsEye()
         {
             waitingForInput = true;
-            buttonToSet = "rightKey";
+            buttonToSet = "BirdsEye";
             prompt.SetActive(true);
         }
-        void SetBoost()
+        void SetSelect()
         {
             waitingForInput = true;
-            buttonToSet = "boostKey";
-            prompt.SetActive(true);
-        }
-        void SetCameraMove()
-        {
-            waitingForInput = true;
-            buttonToSet = "cameraMoveKey";
-            prompt.SetActive(true);
-        }
-        void SetAttackSelect()
-        {
-            waitingForInput = true;
-            buttonToSet = "attackSelectKey";
-            prompt.SetActive(true);
-        }
-        void SetMovementSelect()
-        {
-            waitingForInput = true;
-            buttonToSet = "movementSelectKey";
+            buttonToSet = "Select";
             prompt.SetActive(true);
         }
     }

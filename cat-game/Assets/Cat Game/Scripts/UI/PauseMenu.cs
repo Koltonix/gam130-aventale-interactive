@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using CatGame.ControlScheme;
 
 /// <summary>
 /// Automatically Instantiates the PauseMenu prefab if it is not referenced.
@@ -11,7 +12,6 @@ using TMPro;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField]
-    private KeyCode pauseButton = KeyCode.Escape;
     private bool isPaused;
 
     [SerializeField]
@@ -33,7 +33,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(pauseButton)) PauseGame();
+        if (Input.GetKeyDown(Keybinds.KeybindsManager.PauseBack)) PauseGame();
     }
 
     /// <summary>Spawns the PauseMenu prefab at the centre of the screen.</summary>

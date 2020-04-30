@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using CatGame.ControlScheme;
 
 namespace CatGame.CameraMovement
 {
@@ -36,7 +37,7 @@ namespace CatGame.CameraMovement
             //Checks to see what next state to go to.
             if (changingState == null)
             {
-                if ((Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E) && changingState == null))
+                if (Input.GetKey(Keybinds.KeybindsManager.LastCamera) || Input.GetKey(Keybinds.KeybindsManager.NextCamera) && changingState == null)
                 {
                     changingState = ChangeState(rotating);
                     StartCoroutine(changingState);

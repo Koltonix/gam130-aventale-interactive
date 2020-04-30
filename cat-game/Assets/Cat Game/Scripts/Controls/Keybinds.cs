@@ -9,17 +9,13 @@ namespace CatGame.ControlScheme
 
         public static Keybinds KeybindsManager;
 
-        public KeyCode up { get; set; }
-        public KeyCode down { get; set; }
-        public KeyCode forward { get; set; }
-        public KeyCode backward { get; set; }
-        public KeyCode left { get; set; }
-        public KeyCode right { get; set; }
-        public KeyCode boost { get; set; }
-        public KeyCode cameraMove { get; set; }
-        public KeyCode movementSelect { get; set; }
-        public KeyCode attackSelect { get; set; }
-
+        public KeyCode NextCamera { get; set; }
+        public KeyCode LastCamera { get; set; }
+        public KeyCode ZoomIn { get; set; }
+        public KeyCode ZoomOut { get; set; }
+        public KeyCode PauseBack { get; set; }
+        public KeyCode BirdsEye { get; set; }
+        public KeyCode Select { get; set; }
 
         void Awake()
         {
@@ -39,16 +35,13 @@ namespace CatGame.ControlScheme
 
         void UpdateKeys()
         {
-            up = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("upKey", "E"));
-            down = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("downKey", "Q"));
-            forward = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("forwardKey", "W"));
-            backward = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("backwardKey", "S"));
-            left = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey", "A"));
-            right = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightKey", "D"));
-            boost = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("boostKey", "LeftShift"));
-            cameraMove = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("cameraMoveKey", "Mouse2"));
-            movementSelect = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("movementSelectKey", "Mouse0"));
-            attackSelect = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("attackSelectKey", "Mouse1"));
+            NextCamera = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("NextCamera", "E"));
+            LastCamera = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LastCamera", "Q"));
+            ZoomIn = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("ZoomIn", "W"));
+            ZoomOut = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("ZoomOut", "S"));
+            PauseBack = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("PauseBack", "Escape"));
+            BirdsEye = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("BirdsEye", "Tab"));
+            BirdsEye = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Select", "Mouse0"));
 
         }
 

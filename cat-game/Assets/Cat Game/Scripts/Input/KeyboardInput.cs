@@ -21,17 +21,17 @@ namespace CatGame.Controls
         /// <returns>Returns true if they have pressed the key.</returns>
         public override bool IsMovementSelected()
         {
-            if (Input.GetKeyDown(Keybinds.KeybindsManager.movementSelect)) return true;
+            if (Input.GetKeyDown(Keybinds.KeybindsManager.Select)) return true;
             return false;
         }
 
         /// <summary>Determines whether the player has pressed the combat key.</summary>
         /// <returns>Returns true if they have pressed the key.</returns>
-        public override bool IsAttackSelected()
+        /*public override bool IsAttackSelected()
         {
             if (Input.GetKeyDown(Keybinds.KeybindsManager.attackSelect)) return true;
             return false;
-        }
+        }*/
 
         public override Ray GetRay()
         {
