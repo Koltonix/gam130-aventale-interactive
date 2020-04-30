@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using CatGame.ControlScheme;
+using TMPro;
 
 namespace CatGame.ControlScheme
 {
@@ -24,7 +25,7 @@ namespace CatGame.ControlScheme
         // Start is called before the first frame update
         void Start()
         {
-            backButton.onClick.AddListener(BackButton);
+            if (backButton) backButton.onClick.AddListener(BackButton);
             configButtons[0].onClick.AddListener(SetNextCamera);
             configButtons[1].onClick.AddListener(SetLastCamera);
             configButtons[2].onClick.AddListener(SetZoomIn);
@@ -62,13 +63,13 @@ namespace CatGame.ControlScheme
 
         void UpdateButtonText()
         {
-            configButtons[0].GetComponentInChildren<Text>().text = "Configure next camera Key (" + PlayerPrefs.GetString("NextCamera", "E") + ")";
-            configButtons[1].GetComponentInChildren<Text>().text = "Configure last camera Key (" + PlayerPrefs.GetString("LastCamera", "Q") + ")";
-            configButtons[2].GetComponentInChildren<Text>().text = "Configure Zoom In Key (" + PlayerPrefs.GetString("ZoomIn", "W") + ")";
-            configButtons[3].GetComponentInChildren<Text>().text = "Configure Zoom Out Key (" + PlayerPrefs.GetString("ZoomOut", "S") + ")";
-            configButtons[4].GetComponentInChildren<Text>().text = "Configure Pause/Back Key (" + PlayerPrefs.GetString("PauseBack", "A") + ")";
-            configButtons[5].GetComponentInChildren<Text>().text = "Configure Toggle Bird's Eye Key (" + PlayerPrefs.GetString("BirdsEye", "Tab") + ")";
-            configButtons[6].GetComponentInChildren<Text>().text = "Configure Select Key (" + PlayerPrefs.GetString("Select", "Mouse0") + ")";
+            configButtons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Configure next camera Key (" + PlayerPrefs.GetString("NextCamera", "E") + ")";
+            configButtons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Configure last camera Key (" + PlayerPrefs.GetString("LastCamera", "Q") + ")";
+            configButtons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Configure Zoom In Key (" + PlayerPrefs.GetString("ZoomIn", "W") + ")";
+            configButtons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Configure Zoom Out Key (" + PlayerPrefs.GetString("ZoomOut", "S") + ")";
+            configButtons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Configure Pause/Back Key (" + PlayerPrefs.GetString("PauseBack", "A") + ")";
+            configButtons[5].GetComponentInChildren<TextMeshProUGUI>().text = "Configure Toggle Bird's Eye Key (" + PlayerPrefs.GetString("BirdsEye", "Tab") + ")";
+            configButtons[6].GetComponentInChildren<TextMeshProUGUI>().text = "Configure Select Key (" + PlayerPrefs.GetString("Select", "Mouse0") + ")";
         }
 
         void SetNextCamera()

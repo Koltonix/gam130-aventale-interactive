@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -29,6 +30,11 @@ public class SceneController : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void PlayMainAfter(float delay)
+    {
+        StartCoroutine(DelayLoading(2, delay));
+    }
+
     /// <summary>Reloads the current scene.</summary>
     public void RestartScene()
     {
@@ -39,6 +45,12 @@ public class SceneController : MonoBehaviour
     public void QuitApplication()
     {
         Application.Quit();
+    }
+
+    private IEnumerator DelayLoading(int buildIndex, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(buildIndex);
     }
 }
  
