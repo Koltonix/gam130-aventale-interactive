@@ -1112,7 +1112,6 @@ MonoBehaviour:
       rgba: 0
   player: 2
   isEnabled: 0
-  playerIndex: 0
   SpawnPoints: 10
   uiHeight: 5
   BuildmenuPrefab: {fileID: 761650807146044451, guid: 32b2939ed75a6bc4c895ee15bb5cc652,
@@ -1497,17 +1496,17 @@ PrefabInstance:
     - target: {fileID: 3479705740170382990, guid: cc7e0044884a4d247912f090c40174ba,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.017599821
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3479705740170382990, guid: cc7e0044884a4d247912f090c40174ba,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5079
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3479705740170382990, guid: cc7e0044884a4d247912f090c40174ba,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.57579994
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3479705740170382990, guid: cc7e0044884a4d247912f090c40174ba,
         type: 3}
@@ -1564,6 +1563,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.009800002
       objectReference: {fileID: 0}
+    - target: {fileID: 3479705740166958766, guid: cc7e0044884a4d247912f090c40174ba,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 35c03cea4f7658e4b9d042022d0c5023, type: 3}
+    - target: {fileID: 3479705740168088686, guid: cc7e0044884a4d247912f090c40174ba,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f5b9698acc55cef449fc009427a838e6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc7e0044884a4d247912f090c40174ba, type: 3}
 --- !u!4 &3479705739804647824 stripped
