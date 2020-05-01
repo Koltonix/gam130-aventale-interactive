@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bo
   m_EditorClassIdentifier: 
   name: Bo
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: cd2ae952e05313e4eafafecf445df6ef, type: 3}
   description: "Personality:  Snooty \r\n\r\nOwners: Charlie & Vanessa \r\n\r\nLives
     in: 23 Ragamuffin Road \r\n\r\nDescription: She will only play with the finest
     toys. Anything else she'll throw away. \n\n\nCharlie and Vanessa are a loving

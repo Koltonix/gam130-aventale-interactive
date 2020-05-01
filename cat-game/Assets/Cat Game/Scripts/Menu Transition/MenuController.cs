@@ -22,11 +22,6 @@ namespace CatGame.Menu
             menus.Push(firstMenu);
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(returnKey)) ReturnMenu();
-        }
-
         /// <summary>Adds the root menu.</summary>
         /// <param name="firstMenu">GameObject of a Button Menu</param>
         public void AddFirstMenu(GameObject firstMenu)

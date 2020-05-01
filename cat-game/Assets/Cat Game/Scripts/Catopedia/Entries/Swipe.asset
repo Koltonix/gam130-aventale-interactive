@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Swipe
   m_EditorClassIdentifier: 
   name: Swipe
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: b5963127ca5483d41aabc4074167cb96, type: 3}
   description: "Personality: Mischievous \r\n\r\nOwners: Hannah \r\n\r\nLives in:
     14 Abby Avenue \r\n\r\nDescription: Loves to pull a good prank. Very proud of
     his claws. \n\n\nHannah is a busy woman who spends most of her time out of the

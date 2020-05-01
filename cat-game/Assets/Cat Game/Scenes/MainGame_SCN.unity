@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1355559554}
-  m_IndirectSpecularColor: {r: 0.1796903, g: 0.07635516, b: 0.20301488, a: 1}
+  m_IndirectSpecularColor: {r: 0.11417547, g: 0.04816712, b: 0.12853053, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4313,7 +4313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dd4019545aa9e4da6262348c4c9cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseButton: 27
+  isPaused: 0
   pauseUIPrefab: {fileID: 1901254604458093392, guid: 5d2fd352e0007f646bd8b84f0c7a0ad1,
     type: 3}
   pauseUI: {fileID: 0}
@@ -40859,6 +40859,11 @@ PrefabInstance:
     - target: {fileID: 108777140, guid: da20a039e656767489b893fad8b2e4a0, type: 3}
       propertyPath: m_RootOrder
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389578049246369792, guid: da20a039e656767489b893fad8b2e4a0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da20a039e656767489b893fad8b2e4a0, type: 3}

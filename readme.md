@@ -28,3 +28,8 @@ Kitten Conquest is a cute, strategy focussed game where you and your army of cat
 |Type  |Prefab|Scene|Material|Image|Post Processing|Animation Clips|Models|Textures|
 |------|------|-----|--------|-----|---------------|---------------|------|--------|
 |Style |_PRF  |_SCN |_MAT    |_IMG |_PRO           |_ANIM          |_MESH |_T      |
+
+### Citations
+Music: Jazzy Frenchy from Bensound.com
+
+Some Models: ['Simple House Interiors' by Synty Studios](https://assetstore.unity.com/packages/3d/props/interior/simple-house-interiors-cartoon-assets-38027)
