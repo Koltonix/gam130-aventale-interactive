@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hercules
   m_EditorClassIdentifier: 
   name: Hercules
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 3633af0054ad3394e9f238b1f5d176cf, type: 3}
   description: "Personality: Strong \r\n\r\nOwners: Jess & Gary \r\n\r\nLives in:
     18 Norforest Court \r\n\r\nDescription: Spends most of his time exercising and
     will only eat high-protein foods.\n\n\nA few years ago Jess got a gym membership
