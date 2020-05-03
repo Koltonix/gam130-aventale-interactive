@@ -6,7 +6,7 @@ Kitten Conquest is a cute, strategy focussed game where you and your army of cat
 ## Information
 - This project will be using Unity Version 2018.4.2f1 
 
-![Banner](https://gamesgit.falmouth.ac.uk/users/cr230727/repos/aventale-interactive-gam130/raw/Images/Publishable%20pieces/cat_banner.png?at=refs%2Fheads%2Fdevelopment)
+![Banner](https://github.com/Koltonix/gam130-aventale-interactive/blob/development/Images/Publishable%20pieces/cat_banner.png)
 
 ### Team Members
 |Programmer                                          |Artist       |Designer       |Animator     |Writer
