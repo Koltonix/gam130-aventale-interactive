@@ -1,4 +1,4 @@
-# [Repository](https://gamesgit.falmouth.ac.uk/users/cr230727/repos/aventale-interactive-gam130/browse) || [itch.io](https://koltonix.itch.io/kitten-conquest)
+# [Repository](https://github.com/Koltonix/gam130-aventale-interactive) || [itch.io](https://koltonix.itch.io/kitten-conquest)
 # Repository for Team 2 in the GAM130 assignment.
 ## Description
 Kitten Conquest is a cute, strategy focussed game where you and your army of cats battle it out to claim victory over the living room! With a turn-based combat system and several different unit types to choose from, you'll have to out think your opponent to bring down their cat tree. With a bright colour scheme and lovable characters, every 9-11 year old will find Kitten Conquest to be a challenging break from the norm and paw-ful lot of fun to play!
